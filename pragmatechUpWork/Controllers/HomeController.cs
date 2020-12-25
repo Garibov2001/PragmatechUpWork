@@ -17,16 +17,28 @@ namespace pragmatechUpWork.Controllers
             _logger = logger;
         }
 
-        [Route("/")]
+        [Route("/", Name = "home-page")]
         public IActionResult Home()
         {
             return View("home");
         }
 
-        [Route("/projects")]
+        [Route("/projects", Name ="projects-page")]
         public IActionResult Projects()
         {
             return View("projects");
+        }
+
+        [Route("/tasks", Name = "tasks-page")]
+        public IActionResult Tasks()
+        {
+            return View("tasks");
+        }
+
+        [Route("/profile", Name = "profile-page")]
+        public IActionResult Profile()
+        {
+            return View("profile");
         }
 
 

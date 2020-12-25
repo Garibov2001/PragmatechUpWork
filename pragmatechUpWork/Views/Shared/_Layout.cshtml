@@ -9,8 +9,8 @@
 
     <!-- CSS
     ================================================== -->
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/colors/green.css">
+    <link rel="stylesheet" href="css/style.css" asp-append-version="true">
+    <link rel="stylesheet" href="css/colors/green.css" asp-append-version="true">
 
     @RenderSection("styles", required: false)
 </head>
@@ -29,13 +29,13 @@
                     <div class="left-side">
                         <!-- Logo -->
                         <div id="logo">
-                            <a href="index-3.html"><img src="images/logo_pragma.png" data-sticky-logo="images/logo_pragma.png" data-transparent-logo="images/logo_pragma.png" alt=""></a>
+                            <a asp-route="home-page"><img src="images/logo_pragma.png" data-sticky-logo="images/logo_pragma.png" data-transparent-logo="images/logo_pragma.png" alt=""></a>
                         </div>
                         <!-- Main Navigation -->
                         <nav id="navigation">
                             <ul id="responsive">
-                                <li><a href="#" style="padding: 7px 9px !important;">Layihələr</a></li>
-                                <li><a href="#" style="padding: 7px 9px !important;">Tasklar</a></li>
+                                <li><a asp-route="projects-page" style="padding: 7px 9px !important;">Layihələr</a></li>
+                                <li><a asp-route="tasks-page" style="padding: 7px 9px !important;">Tasklar</a></li>
                                 <li>
                                     <a href="#">Find Work</a>
                                     <ul class="dropdown-nav">
@@ -222,7 +222,7 @@
                                     </div>
 
                                     <ul class="user-menu-small-nav">
-                                        <li><a href="dashboard.html"><i class="icon-material-outline-dashboard"></i> Profil</a></li>
+                                        <li><a asp-route="profile-page"><i class="icon-material-outline-dashboard"></i> Profil</a></li>
                                         <li><a href="dashboard-settings.html"><i class="icon-material-outline-settings"></i> Parametrlər</a></li>
                                         <li><a href="index-logged-out.html"><i class="icon-material-outline-power-settings-new"></i> Çıxmaq</a></li>
                                     </ul>
@@ -249,110 +249,26 @@
         <div class="clearfix"></div>
         <!-- Header Container / End -->
 
-        @RenderBody();
-
-        <!-- Footer
-        ================================================== -->
-        <div id="footer">
-            <!-- Footer Middle Section -->
-            <div class="footer-middle-section">
-                <div class="container">
-                    <div class="row">
-
-                        <!-- Links -->
-                        <div class="col-xl-2 col-lg-2 col-md-3">
-                            <div class="footer-links">
-                                <h3>For Candidates</h3>
-                                <ul>
-                                    <li><a href="#"><span>Browse Jobs</span></a></li>
-                                    <li><a href="#"><span>Add Resume</span></a></li>
-                                    <li><a href="#"><span>Job Alerts</span></a></li>
-                                    <li><a href="#"><span>My Bookmarks</span></a></li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <!-- Links -->
-                        <div class="col-xl-2 col-lg-2 col-md-3">
-                            <div class="footer-links">
-                                <h3>For Employers</h3>
-                                <ul>
-                                    <li><a href="#"><span>Browse Candidates</span></a></li>
-                                    <li><a href="#"><span>Post a Job</span></a></li>
-                                    <li><a href="#"><span>Post a Task</span></a></li>
-                                    <li><a href="#"><span>Plans & Pricing</span></a></li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <!-- Links -->
-                        <div class="col-xl-2 col-lg-2 col-md-3">
-                            <div class="footer-links">
-                                <h3>Helpful Links</h3>
-                                <ul>
-                                    <li><a href="#"><span>Contact</span></a></li>
-                                    <li><a href="#"><span>Privacy Policy</span></a></li>
-                                    <li><a href="#"><span>Terms of Use</span></a></li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <!-- Links -->
-                        <div class="col-xl-2 col-lg-2 col-md-3">
-                            <div class="footer-links">
-                                <h3>Account</h3>
-                                <ul>
-                                    <li><a href="#"><span>Log In</span></a></li>
-                                    <li><a href="#"><span>My Account</span></a></li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <!-- Newsletter -->
-                        <div class="col-xl-4 col-lg-4 col-md-12">
-                            <h3><i class="icon-feather-mail"></i> Sign Up For a Newsletter</h3>
-                            <p>Weekly breaking news, analysis and cutting edge advices on job searching.</p>
-                            <form action="#" method="get" class="newsletter">
-                                <input type="text" name="fname" placeholder="Enter your email address">
-                                <button type="submit"><i class="icon-feather-arrow-right"></i></button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Footer Middle Section / End -->
-            <!-- Footer Copyrights -->
-            <div class="footer-bottom-section">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-xl-12">
-                            © 2018 <strong>Pragmatech</strong>. All Rights Reserved.
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Footer Copyrights / End -->
-
-        </div>
-        <!-- Footer / End -->
+        @RenderBody()
+        
 
     </div>
     <!-- Wrapper / End -->
     <!-- Scripts
     ================================================== -->
-    <script src="js/jquery-3.3.1.min.js"></script>
-    <script src="js/jquery-migrate-3.0.0.min.js"></script>
-    <script src="js/mmenu.min.js"></script>
-    <script src="js/tippy.all.min.js"></script>
-    <script src="js/simplebar.min.js"></script>
-    <script src="js/bootstrap-slider.min.js"></script>
-    <script src="js/bootstrap-select.min.js"></script>
-    <script src="js/snackbar.js"></script>
-    <script src="js/clipboard.min.js"></script>
-    <script src="js/counterup.min.js"></script>
-    <script src="js/magnific-popup.min.js"></script>
-    <script src="js/slick.min.js"></script>
-    <script src="js/custom.js"></script>
+    <script src="js/jquery-3.3.1.min.js" asp-append-version="true"></script>
+    <script src="js/jquery-migrate-3.0.0.min.js" asp-append-version="true"></script>
+    <script src="js/mmenu.min.js" asp-append-version="true"></script>
+    <script src="js/tippy.all.min.js" asp-append-version="true"></script>
+    <script src="js/simplebar.min.js" asp-append-version="true"></script>
+    <script src="js/bootstrap-slider.min.js" asp-append-version="true"></script>
+    <script src="js/bootstrap-select.min.js" asp-append-version="true"></script>
+    <script src="js/snackbar.js" asp-append-version="true"></script>
+    <script src="js/clipboard.min.js" asp-append-version="true"></script>
+    <script src="js/counterup.min.js" asp-append-version="true"></script>
+    <script src="js/magnific-popup.min.js" asp-append-version="true"></script>
+    <script src="js/slick.min.js" asp-append-version="true"></script>
+    <script src="js/custom.js" asp-append-version="true"></script>
 
     <!-- Snackbar // documentation: https://www.polonel.com/snackbar/ -->
     <script>
