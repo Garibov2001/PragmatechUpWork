@@ -21,26 +21,6 @@ namespace pragmatechUpWork.Controllers
         public IActionResult Home()
         {
             return View("home");
-        }
-
-        [Route("/projects", Name ="projects-page")]
-        public IActionResult Projects()
-        {
-            return View("projects");
-        }
-
-        [Route("/tasks", Name = "tasks-page")]
-        public IActionResult Tasks()
-        {
-            return View("tasks");
-        }
-
-        [Route("/profile", Name = "profile-page")]
-        public IActionResult Profile()
-        {
-            return View("profile");
-        }
-
-
+        }              
     }
 }

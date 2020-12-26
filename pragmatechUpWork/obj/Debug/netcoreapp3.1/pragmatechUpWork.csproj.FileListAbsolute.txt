@@ -391,7 +391,8 @@ C:\Users\TheGaribov\Desktop\UpWork\pragmatechUpWork\pragmatechUpWork\bin\Debug\n
 C:\Users\TheGaribov\Desktop\UpWork\pragmatechUpWork\pragmatechUpWork\obj\Debug\netcoreapp3.1\pragmatechUpWork.csproj.CoreCompileInputs.cache
 C:\Users\TheGaribov\Desktop\UpWork\pragmatechUpWork\pragmatechUpWork\obj\Debug\netcoreapp3.1\pragmatechUpWork.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\TheGaribov\Desktop\UpWork\pragmatechUpWork\pragmatechUpWork\obj\Debug\netcoreapp3.1\pragmatechUpWork.MvcApplicationPartsAssemblyInfo.cache
-C:\Users\TheGaribov\Desktop\UpWork\pragmatechUpWork\pragmatechUpWork\obj\Debug\netcoreapp3.1\Razor\Views\Home\projects.cshtml.g.cs
-C:\Users\TheGaribov\Desktop\UpWork\pragmatechUpWork\pragmatechUpWork\obj\Debug\netcoreapp3.1\Razor\Views\Home\tasks.cshtml.g.cs
-C:\Users\TheGaribov\Desktop\UpWork\pragmatechUpWork\pragmatechUpWork\obj\Debug\netcoreapp3.1\Razor\Views\Home\profile.cshtml.g.cs
 C:\Users\TheGaribov\Desktop\UpWork\pragmatechUpWork\pragmatechUpWork\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Footer.cshtml.g.cs
+C:\Users\TheGaribov\Desktop\UpWork\pragmatechUpWork\pragmatechUpWork\obj\Debug\netcoreapp3.1\Razor\Views\Task\tasks.cshtml.g.cs
+C:\Users\TheGaribov\Desktop\UpWork\pragmatechUpWork\pragmatechUpWork\obj\Debug\netcoreapp3.1\Razor\Views\Profile\profile.cshtml.g.cs
+C:\Users\TheGaribov\Desktop\UpWork\pragmatechUpWork\pragmatechUpWork\obj\Debug\netcoreapp3.1\Razor\Views\Project\single_project.cshtml.g.cs
+C:\Users\TheGaribov\Desktop\UpWork\pragmatechUpWork\pragmatechUpWork\obj\Debug\netcoreapp3.1\Razor\Views\Project\whole_projects.cshtml.g.cs
