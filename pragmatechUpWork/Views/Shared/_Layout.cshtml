@@ -9,8 +9,23 @@
 
     <!-- CSS
     ================================================== -->
+    <link rel="stylesheet" href="~/lib/twitter-bootstrap/css/bootstrap.min.css" asp-append-version="true">
     <link rel="stylesheet" href="~/css/style.css" asp-append-version="true">
     <link rel="stylesheet" href="~/css/colors/green.css" asp-append-version="true">
+
+    <style>
+        .field-validation-error {
+            color: red !important;
+        }
+
+        .field-validation-valid {
+            display: none !important;
+        }
+
+        .input-validation-error {
+            border: 1px solid red !important;
+        }
+    </style>
 
     @RenderSection("styles", required: false)
 </head>
@@ -159,7 +174,7 @@
         <!-- Header Container / End -->
 
         @RenderBody()
-        
+
 
     </div>
     <!-- Wrapper / End -->
@@ -167,6 +182,7 @@
     ================================================== -->
     <script src="~/js/jquery-3.3.1.min.js" asp-append-version="true"></script>
     <script src="~/js/jquery-migrate-3.0.0.min.js" asp-append-version="true"></script>
+    <script src="~/lib/twitter-bootstrap/js/bootstrap.min.js" asp-append-version="true"></script>
     <script src="~/js/mmenu.min.js" asp-append-version="true"></script>
     <script src="~/js/tippy.all.min.js" asp-append-version="true"></script>
     <script src="~/js/simplebar.min.js" asp-append-version="true"></script>

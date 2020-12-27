@@ -32,7 +32,7 @@ namespace pragmatechUpWork
             services.AddControllersWithViews();
 
             // Biz burdan BookStoreContexti otururuk BookRepositorye
-            services.AddScoped<ProjectUtility, ProjectUtility>();
+            services.AddScoped<Utilities, Utilities>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

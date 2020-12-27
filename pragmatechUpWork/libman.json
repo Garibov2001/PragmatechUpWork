@@ -1,5 +1,15 @@
 {
   "version": "1.0",
   "defaultProvider": "cdnjs",
-  "libraries": []
+  "libraries": [
+
+    {
+      "library": "twitter-bootstrap@4.5.3",
+      "destination": "wwwroot/lib/twitter-bootstrap/",
+      "files": [
+        "js/bootstrap.min.js",
+        "css/bootstrap.min.css"
+      ]
+    }
+  ]
 }

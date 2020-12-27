@@ -3,15 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using pragmatechUpWork.Models;
+using pragmatechUpWork.Utils;
 
 namespace pragmatechUpWork.Controllers
 {
     public class ProfileController : Controller
     {
-        [Route("/profile", Name = "profile-page")]
-        public IActionResult Profile()
+        private readonly Utilities _projectUtil = null;
+
+        public ProfileController(Utilities projectUtil)
         {
-            return View("profile");
+            _projectUtil = projectUtil;
+        }
+
+
+        [Route("/profile", Name = "profile-page")]
+        public async Task<IActionResult> Profile()
+        {
+            List<ProjectModel> projects = await _projectUtil.GetWholeProjects();
+            return View("profile", projects);
         }
     }
 }

@@ -10,9 +10,9 @@ namespace pragmatechUpWork.Controllers
 {
     public class ProjectController : Controller
     {
-        private readonly ProjectUtility _projectUtil = null;
+        private readonly Utilities _projectUtil = null;
 
-        public ProjectController(ProjectUtility projectUtil)
+        public ProjectController(Utilities projectUtil)
         {
             _projectUtil = projectUtil;
         }
@@ -24,9 +24,10 @@ namespace pragmatechUpWork.Controllers
         }
 
         [Route("/project/{id}", Name = "project-single_project")]
-        public IActionResult SingleProject(int id)
+        public async Task<IActionResult> SingleProject(int id)
         {
-            return View("single_project");
+            ProjectModel projectData = await _projectUtil.GetProject(id);
+            return View("single_project", projectData);
         }
 
         [HttpGet]

@@ -8,6 +8,7 @@ namespace pragmatechUpWork.Models
 {
     public class ProjectModel
     {
+        public int Id { get; set; }
         [Required(ErrorMessage ="Bu xana boş ola bilməz.")]
         [StringLength(75, ErrorMessage = "Adın uzunluğu ən azı {2}, ən çoxu {1} ola bilər.", MinimumLength = 2)]
         public string Name { get; set; }
@@ -16,12 +17,11 @@ namespace pragmatechUpWork.Models
         [Required(ErrorMessage = "Bu xana boş ola bilməz.")]
         public string Category { get; set; }
 
+        [Required(ErrorMessage = "Bu xana boş ola bilməz.")]
+        public int? MinCost { get; set; }
 
         [Required(ErrorMessage = "Bu xana boş ola bilməz.")]
-        public decimal? MinCost { get; set; }
-
-        [Required(ErrorMessage = "Bu xana boş ola bilməz.")]
-        public decimal? MaxCost { get; set; }
+        public int? MaxCost { get; set; }
 
         public string ProjectManager { get; set; }
 
@@ -38,5 +38,6 @@ namespace pragmatechUpWork.Models
         [StringLength(500, ErrorMessage = "Mətnin uzunluğu ən azı {2}, ən çoxu {1} ola bilər.", MinimumLength = 75)]
         [Required(ErrorMessage = "Bu xana boş ola bilməz.")]
         public string ProjectInfo { get; set; }
+        public int Status { get; set; }  // 1 - Aktiv, 2 -Arxiv, 3 - Draft
     }
 }
