@@ -17,7 +17,7 @@ namespace pragmatechUpWork.Controllers
             _logger = logger;
         }
 
-        [Route("/", Name = "home-page")]
+        [Route("/", Name = "home-default_page")]
         public IActionResult Home()
         {
             return View("home");
