@@ -21,7 +21,7 @@ namespace pragmatechUpWork.Controllers
         [Route("/profile", Name = "profile-page")]
         public async Task<IActionResult> Profile()
         {
-            List<ProjectModel> projects = await _projectUtil.GetWholeProjects();
+            List<Project> projects = await _projectUtil.GetWholeProjects();
             return View("profile", projects);
         }
     }

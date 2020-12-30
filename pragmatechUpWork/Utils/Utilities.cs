@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using pragmatechUpWork.Data;
 using pragmatechUpWork.Models;
 
 namespace pragmatechUpWork.Utils
@@ -13,14 +12,14 @@ namespace pragmatechUpWork.Utils
         // Bu bizim Dbe qosulmagimiz ucun lazim olacaq
         // readonly edirik cunki ctor icinde buna object menimsedeceyik 
         // yerde qalan hallard constant olacaq
-        private readonly UpWrokDbConnections _context = null;
-        public Utilities(UpWrokDbConnections argContext)
+        private readonly DbConnections _context = null;
+        public Utilities(DbConnections argContext)
         {
             _context = argContext;
         }
 
 
-        public async Task<int> AddProject(ProjectModel client_data)
+        public async Task<int> AddProject(Project client_data)
         {
             var newProject = new Project()
             {
@@ -36,19 +35,19 @@ namespace pragmatechUpWork.Utils
                 Status = (int)Status.Draft,
             };
 
-            await _context.project.AddAsync(newProject);
+            await _context.Project.AddAsync(newProject);
             await _context.SaveChangesAsync();
 
             return newProject.Id;
         }
 
-        public async Task<ProjectModel> GetProject(int id)
+        public async Task<Project> GetProject(int id)
         {
-            var project = await _context.project.FindAsync(id);
+            var project = await _context.Project.FindAsync(id);
 
             if (project != null)
             {
-                var bookDetails = new ProjectModel()
+                var bookDetails = new Project()
                 {
                     Name = project.Name,
                     Category = project.Category,
@@ -68,17 +67,17 @@ namespace pragmatechUpWork.Utils
             return null;
         }
 
-        public async Task<List<ProjectModel>> GetWholeProjects()
+        public async Task<List<Project>> GetWholeProjects()
         {
-            var wholeProject = await _context.project.ToListAsync();
+            var wholeProject = await _context.Project.ToListAsync();
 
             if (wholeProject?.Any() == true)
             {
-                List<ProjectModel> projectsDetails = new List<ProjectModel>();
+                List<Project> projectsDetails = new List<Project>();
 
                 foreach (var project in wholeProject)
                 {
-                    projectsDetails.Add(new ProjectModel()
+                    projectsDetails.Add(new Project()
                     {
                         Id = project.Id,
                         Name = project.Name,
@@ -100,9 +99,9 @@ namespace pragmatechUpWork.Utils
             return null;
         }
 
-        public async void EditProject(int id, ProjectModel editProject)
+        public async void EditProject(int id, Project editProject)
         {
-            var dataFromDb = _context.project.FirstOrDefault(e => e.Id == id);
+            var dataFromDb = _context.Project.FirstOrDefault(e => e.Id == id);
             if (dataFromDb == null)
             {
                 return;
@@ -124,16 +123,16 @@ namespace pragmatechUpWork.Utils
 
         }
 
-        public async void RemoveProject(int id)
+        public void RemoveProject(int id)
         {
-            var dataFromDb = _context.project.FirstOrDefault(e => e.Id == id);
+            var dataFromDb = _context.Project.FirstOrDefault(e => e.Id == id);
             if (dataFromDb == null)
             {
                 return;
             }
             else
             {
-                _context.project.Remove(dataFromDb);
+                _context.Project.Remove(dataFromDb);
                 _context.SaveChanges();
             }
 

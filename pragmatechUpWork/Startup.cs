@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using pragmatechUpWork.Data;
+using pragmatechUpWork.Models;
 using pragmatechUpWork.Utils;
 
 namespace pragmatechUpWork
@@ -26,7 +26,7 @@ namespace pragmatechUpWork
         public void ConfigureServices(IServiceCollection services)
         {
             // App -i  bazaya qosmaq ucun kod:
-            services.AddDbContext<UpWrokDbConnections>(
+            services.AddDbContext<DbConnections>(
                 options => options.UseSqlServer("Server=.; Database=PragmatechUpWork; Integrated Security=True;"));
 
             services.AddControllersWithViews();

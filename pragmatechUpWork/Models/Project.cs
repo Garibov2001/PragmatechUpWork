@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace pragmatechUpWork.Models
 {
-    public class ProjectModel
+    public class Project
     {
         public int Id { get; set; }
         [Required(ErrorMessage ="Bu xana boş ola bilməz.")]

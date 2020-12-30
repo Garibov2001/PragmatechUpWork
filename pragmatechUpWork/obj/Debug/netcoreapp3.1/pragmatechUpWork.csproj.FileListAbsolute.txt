@@ -312,7 +312,6 @@ C:\Users\TheGaribov\Desktop\UpWork\pragmatechUpWork\pragmatechUpWork\bin\Debug\n
 C:\Users\TheGaribov\Desktop\UpWork\pragmatechUpWork\pragmatechUpWork\bin\Debug\netcoreapp3.1\tr\Microsoft.CodeAnalysis.CSharp.resources.dll
 C:\Users\TheGaribov\Desktop\UpWork\pragmatechUpWork\pragmatechUpWork\bin\Debug\netcoreapp3.1\zh-Hans\Microsoft.CodeAnalysis.CSharp.resources.dll
 C:\Users\TheGaribov\Desktop\UpWork\pragmatechUpWork\pragmatechUpWork\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.CodeAnalysis.CSharp.resources.dll
-C:\Users\TheGaribov\Desktop\UpWork\pragmatechUpWork\pragmatechUpWork\obj\Debug\netcoreapp3.1\pragmatechUpWork.csprojAssemblyReference.cache
 C:\Users\TheGaribov\Desktop\UpWork\pragmatechUpWork\pragmatechUpWork\obj\Debug\netcoreapp3.1\pragmatechUpWork.AssemblyInfoInputs.cache
 C:\Users\TheGaribov\Desktop\UpWork\pragmatechUpWork\pragmatechUpWork\obj\Debug\netcoreapp3.1\pragmatechUpWork.AssemblyInfo.cs
 C:\Users\TheGaribov\Desktop\UpWork\pragmatechUpWork\pragmatechUpWork\obj\Debug\netcoreapp3.1\pragmatechUpWork.RazorAssemblyInfo.cache
@@ -429,3 +428,4 @@ C:\Users\TheGaribov\Desktop\UpWork\pragmatechUpWork\pragmatechUpWork\obj\Debug\n
 C:\Users\TheGaribov\Desktop\UpWork\pragmatechUpWork\pragmatechUpWork\obj\Debug\netcoreapp3.1\pragmatechUpWork.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\TheGaribov\Desktop\UpWork\pragmatechUpWork\pragmatechUpWork\obj\Debug\netcoreapp3.1\pragmatechUpWork.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\TheGaribov\Desktop\UpWork\pragmatechUpWork\pragmatechUpWork\obj\Debug\netcoreapp3.1\Razor\Views\Project\edit_project.cshtml.g.cs
+C:\Users\TheGaribov\Desktop\UpWork\pragmatechUpWork\pragmatechUpWork\obj\Debug\netcoreapp3.1\pragmatechUpWork.csprojAssemblyReference.cache

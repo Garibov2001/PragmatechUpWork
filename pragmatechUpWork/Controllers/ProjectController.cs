@@ -26,7 +26,7 @@ namespace pragmatechUpWork.Controllers
         [Route("/project/{id}", Name = "project-single_project")]
         public async Task<IActionResult> SingleProject(int id)
         {
-            ProjectModel projectData = await _projectUtil.GetProject(id);
+            Project projectData = await _projectUtil.GetProject(id);
             return View("single_project", projectData);
         }
 
@@ -40,7 +40,7 @@ namespace pragmatechUpWork.Controllers
 
         [HttpPost]
         [Route("/project/create", Name = "project-create_project")]
-        public async Task<IActionResult> CreateProject(ProjectModel client_data)
+        public async Task<IActionResult> CreateProject(Project client_data)
         {
             if (ModelState.IsValid)
             {
@@ -57,13 +57,13 @@ namespace pragmatechUpWork.Controllers
         [Route("/project/{id}/edit", Name = "project-edit_project")]
         public async Task<IActionResult> EditProject(int id)
         {
-            ProjectModel projectData = await _projectUtil.GetProject(id);
+            Project projectData = await _projectUtil.GetProject(id);
             return View("edit_project", projectData);
         }
 
         [HttpPost]
         [Route("/project/{id}/edit", Name = "project-edit_project")]
-        public IActionResult EditProject(int id, ProjectModel client_data)
+        public IActionResult EditProject(int id, Project client_data)
         {
             if (ModelState.IsValid)
             {
