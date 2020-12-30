@@ -53,5 +53,43 @@ namespace pragmatechUpWork.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("/project/{id}/edit", Name = "project-edit_project")]
+        public async Task<IActionResult> EditProject(int id)
+        {
+            ProjectModel projectData = await _projectUtil.GetProject(id);
+            return View("edit_project", projectData);
+        }
+
+        [HttpPost]
+        [Route("/project/{id}/edit", Name = "project-edit_project")]
+        public IActionResult EditProject(int id, ProjectModel client_data)
+        {
+            if (ModelState.IsValid)
+            {
+                _projectUtil.EditProject(id, client_data);
+                return RedirectToRoute("home-default_page");
+            }
+            else
+            {   
+                return View("edit_project");
+            }
+        }
+
+        [HttpDelete]
+        [Route("/project/{id}/remove", Name = "project-remove_project")]
+        public IActionResult RemoveProject(int id)
+        {
+            _projectUtil.RemoveProject(id);
+            var responseData = new
+            {
+                error = "none",
+            };
+
+            return Json(responseData);
+        }
+
+
+
     }
 }

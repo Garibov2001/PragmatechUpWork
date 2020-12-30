@@ -52,7 +52,7 @@
                                             {
 
                                                 <tr>
-                                                    <td>@projectRecord.Name</td>
+                                                    <td><a asp-route="project-single_project" asp-route-id="@projectRecord.Id">@projectRecord.Name</a></td>
                                                     <td><a href="#">@projectRecord.ProjectManager</a></td>
                                                     <td>
                                                         @projectRecord.StartDate.Value.ToString("dd.MM.yyyy") - @projectRecord.EndDate.Value.ToString("dd.MM.yyyy")
@@ -68,9 +68,9 @@
                                                         <a href="#"><i class="icon-line-awesome-download" style="font-size:24px !important;"></i></a>
                                                     </td>
                                                     <td>
-                                                        <a href="#"><i class="icon-line-awesome-edit" style="font-size:24px !important;"></i></a>
-                                                        <a href="#"><i class="icon-material-outline-delete" style="font-size:24px !important; color: red !important;"></i></a>
-                                                        <a href="#"><i class="icon-material-outline-my-location" style="font-size:24px !important; "></i></a>
+                                                        <a asp-route="project-edit_project" asp-route-id="@projectRecord.Id"><i class="icon-line-awesome-edit" style="font-size:24px !important;"></i></a>
+                                                        <a style="cursor: pointer;" onclick="event.preventDefault(); RemoveProject('@Url.RouteUrl("project-remove_project", new { id = projectRecord.Id})');"><i class="icon-material-outline-delete" style="font-size:24px !important; color: red !important;"></i></a>
+                                                        <a asp-route="project-single_project" asp-route-id="@projectRecord.Id"><i class="icon-material-outline-my-location" style="font-size:24px !important; "></i></a>
                                                     </td>
                                                 </tr>
                                             }
@@ -82,9 +82,6 @@
                     </div>
                 </div>
 
-                <div class="col-xl-12">
-                    <button type="submit" class="button ripple-effect big margin-top-30"><i class="icon-feather-plus"></i> Əlavə et</button>
-                </div>
             </div>
             <!-- Row / End -->
             <!-- Footer -->
@@ -129,6 +126,6 @@
 
 
 @section scripts{
-
+    <script src="~/js/projects.js" asp-append-version="true"></script>
 
 }

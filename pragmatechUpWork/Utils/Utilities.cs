@@ -79,7 +79,8 @@ namespace pragmatechUpWork.Utils
                 foreach (var project in wholeProject)
                 {
                     projectsDetails.Add(new ProjectModel()
-                    {                        
+                    {
+                        Id = project.Id,
                         Name = project.Name,
                         Category = project.Category,
                         MinCost = project.MinCost,
@@ -98,6 +99,46 @@ namespace pragmatechUpWork.Utils
 
             return null;
         }
+
+        public async void EditProject(int id, ProjectModel editProject)
+        {
+            var dataFromDb = _context.project.FirstOrDefault(e => e.Id == id);
+            if (dataFromDb == null)
+            {
+                return;
+            }
+            else
+            {
+                dataFromDb.Name = editProject.Name;
+                dataFromDb.Category = editProject.Category;
+                dataFromDb.MinCost = editProject.MinCost;
+                dataFromDb.MaxCost = editProject.MaxCost;
+                dataFromDb.StartDate = editProject.StartDate;
+                dataFromDb.EndDate = editProject.EndDate;
+                dataFromDb.GithubUrl = editProject.GithubUrl;
+                dataFromDb.ProjectInfo = editProject.ProjectInfo;
+
+                await _context.SaveChangesAsync();
+            }
+
+
+        }
+
+        public async void RemoveProject(int id)
+        {
+            var dataFromDb = _context.project.FirstOrDefault(e => e.Id == id);
+            if (dataFromDb == null)
+            {
+                return;
+            }
+            else
+            {
+                _context.project.Remove(dataFromDb);
+                _context.SaveChanges();
+            }
+
+        }
+
 
     }
 }
