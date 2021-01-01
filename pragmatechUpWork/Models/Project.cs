@@ -8,7 +8,7 @@ namespace pragmatechUpWork.Models
 {
     public class Project
     {
-        public int Id { get; set; }
+        public int ProjectId { get; set; }
         [Required(ErrorMessage ="Bu xana boş ola bilməz.")]
         [StringLength(75, ErrorMessage = "Adın uzunluğu ən azı {2}, ən çoxu {1} ola bilər.", MinimumLength = 2)]
         public string Name { get; set; }
@@ -39,5 +39,9 @@ namespace pragmatechUpWork.Models
         [Required(ErrorMessage = "Bu xana boş ola bilməz.")]
         public string ProjectInfo { get; set; }
         public int Status { get; set; }  // 1 - Aktiv, 2 -Arxiv, 3 - Draft
+
+        //Backref to Tasks
+        public ICollection<Task> Tasks { get; set; }
+
     }
 }

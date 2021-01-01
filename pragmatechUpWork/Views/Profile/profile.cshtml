@@ -1,7 +1,6 @@
 ﻿@using pragmatechUpWork.Models;
 @model IEnumerable<pragmatechUpWork.Models.Project>
 
-
 <!-- Transparent Header Spacer -->
 <div class="transparent-header-spacer"></div>
 
@@ -52,7 +51,7 @@
                                             {
 
                                                 <tr>
-                                                    <td><a asp-route="project-single_project" asp-route-id="@projectRecord.Id">@projectRecord.Name</a></td>
+                                                    <td><a asp-route="project-single_project" asp-route-id="@projectRecord.ProjectId">@projectRecord.Name</a></td>
                                                     <td><a href="#">@projectRecord.ProjectManager</a></td>
                                                     <td>
                                                         @projectRecord.StartDate.Value.ToString("dd.MM.yyyy") - @projectRecord.EndDate.Value.ToString("dd.MM.yyyy")
@@ -68,9 +67,9 @@
                                                         <a href="#"><i class="icon-line-awesome-download" style="font-size:24px !important;"></i></a>
                                                     </td>
                                                     <td>
-                                                        <a asp-route="project-edit_project" asp-route-id="@projectRecord.Id"><i class="icon-line-awesome-edit" style="font-size:24px !important;"></i></a>
-                                                        <a style="cursor: pointer;" onclick="event.preventDefault(); RemoveProject('@Url.RouteUrl("project-remove_project", new { id = projectRecord.Id})');"><i class="icon-material-outline-delete" style="font-size:24px !important; color: red !important;"></i></a>
-                                                        <a asp-route="project-single_project" asp-route-id="@projectRecord.Id"><i class="icon-material-outline-my-location" style="font-size:24px !important; "></i></a>
+                                                        <a asp-route="project-edit_project" asp-route-id="@projectRecord.ProjectId"><i class="icon-line-awesome-edit" style="font-size:24px !important;"></i></a>
+                                                        <a style="cursor: pointer;" onclick="event.preventDefault(); RemoveProject('@Url.RouteUrl("project-remove_project", new { id = projectRecord.ProjectId})');"><i class="icon-material-outline-delete" style="font-size:24px !important; color: red !important;"></i></a>
+                                                        <a asp-route="project-single_project" asp-route-id="@projectRecord.ProjectId"><i class="icon-material-outline-my-location" style="font-size:24px !important; "></i></a>
                                                     </td>
                                                 </tr>
                                             }
@@ -84,6 +83,7 @@
 
             </div>
             <!-- Row / End -->
+
             <!-- Footer -->
             <div class="dashboard-footer-spacer"></div>
             <div class="small-footer margin-top-15">
@@ -126,6 +126,7 @@
 
 
 @section scripts{
+    <script src="~/lib/twitter-bootstrap/js/bootstrap.min.js" asp-append-version="true"></script>
     <script src="~/js/projects.js" asp-append-version="true"></script>
 
 }

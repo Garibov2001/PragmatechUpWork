@@ -38,7 +38,7 @@ namespace pragmatechUpWork.Utils
             await _context.Project.AddAsync(newProject);
             await _context.SaveChangesAsync();
 
-            return newProject.Id;
+            return newProject.ProjectId;
         }
 
         public async Task<Project> GetProject(int id)
@@ -79,7 +79,7 @@ namespace pragmatechUpWork.Utils
                 {
                     projectsDetails.Add(new Project()
                     {
-                        Id = project.Id,
+                        ProjectId = project.ProjectId,
                         Name = project.Name,
                         Category = project.Category,
                         MinCost = project.MinCost,
@@ -101,7 +101,7 @@ namespace pragmatechUpWork.Utils
 
         public async void EditProject(int id, Project editProject)
         {
-            var dataFromDb = _context.Project.FirstOrDefault(e => e.Id == id);
+            var dataFromDb = _context.Project.FirstOrDefault(e => e.ProjectId == id);
             if (dataFromDb == null)
             {
                 return;
@@ -125,7 +125,7 @@ namespace pragmatechUpWork.Utils
 
         public void RemoveProject(int id)
         {
-            var dataFromDb = _context.Project.FirstOrDefault(e => e.Id == id);
+            var dataFromDb = _context.Project.FirstOrDefault(e => e.ProjectId == id);
             if (dataFromDb == null)
             {
                 return;

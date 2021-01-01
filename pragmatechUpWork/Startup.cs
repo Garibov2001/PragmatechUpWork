@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using pragmatechUpWork.Models;
 using pragmatechUpWork.Utils;
+using pragmatechUpWork.Controllers;
 
 namespace pragmatechUpWork
 {
@@ -25,16 +26,22 @@ namespace pragmatechUpWork
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // App -i  bazaya qosmaq ucun kod:
-            services.AddDbContext<DbConnections>(
-                options => options.UseSqlServer("Server=.; Database=PragmatechUpWork; Integrated Security=True;"));
+            // Registe our db context
+            services.AddDbContext<DbConnections>(options =>
+                options.UseSqlServer("Server=.; Database=PragmatechUpWork; Integrated Security=True;"));
+
+            // Integer fieldlara null deyer gonderence error mesajini deyismek:
+            services.AddRazorPages()
+                .AddMvcOptions(options =>
+                {
+                options.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(
+                    _ => "Bu xana bos ola bilmez");
+                });
 
             services.AddControllersWithViews();
-
-            // Biz burdan BookStoreContexti otururuk BookRepositorye
             services.AddScoped<Utilities, Utilities>();
+            services.AddScoped<TaskController, TaskController>();
         }
-
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {

@@ -18,11 +18,13 @@ namespace pragmatechUpWork.Controllers
         }
 
 
-        [Route("/profile", Name = "profile-page")]
+        [Route("/profile/projects", Name = "profile-whole_projects")]
         public async Task<IActionResult> Profile()
         {
             List<Project> projects = await _projectUtil.GetWholeProjects();
             return View("profile", projects);
         }
+
+
     }
 }

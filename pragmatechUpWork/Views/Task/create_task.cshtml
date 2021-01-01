@@ -1,0 +1,154 @@
+﻿
+@model pragmatechUpWork.Models.Task
+<!-- Transparent Header Spacer -->
+<div class="transparent-header-spacer"></div>
+
+<!-- Dashboard Container -->
+<div class="dashboard-container">
+
+    <partial name="_Profile_sidebar" />
+
+    <!-- Dashboard Content
+    ================================================== -->
+    <div class="dashboard-content-container" data-simplebar>
+        <div class="dashboard-content-inner">
+
+            <!-- Headline -->
+            <div class="dashboard-headline">
+                <h3>Yeni task əlavə et</h3>
+            </div>
+
+            <!-- Row -->
+            <div class="row">
+                <form method="POST">
+                    <div class="col-xl-12">
+                        <div class="dashboard-box margin-top-0">
+                            <!-- Headline -->
+                            <div class="headline">
+                                <h3><i class="icon-feather-folder-plus"></i> Task yaratma formu</h3>
+                            </div>
+
+                            <div class="content with-padding padding-bottom-10">
+                                <div class="row">
+                                    <div class="col-xl-12">
+                                        <div class="row justify-content-center">
+                                            <div class="col-xl-8">
+                                                <div class="submit-field">
+                                                    <h5 class="text-center">Aid olduğu layihəni seç</h5>
+                                                    <select asp-for="Project.ProjectId" asp-items="ViewBag.options" class="selectpicker with-border" title="Aid oldugu Layiheni seç..">
+                                                    </select>
+                                                </div>
+                                                <span asp-validation-for="Project.ProjectId"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-12">
+                                        <div class="row justify-content-center">
+                                            <div class="col-xl-8">
+                                                <div class="submit-field">
+                                                    <h5 class="text-center">Taskın adı</h5>
+                                                    <input class="with-border" asp-for="Name">
+                                                    <span asp-validation-for="Name"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-4">
+                                        <div class="submit-field">
+                                            <h5>Taskın dəyəri</h5>
+                                            <div class="input-with-icon">
+                                                <input type="number" class="with-border" asp-for="Cost" placeholder="Ortalama qiymət">
+                                                <i class="currency">AZN</i>
+                                            </div>
+                                            <span asp-validation-for="Cost"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-4">
+                                        <div class="submit-field">
+                                            <h5>Taskin dəyəri</h5>
+                                            <div class="input-with-icon">
+                                                <input type="number" class="with-border" asp-for="RequiredDays" placeholder="Ortalama iş müddəti">
+                                                <i class="currency">Gün</i>
+                                            </div>
+                                            <span asp-validation-for="RequiredDays"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-4">
+                                        <div class="submit-field">
+                                            <h5>Github</h5>
+                                            <div class="input-with-icon-left">
+                                                <i class="icon-line-awesome-github-square"></i>
+                                                <input asp-for="GithubUrl" class="input-text with-border" placeholder="Layihənin github reposu">
+                                            </div>
+                                            <span asp-validation-for="GithubUrl"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-12">
+                                        <div class="submit-field">
+                                            <h5>Task haqda</h5>
+                                            <textarea asp-for="TaskInfo" cols="30" rows="5" class="with-border"></textarea>
+                                            <span asp-validation-for="TaskInfo"></span>
+
+                                            @*<div class="uploadButton margin-top-30">
+                    <input class="uploadButton-input" type="file" accept="image/*, application/pdf" id="upload" multiple />
+                    <label class="uploadButton-button ripple-effect" for="upload">PDF Yerləşdir</label>
+                    <span class="uploadButton-file-name">Layihənin texniki tapşırığı və digər detalları</span>
+                </div>*@
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-12">
+                        <button type="submit" class="button ripple-effect big margin-top-30"><i class="icon-feather-plus"></i> Əlavə et</button>
+                    </div>
+                </form>
+            </div>
+            <!-- Row / End -->
+
+            <!-- Footer -->
+            <div class="dashboard-footer-spacer"></div>
+            <div class="small-footer margin-top-15">
+                <div class="small-footer-copyrights">
+                    © 2018 <strong>Hireo</strong>. All Rights Reserved.
+                </div>
+                <ul class="footer-social-links">
+                    <li>
+                        <a href="#" title="Facebook" data-tippy-placement="top">
+                            <i class="icon-brand-facebook-f"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" title="Twitter" data-tippy-placement="top">
+                            <i class="icon-brand-twitter"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" title="Google Plus" data-tippy-placement="top">
+                            <i class="icon-brand-google-plus-g"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" title="LinkedIn" data-tippy-placement="top">
+                            <i class="icon-brand-linkedin-in"></i>
+                        </a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <!-- Footer / End -->
+
+        </div>
+    </div>
+    <!-- Dashboard Content / End -->
+
+</div>
+<!-- Dashboard Container / End -->
