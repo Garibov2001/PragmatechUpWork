@@ -24,7 +24,5 @@ namespace pragmatechUpWork.Controllers
             List<Project> projects = await _projectUtil.GetWholeProjects();
             return View("profile", projects);
         }
-
-
     }
 }

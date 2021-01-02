@@ -20,7 +20,6 @@ namespace pragmatechUpWork.Models
         [Required(ErrorMessage = "Bu xana boş ola bilməz.")]
         public int? RequiredDays { get; set; }
 
-        [Required(ErrorMessage = "Bu xana boş ola bilməz.")]
         public DateTime? PublishDate { get; set; }
 
         [Url(ErrorMessage = "Daxil etdiyiniz URL standartlara uyğun deyil.")]
@@ -34,6 +33,7 @@ namespace pragmatechUpWork.Models
 
         // One-To-Many Relationship
         [Required(ErrorMessage = "Bu xana boş ola bilməz.")]
+        public int ProjectId { get; set; }
         public Project Project { get; set; }
     }
 

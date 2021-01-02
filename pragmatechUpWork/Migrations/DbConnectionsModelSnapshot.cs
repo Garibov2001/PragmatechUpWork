@@ -96,7 +96,6 @@ namespace pragmatechUpWork.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("PublishDate")
-                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("RequiredDays")

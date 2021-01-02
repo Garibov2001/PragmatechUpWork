@@ -32,7 +32,7 @@ namespace pragmatechUpWork.Utils
                 EndDate = client_data.EndDate,
                 GithubUrl = client_data.GithubUrl,
                 ProjectInfo = client_data.ProjectInfo,
-                Status = (int)Status.Draft,
+                Status = (int)ProjectStatus.Draft,
             };
 
             await _context.Project.AddAsync(newProject);
@@ -137,7 +137,6 @@ namespace pragmatechUpWork.Utils
             }
 
         }
-
 
     }
 }

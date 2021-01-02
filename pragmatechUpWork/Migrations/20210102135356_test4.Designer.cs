@@ -10,8 +10,8 @@ using pragmatechUpWork.Models;
 namespace pragmatechUpWork.Migrations
 {
     [DbContext(typeof(DbConnections))]
-    [Migration("20210101192441_init2")]
-    partial class init2
+    [Migration("20210102135356_test4")]
+    partial class test4
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,7 +23,7 @@ namespace pragmatechUpWork.Migrations
 
             modelBuilder.Entity("pragmatechUpWork.Models.Project", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ProjectId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
@@ -69,14 +69,14 @@ namespace pragmatechUpWork.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("ProjectId");
 
                     b.ToTable("Project");
                 });
 
             modelBuilder.Entity("pragmatechUpWork.Models.Task", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("TaskId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
@@ -98,7 +98,6 @@ namespace pragmatechUpWork.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("PublishDate")
-                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("RequiredDays")
@@ -113,7 +112,7 @@ namespace pragmatechUpWork.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.HasKey("Id");
+                    b.HasKey("TaskId");
 
                     b.HasIndex("ProjectId");
 

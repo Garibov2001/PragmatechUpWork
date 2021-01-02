@@ -35,10 +35,10 @@
                                             <div class="col-xl-8">
                                                 <div class="submit-field">
                                                     <h5 class="text-center">Aid olduğu layihəni seç</h5>
-                                                    <select asp-for="Project.ProjectId" asp-items="ViewBag.options" class="selectpicker with-border" title="Aid oldugu Layiheni seç..">
+                                                    <select asp-for="ProjectId" asp-items="ViewBag.options" class="selectpicker with-border" title="Aid oldugu Layiheni seç..">
                                                     </select>
                                                 </div>
-                                                <span asp-validation-for="Project.ProjectId"></span>
+                                                <span asp-validation-for="ProjectId"></span>
                                             </div>
                                         </div>
                                     </div>
@@ -68,7 +68,7 @@
 
                                     <div class="col-xl-4">
                                         <div class="submit-field">
-                                            <h5>Taskin dəyəri</h5>
+                                            <h5>Taskın müddəti</h5>
                                             <div class="input-with-icon">
                                                 <input type="number" class="with-border" asp-for="RequiredDays" placeholder="Ortalama iş müddəti">
                                                 <i class="currency">Gün</i>

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace pragmatechUpWork.Models
 {
-    public enum Status
+    public enum ProjectStatus
     {
         Aktiv = 0,
         Arxiv = 1,

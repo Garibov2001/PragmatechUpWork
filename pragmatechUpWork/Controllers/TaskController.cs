@@ -41,20 +41,36 @@ namespace pragmatechUpWork.Controllers
 
         [HttpPost]
         [Route("/task/create", Name = "task-create_task")]
-        public IActionResult CreateTask(Task client_post)
-        {
-            var options = new SelectList(_context.Project, nameof(Project.ProjectId), nameof(Project.Name));
-            ViewBag.options = options;
-
+        public async Task<IActionResult> CreateTask(Task client_post)
+        {            
             if (ModelState.IsValid)
             {
+                var newTask = new Task()
+                {
+                    Name = client_post.Name,
+                    Cost = client_post.Cost,
+                    RequiredDays = client_post.RequiredDays,
+                    PublishDate = DateTime.Now,
+                    GithubUrl = client_post.GithubUrl,
+                    TaskInfo = client_post.TaskInfo,
+                    Status = 0,
+                    Project = await _context.Project.FindAsync(client_post.ProjectId),
+                    ProjectId = client_post.ProjectId,
+                };
+
+                await _context.Task.AddAsync(newTask);
+                await _context.SaveChangesAsync();
+
                 return RedirectToRoute("home-default_page");
             }
             else
             {
+                var options = new SelectList(_context.Project, nameof(Project.ProjectId), nameof(Project.Name));
+                ViewBag.options = options;
                 return View("create_task");
             }
         }
+
 
 
     }
