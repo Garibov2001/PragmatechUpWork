@@ -8,7 +8,7 @@ using pragmatechUpWork.Models;
 
 namespace pragmatechUpWork.Migrations
 {
-    [DbContext(typeof(DbConnections))]
+    [DbContext(typeof(UpWorkContext))]
     partial class DbConnectionsModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

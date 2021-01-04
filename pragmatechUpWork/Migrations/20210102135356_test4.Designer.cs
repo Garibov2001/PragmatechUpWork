@@ -9,7 +9,7 @@ using pragmatechUpWork.Models;
 
 namespace pragmatechUpWork.Migrations
 {
-    [DbContext(typeof(DbConnections))]
+    [DbContext(typeof(UpWorkContext))]
     [Migration("20210102135356_test4")]
     partial class test4
     {

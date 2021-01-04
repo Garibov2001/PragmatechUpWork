@@ -1,12 +1,12 @@
 ﻿
-/* ---------------- Remove Project Js -------------------- */
-function RemoveProject(argUrl)
+/* ---------------- Remove Task Js -------------------- */
+function RemoveTask(argUrl)
 {
-    swal("Projecti sildikdən sonra geri qaytarmaq mümkün olmayacaq.",
+    swal("Taskı sildikdən sonra geri qaytarmaq mümkün olmayacaq.",
         {
             icon: "warning",
             title: "Bu etmək istədiyindən əminsən?",
-            text: "Projecti sildikdən sonra geri qaytarmaq mümkün olmayacaq.",
+            text: "Taskı sildikdən sonra geri qaytarmaq mümkün olmayacaq.",
             buttons: {
                 cancel: "Yox!",
                 catch: {

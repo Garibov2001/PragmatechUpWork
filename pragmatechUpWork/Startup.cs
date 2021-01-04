@@ -27,7 +27,7 @@ namespace pragmatechUpWork
         public void ConfigureServices(IServiceCollection services)
         {
             // Registe our db context
-            services.AddDbContext<DbConnections>(options =>
+            services.AddDbContext<UpWorkContext>(options =>
                 options.UseSqlServer("Server=.; Database=PragmatechUpWork; Integrated Security=True;"));
 
             // Integer fieldlara null deyer gonderence error mesajini deyismek:
@@ -40,7 +40,6 @@ namespace pragmatechUpWork
 
             services.AddControllersWithViews();
             services.AddScoped<Utilities, Utilities>();
-            services.AddScoped<TaskController, TaskController>();
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

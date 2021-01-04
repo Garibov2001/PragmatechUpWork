@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace pragmatechUpWork.Models
 {
-    public class DbConnections : DbContext
+    public class UpWorkContext : DbContext
     {
-        public DbConnections(DbContextOptions<DbConnections> options)
+        public UpWorkContext(DbContextOptions<UpWorkContext> options)
             : base(options)
         {
 

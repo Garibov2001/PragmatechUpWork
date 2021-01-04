@@ -430,3 +430,5 @@ C:\Users\TheGaribov\Desktop\UpWork\pragmatechUpWork\pragmatechUpWork\obj\Debug\n
 C:\Users\TheGaribov\Desktop\UpWork\pragmatechUpWork\pragmatechUpWork\obj\Debug\netcoreapp3.1\Razor\Views\Project\edit_project.cshtml.g.cs
 C:\Users\TheGaribov\Desktop\UpWork\pragmatechUpWork\pragmatechUpWork\obj\Debug\netcoreapp3.1\pragmatechUpWork.csprojAssemblyReference.cache
 C:\Users\TheGaribov\Desktop\UpWork\pragmatechUpWork\pragmatechUpWork\obj\Debug\netcoreapp3.1\Razor\Views\Task\create_task.cshtml.g.cs
+C:\Users\TheGaribov\Desktop\UpWork\pragmatechUpWork\pragmatechUpWork\obj\Debug\netcoreapp3.1\Razor\Views\Task\profile_tasks.cshtml.g.cs
+C:\Users\TheGaribov\Desktop\UpWork\pragmatechUpWork\pragmatechUpWork\obj\Debug\netcoreapp3.1\Razor\Views\Task\edit_task.cshtml.g.cs

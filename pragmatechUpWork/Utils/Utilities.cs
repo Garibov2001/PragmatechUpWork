@@ -12,8 +12,8 @@ namespace pragmatechUpWork.Utils
         // Bu bizim Dbe qosulmagimiz ucun lazim olacaq
         // readonly edirik cunki ctor icinde buna object menimsedeceyik 
         // yerde qalan hallard constant olacaq
-        private readonly DbConnections _context = null;
-        public Utilities(DbConnections argContext)
+        private readonly UpWorkContext _context = null;
+        public Utilities(UpWorkContext argContext)
         {
             _context = argContext;
         }
