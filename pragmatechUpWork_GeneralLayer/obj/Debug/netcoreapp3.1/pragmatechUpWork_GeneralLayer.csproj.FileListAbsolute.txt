@@ -1,0 +1,9 @@
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_GeneralLayer\bin\Debug\netcoreapp3.1\pragmatechUpWork_GeneralLayer.deps.json
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_GeneralLayer\bin\Debug\netcoreapp3.1\pragmatechUpWork_GeneralLayer.dll
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_GeneralLayer\bin\Debug\netcoreapp3.1\pragmatechUpWork_GeneralLayer.pdb
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_GeneralLayer\obj\Debug\netcoreapp3.1\pragmatechUpWork_GeneralLayer.csprojAssemblyReference.cache
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_GeneralLayer\obj\Debug\netcoreapp3.1\pragmatechUpWork_GeneralLayer.AssemblyInfoInputs.cache
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_GeneralLayer\obj\Debug\netcoreapp3.1\pragmatechUpWork_GeneralLayer.AssemblyInfo.cs
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_GeneralLayer\obj\Debug\netcoreapp3.1\pragmatechUpWork_GeneralLayer.csproj.CoreCompileInputs.cache
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_GeneralLayer\obj\Debug\netcoreapp3.1\pragmatechUpWork_GeneralLayer.dll
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_GeneralLayer\obj\Debug\netcoreapp3.1\pragmatechUpWork_GeneralLayer.pdb

@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\pragmatechUpWork_Entities\pragmatechUpWork_Entities.csproj" />
+    <ProjectReference Include="..\pragmatechUpWork_GeneralLayer\pragmatechUpWork_GeneralLayer.csproj" />
+  </ItemGroup>
+
+</Project>

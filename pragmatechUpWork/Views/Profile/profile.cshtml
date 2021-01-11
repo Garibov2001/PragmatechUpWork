@@ -1,6 +1,4 @@
-﻿@using pragmatechUpWork.Models;
-@model IEnumerable<pragmatechUpWork.Models.Project>
-
+﻿@model AllProjectsWithOthers;
 <!-- Transparent Header Spacer -->
 <div class="transparent-header-spacer"></div>
 
@@ -47,7 +45,7 @@
                                     <tbody>
                                         @if (Model != null)
                                         {
-                                            @foreach (var projectRecord in Model)
+                                            @foreach (var projectRecord in Model.projects)
                                             {
 
                                                 <tr>

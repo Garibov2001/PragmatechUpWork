@@ -1,5 +1,4 @@
-﻿
-@model pragmatechUpWork.Models.Project
+﻿@model ProjectWithOthers;
 
 <!-- Transparent Header Spacer -->
 <div class="transparent-header-spacer"></div>
@@ -13,12 +12,12 @@
                 <div class="single-page-header-inner">
                     <div class="left-side">
                         <div class="header-details">
-                            <h3>@Model.Name</h3>
-                            <h5>@Model.Category</h5>
+                            <h3>@Model.project.Name</h3>
+                            <h5>@Model.project.Category</h5>
                             <ul class="margin-top-19">
-                                @{ 
-                                    var jobDate = (Model.EndDate - Model.StartDate).Value.Days;
-                                    var publishDate = DateTime.Now.Day - Model.StartDate.Value.Day; //Burda sehvlik var publish date basqasi olacaq
+                                @{
+                                    var jobDate = (Model.project.EndDate - Model.project.StartDate).Value.Days;
+                                    var publishDate = DateTime.Now.Day - Model.project.StartDate.Value.Day; //Burda sehvlik var publish date basqasi olacaq
                                 }
                                 <li><i class="icon-material-outline-business-center"></i>@jobDate günlük iş</li>
                                 <li><i class="icon-material-outline-access-time"></i>@publishDate gün əvvəl </li>
@@ -28,7 +27,7 @@
                     <div class="right-side">
                         <div class="salary-box">
                             <div class="salary-type">Layihənin dəyəri</div>
-                            <div class="salary-amount">@Model.MinCost &#8380; - @Model.MaxCost &#8380;</div>
+                            <div class="salary-amount">@Model.project.MinCost &#8380; - @Model.project.MaxCost &#8380;</div>
                         </div>
                     </div>
                 </div>
@@ -46,7 +45,7 @@
         <div class="col-xl-8 col-lg-8 content-right-offset">
             <div class="single-page-section">
                 <h3 class="margin-bottom-25">Layihə haqda</h3>
-                <p>@Model.ProjectInfo </p>
+                <p>@Model.project.ProjectInfo </p>
             </div>
 
             <div class="single-page-section">
@@ -69,7 +68,7 @@
                                 <li>
                                     <i class="icon-feather-user"></i>
                                     <span>Layihə rəhbəri</span>
-                                    <h5><a href="#">@Model.ProjectManager</a></h5>
+                                    <h5><a href="#">@Model.project.ProjectManager</a></h5>
                                 </li>
                                 <li>
                                     <i class="icon-material-outline-business-center"></i>
@@ -79,17 +78,17 @@
                                 <li>
                                     <i class="icon-material-outline-access-time"></i>
                                     <span>Layihənin başlama tarixi</span>
-                                    <h5>@Model.StartDate.Value.Date</h5>
+                                    <h5>@Model.project.StartDate.Value.Date</h5>
                                 </li>
                                 <li>
                                     <i class="icon-material-outline-access-alarm"></i>
                                     <span>Layihənin bitmə tarixi</span>
-                                    <h5>@Model.EndDate.Value.Date</h5>
+                                    <h5>@Model.project.EndDate.Value.Date</h5>
                                 </li>
                             </ul>
                         </div>
                     </div>
-                </div>              
+                </div>
             </div>
         </div>
 

@@ -8,9 +8,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using pragmatechUpWork.Models;
+using pragmatechUpWork_Entities;
 using pragmatechUpWork.Utils;
 using pragmatechUpWork.Controllers;
+using pragmatechUpWork_DataAccessLayer.Abstarct;
+using pragmatechUpWork_DataAccessLayer.Concrete.EntityFramework;
+using Microsoft.AspNetCore.Routing;
+using pragmatechUpWork_BusinessLogicLayer.UnitOfWork.Abstract;
+using pragmatechUpWork_BusinessLogicLayer.UnitOfWork.Concrete;
 
 namespace pragmatechUpWork
 {
@@ -26,9 +31,11 @@ namespace pragmatechUpWork
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc();
+            services.AddMvc(options => options.EnableEndpointRouting = false);
             // Registe our db context
             services.AddDbContext<UpWorkContext>(options =>
-                options.UseSqlServer("Server=.; Database=PragmatechUpWork; Integrated Security=True;"));
+                options.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB; Database=PragmatechUpWork; Integrated Security=True;", b => b.MigrationsAssembly("pragmatechUpWork_CoreMVC.UI")));
 
             // Integer fieldlara null deyer gonderence error mesajini deyismek:
             services.AddRazorPages()
@@ -39,7 +46,9 @@ namespace pragmatechUpWork
                 });
 
             services.AddControllersWithViews();
-            services.AddScoped<Utilities, Utilities>();
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<IProjectDal, EfProjectDal>();
+            services.AddTransient<IProjectTaskDal, EfProjectTaskDal>();
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -58,12 +67,12 @@ namespace pragmatechUpWork
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Home}/{id?}");
-            });
+            app.UseMvc(ConfigurationRouter);
+        }
+
+        private void ConfigurationRouter(IRouteBuilder routeBuilder)
+        {
+            routeBuilder.MapRoute("default", "{controller=Home}/{action=Home}/{id?}");
         }
     }
 }

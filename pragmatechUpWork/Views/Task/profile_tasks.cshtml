@@ -1,5 +1,4 @@
-﻿@using pragmatechUpWork.Models;
-@model IEnumerable<pragmatechUpWork.Models.Task>
+﻿@model AllProjectTasksWithOthers;
 <!-- Transparent Header Spacer -->
 <div class="transparent-header-spacer"></div>
 
@@ -47,14 +46,18 @@
                                     <tbody>
                                         @if (Model != null)
                                         {
-                                            @foreach (var taskRecord in Model)
+                                            @foreach (var taskRecord in Model.projecttasks)
                                             {
                                         <tr>
                                             <td><a href="#">@taskRecord.Name</a></td>
                                             <td><a href="#">@taskRecord.Project.Name</a></td>
                                             <td>@taskRecord.Cost</td>
                                             <td>@taskRecord.RequiredDays</td>
-                                            <td>@taskRecord.PublishDate.Value.ToString("dd.MM.yyyy")</td>                                            
+                                            <td>@{ 
+                                                if(taskRecord.PublishDate!=null)
+                                                { taskRecord.PublishDate.Value.ToString("dd.MM.yyyy"); }
+                                                else {<p>Publish Olunmayib</p>}
+                                            }</td>                                            
                                             <td>
                                                 <a href="@taskRecord.GithubUrl"><i class="icon-feather-github" style="font-size:24px !important;"></i></a>
                                             </td>

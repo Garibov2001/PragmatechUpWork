@@ -2662,6 +2662,59 @@
         "runtime": {
           "lib/netstandard1.3/System.Xml.XmlSerializer.dll": {}
         }
+      },
+      "pragmatechUpWork_BusinessLogicLayer/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "dependencies": {
+          "pragmatechUpWork_DataAccessLayer": "1.0.0",
+          "pragmatechUpWork_Entities": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/pragmatechUpWork_BusinessLogicLayer.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/pragmatechUpWork_BusinessLogicLayer.dll": {}
+        }
+      },
+      "pragmatechUpWork_DataAccessLayer/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "dependencies": {
+          "pragmatechUpWork_Entities": "1.0.0",
+          "pragmatechUpWork_GeneralLayer": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/pragmatechUpWork_DataAccessLayer.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/pragmatechUpWork_DataAccessLayer.dll": {}
+        }
+      },
+      "pragmatechUpWork_Entities/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "5.0.1",
+          "Microsoft.EntityFrameworkCore.SqlServer": "5.0.1",
+          "pragmatechUpWork_GeneralLayer": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/pragmatechUpWork_Entities.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/pragmatechUpWork_Entities.dll": {}
+        }
+      },
+      "pragmatechUpWork_GeneralLayer/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "compile": {
+          "bin/placeholder/pragmatechUpWork_GeneralLayer.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/pragmatechUpWork_GeneralLayer.dll": {}
+        }
       }
     }
   },
@@ -8718,6 +8771,26 @@
         "system.xml.xmlserializer.4.3.0.nupkg.sha512",
         "system.xml.xmlserializer.nuspec"
       ]
+    },
+    "pragmatechUpWork_BusinessLogicLayer/1.0.0": {
+      "type": "project",
+      "path": "../pragmatechUpWork_BusinessLogicLayer/pragmatechUpWork_BusinessLogicLayer.csproj",
+      "msbuildProject": "../pragmatechUpWork_BusinessLogicLayer/pragmatechUpWork_BusinessLogicLayer.csproj"
+    },
+    "pragmatechUpWork_DataAccessLayer/1.0.0": {
+      "type": "project",
+      "path": "../pragmatechUpWork_DataAccessLayer/pragmatechUpWork_DataAccessLayer.csproj",
+      "msbuildProject": "../pragmatechUpWork_DataAccessLayer/pragmatechUpWork_DataAccessLayer.csproj"
+    },
+    "pragmatechUpWork_Entities/1.0.0": {
+      "type": "project",
+      "path": "../pragmatechUpWork_Entities/pragmatechUpWork_Entities.csproj",
+      "msbuildProject": "../pragmatechUpWork_Entities/pragmatechUpWork_Entities.csproj"
+    },
+    "pragmatechUpWork_GeneralLayer/1.0.0": {
+      "type": "project",
+      "path": "../pragmatechUpWork_GeneralLayer/pragmatechUpWork_GeneralLayer.csproj",
+      "msbuildProject": "../pragmatechUpWork_GeneralLayer/pragmatechUpWork_GeneralLayer.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -8726,24 +8799,34 @@
       "Microsoft.EntityFrameworkCore.Design >= 5.0.1",
       "Microsoft.EntityFrameworkCore.SqlServer >= 5.0.1",
       "Microsoft.EntityFrameworkCore.Tools >= 5.0.1",
-      "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 3.1.4"
+      "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 3.1.4",
+      "pragmatechUpWork_BusinessLogicLayer >= 1.0.0",
+      "pragmatechUpWork_DataAccessLayer >= 1.0.0",
+      "pragmatechUpWork_Entities >= 1.0.0"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\TheGaribov\\.nuget\\packages\\": {}
+    "C:\\Users\\Es-Selamun Aleykum\\.nuget\\packages\\": {},
+    "C:\\Microsoft\\Xamarin\\NuGet\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\TheGaribov\\Desktop\\UpWork\\pragmatechUpWork\\pragmatechUpWork\\pragmatechUpWork.csproj",
-      "projectName": "pragmatechUpWork",
-      "projectPath": "C:\\Users\\TheGaribov\\Desktop\\UpWork\\pragmatechUpWork\\pragmatechUpWork\\pragmatechUpWork.csproj",
-      "packagesPath": "C:\\Users\\TheGaribov\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\TheGaribov\\Desktop\\UpWork\\pragmatechUpWork\\pragmatechUpWork\\obj\\",
+      "projectUniqueName": "C:\\Users\\Es-Selamun Aleykum\\Desktop\\SamirKerimov-GitHub_UpWork\\pragmatechUpWork\\pragmatechUpWork_CoreMVC.UI.csproj",
+      "projectName": "pragmatechUpWork_CoreMVC.UI",
+      "projectPath": "C:\\Users\\Es-Selamun Aleykum\\Desktop\\SamirKerimov-GitHub_UpWork\\pragmatechUpWork\\pragmatechUpWork_CoreMVC.UI.csproj",
+      "packagesPath": "C:\\Users\\Es-Selamun Aleykum\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Es-Selamun Aleykum\\Desktop\\SamirKerimov-GitHub_UpWork\\pragmatechUpWork\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Microsoft\\Xamarin\\NuGet\\",
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      ],
       "configFilePaths": [
-        "C:\\Users\\TheGaribov\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Users\\Es-Selamun Aleykum\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"
@@ -8754,7 +8837,17 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\Es-Selamun Aleykum\\Desktop\\SamirKerimov-GitHub_UpWork\\pragmatechUpWork_BusinessLogicLayer\\pragmatechUpWork_BusinessLogicLayer.csproj": {
+              "projectPath": "C:\\Users\\Es-Selamun Aleykum\\Desktop\\SamirKerimov-GitHub_UpWork\\pragmatechUpWork_BusinessLogicLayer\\pragmatechUpWork_BusinessLogicLayer.csproj"
+            },
+            "C:\\Users\\Es-Selamun Aleykum\\Desktop\\SamirKerimov-GitHub_UpWork\\pragmatechUpWork_DataAccessLayer\\pragmatechUpWork_DataAccessLayer.csproj": {
+              "projectPath": "C:\\Users\\Es-Selamun Aleykum\\Desktop\\SamirKerimov-GitHub_UpWork\\pragmatechUpWork_DataAccessLayer\\pragmatechUpWork_DataAccessLayer.csproj"
+            },
+            "C:\\Users\\Es-Selamun Aleykum\\Desktop\\SamirKerimov-GitHub_UpWork\\pragmatechUpWork_Entities\\pragmatechUpWork_Entities.csproj": {
+              "projectPath": "C:\\Users\\Es-Selamun Aleykum\\Desktop\\SamirKerimov-GitHub_UpWork\\pragmatechUpWork_Entities\\pragmatechUpWork_Entities.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
@@ -8809,7 +8902,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.401\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
       }
     }
   }

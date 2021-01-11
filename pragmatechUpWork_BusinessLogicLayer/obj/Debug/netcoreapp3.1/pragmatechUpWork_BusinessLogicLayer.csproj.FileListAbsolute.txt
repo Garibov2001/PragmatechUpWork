@@ -1,0 +1,16 @@
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_BusinessLogicLayer\bin\Debug\netcoreapp3.1\pragmatechUpWork_BusinessLogicLayer.deps.json
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_BusinessLogicLayer\bin\Debug\netcoreapp3.1\pragmatechUpWork_BusinessLogicLayer.dll
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_BusinessLogicLayer\bin\Debug\netcoreapp3.1\pragmatechUpWork_BusinessLogicLayer.pdb
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_BusinessLogicLayer\obj\Debug\netcoreapp3.1\pragmatechUpWork_BusinessLogicLayer.AssemblyInfoInputs.cache
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_BusinessLogicLayer\obj\Debug\netcoreapp3.1\pragmatechUpWork_BusinessLogicLayer.AssemblyInfo.cs
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_BusinessLogicLayer\obj\Debug\netcoreapp3.1\pragmatechUpWork_BusinessLogicLayer.csproj.CoreCompileInputs.cache
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_BusinessLogicLayer\obj\Debug\netcoreapp3.1\pragmatechUpWork_BusinessLogicLayer.dll
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_BusinessLogicLayer\obj\Debug\netcoreapp3.1\pragmatechUpWork_BusinessLogicLayer.pdb
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_BusinessLogicLayer\obj\Debug\netcoreapp3.1\pragmatechUpWork_BusinessLogicLayer.csprojAssemblyReference.cache
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_BusinessLogicLayer\bin\Debug\netcoreapp3.1\pragmatechUpWork_DataAccessLayer.dll
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_BusinessLogicLayer\bin\Debug\netcoreapp3.1\pragmatechUpWork_Entities.dll
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_BusinessLogicLayer\bin\Debug\netcoreapp3.1\pragmatechUpWork_GeneralLayer.dll
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_BusinessLogicLayer\bin\Debug\netcoreapp3.1\pragmatechUpWork_DataAccessLayer.pdb
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_BusinessLogicLayer\bin\Debug\netcoreapp3.1\pragmatechUpWork_Entities.pdb
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_BusinessLogicLayer\bin\Debug\netcoreapp3.1\pragmatechUpWork_GeneralLayer.pdb
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_BusinessLogicLayer\obj\Debug\netcoreapp3.1\pragmatechUpWork_BusinessLogicLayer.csproj.CopyComplete
