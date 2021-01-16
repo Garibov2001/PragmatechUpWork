@@ -99,10 +99,10 @@ namespace pragmatechUpWork.Controllers
                 error = "none",
             };
 
-            return Json(responseData);
-        }
-
-
-
+        return Json(responseData);
     }
+
+
+
+}
 }
