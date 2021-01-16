@@ -5689,27 +5689,20 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Es-Selamun Aleykum\\.nuget\\packages\\": {},
-    "C:\\Microsoft\\Xamarin\\NuGet\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\TheGaribov\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Es-Selamun Aleykum\\Desktop\\SamirKerimov-GitHub_UpWork\\pragmatechUpWork_DataAccessLayer\\pragmatechUpWork_DataAccessLayer.csproj",
+      "projectUniqueName": "C:\\Users\\TheGaribov\\Desktop\\SamirKerimov-GitHub_UpWork - Copy (2)\\SamirKerimov-GitHub_UpWork - Copy (2)\\pragmatechUpWork_DataAccessLayer\\pragmatechUpWork_DataAccessLayer.csproj",
       "projectName": "pragmatechUpWork_DataAccessLayer",
-      "projectPath": "C:\\Users\\Es-Selamun Aleykum\\Desktop\\SamirKerimov-GitHub_UpWork\\pragmatechUpWork_DataAccessLayer\\pragmatechUpWork_DataAccessLayer.csproj",
-      "packagesPath": "C:\\Users\\Es-Selamun Aleykum\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Es-Selamun Aleykum\\Desktop\\SamirKerimov-GitHub_UpWork\\pragmatechUpWork_DataAccessLayer\\obj\\",
+      "projectPath": "C:\\Users\\TheGaribov\\Desktop\\SamirKerimov-GitHub_UpWork - Copy (2)\\SamirKerimov-GitHub_UpWork - Copy (2)\\pragmatechUpWork_DataAccessLayer\\pragmatechUpWork_DataAccessLayer.csproj",
+      "packagesPath": "C:\\Users\\TheGaribov\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\TheGaribov\\Desktop\\SamirKerimov-GitHub_UpWork - Copy (2)\\SamirKerimov-GitHub_UpWork - Copy (2)\\pragmatechUpWork_DataAccessLayer\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Microsoft\\Xamarin\\NuGet\\",
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\Es-Selamun Aleykum\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+        "C:\\Users\\TheGaribov\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"
@@ -5721,11 +5714,11 @@
       "frameworks": {
         "netcoreapp3.1": {
           "projectReferences": {
-            "C:\\Users\\Es-Selamun Aleykum\\Desktop\\SamirKerimov-GitHub_UpWork\\pragmatechUpWork_Entities\\pragmatechUpWork_Entities.csproj": {
-              "projectPath": "C:\\Users\\Es-Selamun Aleykum\\Desktop\\SamirKerimov-GitHub_UpWork\\pragmatechUpWork_Entities\\pragmatechUpWork_Entities.csproj"
+            "C:\\Users\\TheGaribov\\Desktop\\SamirKerimov-GitHub_UpWork - Copy (2)\\SamirKerimov-GitHub_UpWork - Copy (2)\\pragmatechUpWork_Entities\\pragmatechUpWork_Entities.csproj": {
+              "projectPath": "C:\\Users\\TheGaribov\\Desktop\\SamirKerimov-GitHub_UpWork - Copy (2)\\SamirKerimov-GitHub_UpWork - Copy (2)\\pragmatechUpWork_Entities\\pragmatechUpWork_Entities.csproj"
             },
-            "C:\\Users\\Es-Selamun Aleykum\\Desktop\\SamirKerimov-GitHub_UpWork\\pragmatechUpWork_GeneralLayer\\pragmatechUpWork_GeneralLayer.csproj": {
-              "projectPath": "C:\\Users\\Es-Selamun Aleykum\\Desktop\\SamirKerimov-GitHub_UpWork\\pragmatechUpWork_GeneralLayer\\pragmatechUpWork_GeneralLayer.csproj"
+            "C:\\Users\\TheGaribov\\Desktop\\SamirKerimov-GitHub_UpWork - Copy (2)\\SamirKerimov-GitHub_UpWork - Copy (2)\\pragmatechUpWork_GeneralLayer\\pragmatechUpWork_GeneralLayer.csproj": {
+              "projectPath": "C:\\Users\\TheGaribov\\Desktop\\SamirKerimov-GitHub_UpWork - Copy (2)\\SamirKerimov-GitHub_UpWork - Copy (2)\\pragmatechUpWork_GeneralLayer\\pragmatechUpWork_GeneralLayer.csproj"
             }
           }
         }
@@ -5753,7 +5746,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.401\\RuntimeIdentifierGraph.json"
       }
     }
   }
