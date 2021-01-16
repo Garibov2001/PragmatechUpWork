@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewComponents;
+using pragmatechUpWork_CoreMVC.UI.IdentityClasses;
 using pragmatechUpWork_CoreMVC.UI.Models;
 using System;
 using System.Collections.Generic;
@@ -11,11 +13,16 @@ namespace pragmatechUpWork_CoreMVC.UI.View_Components
 {
     public class UserInformationViewComponent:ViewComponent
     {
-        public ViewViewComponentResult Invoke()
+        private readonly UserManager<ApplicationUser> _userManager;
+        public UserInformationViewComponent(UserManager<ApplicationUser> userManager)
+        {
+            _userManager = userManager;
+        }
+        public async Task<ViewViewComponentResult> InvokeAsync()
         {
             UserDetailsModel model = new UserDetailsModel()
             {
-                Username = HttpContext.User.Identity.Name
+                User = await _userManager.GetUserAsync(HttpContext.User)
             };
             return View(model);
         }

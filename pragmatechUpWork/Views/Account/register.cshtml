@@ -36,30 +36,20 @@
                 <form method="post" id="register-account-form" asp-action="Register" asp-controller="Account">
                     <div class="input-with-icon-left">
                         <i class="icon-material-baseline-mail-outline"></i>
-                        <input type="text" class="input-text with-border" asp-for="UserName" placeholder="Kullanici Adi" required />
+                        <input type="text" class="input-text with-border" asp-for="UserName" placeholder="İstifadəçinin adı" required />
+                        <span asp-validation-for="UserName"></span>
                     </div>
 
                     <div class="input-with-icon-left">
                         <i class="icon-material-baseline-mail-outline"></i>
-                        <input type="text" class="input-text with-border" asp-for="Surname" placeholder="CRM Kullanici ismi" required />
-                    </div>
-
-                    <div class="input-with-icon-left">
-                        <i class="icon-material-baseline-mail-outline"></i>
-                        <input asp-for="Email" class="input-text with-border" placeholder="Email" required />
+                        <input asp-for="Email" class="input-text with-border" placeholder="CRMdəki Email" required />
                         <span asp-validation-for="Email"></span>
                     </div>
 
                     <div class="input-with-icon-left">
                         <i class="icon-material-outline-access-alarm"></i>
-                        <input asp-for="PhoneNumber" class="input-text with-border" placeholder="Phone Number" required />
+                        <input asp-for="PhoneNumber" class="input-text with-border" placeholder="Telefon nömrəsi" required />
                         <span asp-validation-for="PhoneNumber"></span>
-                    </div>
-
-                    <div class="input-with-icon-left" title="Validationların yaz" data-tippy-placement="bottom">
-                        <i class="icon-material-outline-lock"></i>
-                        <input asp-for="CRMPassword" class="input-text with-border" placeholder="CRM Şifrəniz" required />
-                        <span asp-validation-for="Password"></span>
                     </div>
 
                     <div class="input-with-icon-left" title="Validationların yaz" data-tippy-placement="bottom">

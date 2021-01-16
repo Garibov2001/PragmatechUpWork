@@ -49,6 +49,16 @@ namespace pragmatechUpWork
                         _ => "Bu xana bos ola bilmez");
                 });
 
+            // Buradan Identitimizi configure ede bilirik
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequiredLength = 6;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+            });
+
             services.AddControllersWithViews();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IProjectDal, EfProjectDal>();
