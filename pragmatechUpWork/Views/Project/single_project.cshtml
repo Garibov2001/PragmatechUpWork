@@ -1,6 +1,4 @@
-﻿
-@model pragmatechUpWork.Models.Project
-
+﻿@model ProjectWithOthers;
 <!-- Transparent Header Spacer -->
 <div class="transparent-header-spacer"></div>
 
@@ -13,12 +11,12 @@
                 <div class="single-page-header-inner">
                     <div class="left-side">
                         <div class="header-details">
-                            <h3>@Model.Name</h3>
-                            <h5>@Model.Category</h5>
+                            <h3>@Model.project.Name</h3>
+                            <h5>@Model.project.Category</h5>
                             <ul class="margin-top-19">
-                                @{ 
-                                    var jobDate = (Model.EndDate - Model.StartDate).Value.Days;
-                                    var publishDate = DateTime.Now.Day - Model.StartDate.Value.Day; //Burda sehvlik var publish date basqasi olacaq
+                                @{
+                                    var jobDate = (Model.project.EndDate - Model.project.StartDate).Value.Days;
+                                    var publishDate = DateTime.Now.Day - Model.project.StartDate.Value.Day; //Burda sehvlik var publish date basqasi olacaq
                                 }
                                 <li><i class="icon-material-outline-business-center"></i>@jobDate günlük iş</li>
                                 <li><i class="icon-material-outline-access-time"></i>@publishDate gün əvvəl </li>
@@ -28,7 +26,7 @@
                     <div class="right-side">
                         <div class="salary-box">
                             <div class="salary-type">Layihənin dəyəri</div>
-                            <div class="salary-amount">@Model.MinCost &#8380; - @Model.MaxCost &#8380;</div>
+                            <div class="salary-amount">@Model.project.MinCost &#8380; - @Model.project.MaxCost &#8380;</div>
                         </div>
                     </div>
                 </div>
@@ -46,7 +44,7 @@
         <div class="col-xl-8 col-lg-8 content-right-offset">
             <div class="single-page-section">
                 <h3 class="margin-bottom-25">Layihə haqda</h3>
-                <p>@Model.ProjectInfo </p>
+                <p>@Model.project.ProjectInfo </p>
             </div>
 
             <div class="single-page-section">
@@ -69,7 +67,7 @@
                                 <li>
                                     <i class="icon-feather-user"></i>
                                     <span>Layihə rəhbəri</span>
-                                    <h5><a href="#">@Model.ProjectManager</a></h5>
+                                    <h5><a href="#">@Model.project.ProjectManager</a></h5>
                                 </li>
                                 <li>
                                     <i class="icon-material-outline-business-center"></i>
@@ -79,87 +77,93 @@
                                 <li>
                                     <i class="icon-material-outline-access-time"></i>
                                     <span>Layihənin başlama tarixi</span>
-                                    <h5>@Model.StartDate.Value.Date</h5>
+                                    <h5>@Model.project.StartDate.Value.Date</h5>
                                 </li>
                                 <li>
                                     <i class="icon-material-outline-access-alarm"></i>
                                     <span>Layihənin bitmə tarixi</span>
-                                    <h5>@Model.EndDate.Value.Date</h5>
+                                    <h5>@Model.project.EndDate.Value.Date</h5>
                                 </li>
                             </ul>
                         </div>
                     </div>
-                </div>              
+                </div>
             </div>
         </div>
 
     </div>
 
     <div class="row">
-        <div class="col-xl-12 col-lg-8 content-left-offset">
+        <div class="col-xl-12 col-lg-8">
             <h3 class="page-title">Layihəyə aid Tasklar</h3>
 
             <!-- Tasks Container -->
-            <div class="tasks-list-container margin-top-35">
-                <!-- Task -->
-                <div class="task-listing" style="cursor: context-menu;">
-                    <!-- Job Listing Details -->
-                    <div class="task-listing-details">
-                        <!-- Details -->
-                        <div class="task-listing-description">
-                            <h3 class="task-listing-title">Databazanin qurulmasi</h3>
-                            <ul class="task-icons">
-                                <li><i class="icon-material-outline-business-center"></i><strong> 7-10 günlük</strong></li>
-                                <li><i class="icon-material-outline-access-time"></i><strong> 2 gün əvvəl</strong></li>
-                            </ul>
-                            <p class="task-listing-text">Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster.</p>
-                            <div class="task-tags">
-                                <span>SQL</span>
-                                <span>ORM</span>
-                                <span>MSSQLServer</span>
-                                <span>MySQL</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="task-listing-bid">
-                        <div class="task-listing-bid-inner">
-                            <div class="task-offers">
-                                <strong>500&#8380;</strong>
-                                <span>İşin dəyəri</span>
-                            </div>
-                            <a href="#" class="button button-sliding-icon ripple-effect">Daha ətraflı <i class="icon-material-outline-arrow-right-alt"></i></a>
-                        </div>
-                    </div>
-                </div>
-
-
-                <!-- Pagination -->
-                <div class="clearfix"></div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <!-- Pagination -->
-                        <div class="pagination-container margin-top-30 margin-bottom-60">
-                            <nav class="pagination">
-                                <ul>
-                                    <li class="pagination-arrow"><a href="#" class="ripple-effect"><i class="icon-material-outline-keyboard-arrow-left"></i></a></li>
-                                    <li><a href="#" class="ripple-effect">1</a></li>
-                                    <li><a href="#" class="current-page ripple-effect">2</a></li>
-                                    <li><a href="#" class="ripple-effect">3</a></li>
-                                    <li><a href="#" class="ripple-effect">4</a></li>
-                                    <li class="pagination-arrow"><a href="#" class="ripple-effect"><i class="icon-material-outline-keyboard-arrow-right"></i></a></li>
+            @foreach (var task in Model.projectTasks)
+            {
+                <!-- Tasks Container -->
+                <div class="tasks-list-container margin-top-35">
+                    <!-- Task -->
+                    <div class="task-listing" style="cursor: context-menu;">
+                        <!-- Job Listing Details -->
+                        <div class="task-listing-details">
+                            <!-- Details -->
+                            <div class="task-listing-description">
+                                <h3 class="task-listing-title">@task.Name</h3>
+                                <ul class="task-icons">
+                                    <li><i class="icon-material-outline-business-center"></i><strong>@task.RequiredDays günlük</strong></li>
+                                    @{
+                                        //var taskPublishDate = DateTime.Now.Day - task.StartDate.Value.Day; //Burda sehvlik var publish date basqasi olacaq
+                                    }
+                                    <li><i class="icon-material-outline-access-time"></i><strong> @task.RequiredDays gün əvvəl</strong></li>
                                 </ul>
-                            </nav>
+                                <p class="task-listing-text">@(task.TaskInfo.Substring(0, Math.Min(task.TaskInfo.Length, 200))+"....")</p>
+                                <div class="task-tags">
+                                    <span>SQL</span>
+                                    <span>ORM</span>
+                                    <span>MSSQLServer</span>
+                                    <span>MySQL</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="task-listing-bid">
+                            <div class="task-listing-bid-inner">
+                                <div class="task-offers">
+                                    <strong>@task.Cost&#8380;</strong>
+                                    <span>İşin dəyəri</span>
+                                </div>
+                                <a asp-route="task-single_task" asp-route-id="@task.TaskId" class="button button-sliding-icon ripple-effect">Daha ətraflı <i class="icon-material-outline-arrow-right-alt"></i></a>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <!-- Pagination / End -->
+                <!-- Tasks Container / End -->
+            }
 
+            <!-- Pagination -->
+            <div class="clearfix"></div>
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- Pagination -->
+                    <div class="pagination-container margin-top-30 margin-bottom-60">
+                        <nav class="pagination">
+                            <ul>
+                                <li class="pagination-arrow"><a href="#" class="ripple-effect"><i class="icon-material-outline-keyboard-arrow-left"></i></a></li>
+                                <li><a href="#" class="ripple-effect">1</a></li>
+                                <li><a href="#" class="current-page ripple-effect">2</a></li>
+                                <li><a href="#" class="ripple-effect">3</a></li>
+                                <li><a href="#" class="ripple-effect">4</a></li>
+                                <li class="pagination-arrow"><a href="#" class="ripple-effect"><i class="icon-material-outline-keyboard-arrow-right"></i></a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
             </div>
-            <!-- Tasks Container / End -->
-
+            <!-- Pagination / End -->
         </div>
     </div>
+
+
 </div>
 
 

@@ -1,5 +1,4 @@
-﻿
-@model pragmatechUpWork.Models.Task
+﻿@model ProjectTask;
 <!-- Transparent Header Spacer -->
 <div class="transparent-header-spacer"></div>
 
@@ -35,7 +34,7 @@
                                             <div class="col-xl-8">
                                                 <div class="submit-field">
                                                     <h5 class="text-center">Aid olduğu layihəni seç</h5>
-                                                    <select asp-for="ProjectId" asp-items="ViewBag.options" class="selectpicker with-border" title="Aid oldugu Layiheni seç..">
+                                                    <select asp-for=" ProjectId" asp-items="ViewBag.Projects" class="selectpicker with-border" title="Aid oldugu Layiheni seç..">
                                                     </select>
                                                 </div>
                                                 <span asp-validation-for="ProjectId"></span>
@@ -87,7 +86,7 @@
                                             <span asp-validation-for="GithubUrl"></span>
                                         </div>
                                     </div>
-
+                                    <input type="hidden" asp-for="TaskId"/>
                                     <div class="col-xl-12">
                                         <div class="submit-field">
                                             <h5>Task haqda</h5>

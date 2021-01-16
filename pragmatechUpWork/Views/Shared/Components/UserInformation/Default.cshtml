@@ -1,0 +1,30 @@
+﻿@model UserDetailsModel;
+
+<div class="header-widget">
+    <!-- Messages -->
+    <div class="header-notifications user-menu">
+        <div class="header-notifications-trigger">
+            <a href="#"><div class="user-avatar"><img src="~/images/user-avatar-small-01.jpg" alt=""></div></a>
+        </div>
+        <!-- Dropdown -->
+        <div class="header-notifications-dropdown">
+            <!-- User Status -->
+            <div class="user-status">
+                <!-- User Name / Avatar -->
+                <div class="user-details">
+                    <div class="user-avatar status-online"><img src="~/images/user-avatar-small-01.jpg" alt=""></div>
+                    <div class="user-name">
+                        @Model.Username <span>Discord Support</span>
+                    </div>
+                </div>
+            </div>
+
+            <ul class="user-menu-small-nav">
+                <li><a asp-route="profile-whole_projects"><i class="icon-material-outline-dashboard"></i> Profil</a></li>
+                <li><a href="dashboard-settings.html"><i class="icon-material-outline-settings"></i> Parametrlər</a></li>
+                <li><a href="index-logged-out.html"><i class="icon-material-outline-power-settings-new"></i> Çıxmaq</a></li>
+            </ul>
+        </div>
+    </div>
+
+</div>

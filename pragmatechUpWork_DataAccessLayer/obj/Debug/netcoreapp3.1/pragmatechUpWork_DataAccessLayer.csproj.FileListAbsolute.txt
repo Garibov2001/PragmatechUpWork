@@ -1,0 +1,14 @@
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_DataAccessLayer\bin\Debug\netcoreapp3.1\pragmatechUpWork_DataAccessLayer.deps.json
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_DataAccessLayer\bin\Debug\netcoreapp3.1\pragmatechUpWork_DataAccessLayer.dll
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_DataAccessLayer\bin\Debug\netcoreapp3.1\pragmatechUpWork_DataAccessLayer.pdb
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_DataAccessLayer\bin\Debug\netcoreapp3.1\pragmatechUpWork_Entities.dll
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_DataAccessLayer\bin\Debug\netcoreapp3.1\pragmatechUpWork_GeneralLayer.dll
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_DataAccessLayer\bin\Debug\netcoreapp3.1\pragmatechUpWork_Entities.pdb
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_DataAccessLayer\bin\Debug\netcoreapp3.1\pragmatechUpWork_GeneralLayer.pdb
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_DataAccessLayer\obj\Debug\netcoreapp3.1\pragmatechUpWork_DataAccessLayer.csprojAssemblyReference.cache
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_DataAccessLayer\obj\Debug\netcoreapp3.1\pragmatechUpWork_DataAccessLayer.AssemblyInfoInputs.cache
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_DataAccessLayer\obj\Debug\netcoreapp3.1\pragmatechUpWork_DataAccessLayer.AssemblyInfo.cs
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_DataAccessLayer\obj\Debug\netcoreapp3.1\pragmatechUpWork_DataAccessLayer.csproj.CoreCompileInputs.cache
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_DataAccessLayer\obj\Debug\netcoreapp3.1\pragmatechUpWork_DataAccessLayer.csproj.CopyComplete
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_DataAccessLayer\obj\Debug\netcoreapp3.1\pragmatechUpWork_DataAccessLayer.dll
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_DataAccessLayer\obj\Debug\netcoreapp3.1\pragmatechUpWork_DataAccessLayer.pdb

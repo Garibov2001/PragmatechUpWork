@@ -1,5 +1,5 @@
-﻿
-@model pragmatechUpWork.Models.Project
+﻿@using pragmatechUpWork_Entities;
+@model Project;
 
 <!-- Transparent Header Spacer -->
 <div class="transparent-header-spacer"></div>
@@ -77,7 +77,7 @@
                                     <div class="col-xl-6">
                                         <div class="submit-field">
                                             <h5>Layihə rəhbəri</h5>
-                                            <select class="selectpicker with-border" data-size="3" title="Seç..">
+                                            <select class="selectpicker with-border" asp-for="ProjectManager" data-size="3" title="Seç..">
                                                 <option>Fərid Babayev</option>
                                                 <option>Yasin Uğur</option>
                                                 <option>Şəmistan Sofiyev</option>

@@ -3,7 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pragmatechUpWork", "pragmatechUpWork\pragmatechUpWork.csproj", "{108F1DAD-E8B0-4FEE-A51F-214986134678}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pragmatechUpWork_CoreMVC.UI", "pragmatechUpWork\pragmatechUpWork_CoreMVC.UI.csproj", "{108F1DAD-E8B0-4FEE-A51F-214986134678}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pragmatechUpWork_DataAccessLayer", "pragmatechUpWork_DataAccessLayer\pragmatechUpWork_DataAccessLayer.csproj", "{41AD62D3-AEEF-44D4-8A06-7E9EDB3D124C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pragmatechUpWork_Entities", "pragmatechUpWork_Entities\pragmatechUpWork_Entities.csproj", "{83998DE8-E09D-4564-B395-368A45E209BF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pragmatechUpWork_BusinessLogicLayer", "pragmatechUpWork_BusinessLogicLayer\pragmatechUpWork_BusinessLogicLayer.csproj", "{CBA85F1D-4234-4406-8D2A-A84232AD910A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pragmatechUpWork_GeneralLayer", "pragmatechUpWork_GeneralLayer\pragmatechUpWork_GeneralLayer.csproj", "{DCDC959E-B9A8-41C5-9D95-0B2AA1C2BB3A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pragmatechUpWork_NotificationServices", "pragmatechUpWork_NotificationServices\pragmatechUpWork_NotificationServices.csproj", "{8F2A4291-8FEB-45F1-9CF1-E7A4222F834F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +25,26 @@ Global
 		{108F1DAD-E8B0-4FEE-A51F-214986134678}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{108F1DAD-E8B0-4FEE-A51F-214986134678}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{108F1DAD-E8B0-4FEE-A51F-214986134678}.Release|Any CPU.Build.0 = Release|Any CPU
+		{41AD62D3-AEEF-44D4-8A06-7E9EDB3D124C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41AD62D3-AEEF-44D4-8A06-7E9EDB3D124C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41AD62D3-AEEF-44D4-8A06-7E9EDB3D124C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41AD62D3-AEEF-44D4-8A06-7E9EDB3D124C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83998DE8-E09D-4564-B395-368A45E209BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83998DE8-E09D-4564-B395-368A45E209BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83998DE8-E09D-4564-B395-368A45E209BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83998DE8-E09D-4564-B395-368A45E209BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBA85F1D-4234-4406-8D2A-A84232AD910A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBA85F1D-4234-4406-8D2A-A84232AD910A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBA85F1D-4234-4406-8D2A-A84232AD910A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBA85F1D-4234-4406-8D2A-A84232AD910A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCDC959E-B9A8-41C5-9D95-0B2AA1C2BB3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCDC959E-B9A8-41C5-9D95-0B2AA1C2BB3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCDC959E-B9A8-41C5-9D95-0B2AA1C2BB3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCDC959E-B9A8-41C5-9D95-0B2AA1C2BB3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F2A4291-8FEB-45F1-9CF1-E7A4222F834F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F2A4291-8FEB-45F1-9CF1-E7A4222F834F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F2A4291-8FEB-45F1-9CF1-E7A4222F834F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F2A4291-8FEB-45F1-9CF1-E7A4222F834F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

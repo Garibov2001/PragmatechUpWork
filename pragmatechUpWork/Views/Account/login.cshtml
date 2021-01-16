@@ -1,0 +1,60 @@
+﻿@model LoginViewModel;
+@{
+    Layout = "~/Views/Shared/_AuthLayout.cshtml";
+}
+
+
+
+<!-- Sign In Popup
+================================================== -->
+<div id="sign-in-dialog" class="zoom-anim-dialog dialog-with-tabs">
+
+    <!--Tabs -->
+    <div class="sign-in-form">
+
+        <div class="popup-tabs-container">
+
+            <!-- Login -->
+            <div class="popup-tab-content" id="login">
+
+                <!-- Welcome Text -->
+                <div class="text-center">
+                    <img width="350" class="text-center" src="~/images/logo_pragma.png">
+                </div>
+
+                <div class="welcome-text pt-4">
+                    <h3>PragmatechUpWork</h3>
+                    <span>Hesabınız yoxdursa, <a href="#" class="register-tab">Qeydiyyatdan</a> keçin </span>
+                </div>
+
+                <!-- Form -->
+                <form method="post" asp-action="Login" asp-controller="Account">
+
+                    <div class="input-with-icon-left">
+                        <i class="icon-material-baseline-mail-outline"></i>
+                        <input type="text" class="input-text with-border" asp-for="UserName" placeholder="Kullanici Adi" required />
+                    </div>
+
+                    <div class="input-with-icon-left">
+                        <i class="icon-material-outline-lock"></i>
+                        <input type="password" class="input-text with-border" asp-for="Password" placeholder="Password" required />
+                    </div>
+
+                    <div class="input-with-icon-left">
+                        <i class="icon-material-outline-check-circle"></i>
+                        <input type="checkbox" class="input-text with-border" asp-for="RememberMe" placeholder="Password" required />
+                    </div>
+                    <a href="#" class="forgot-password">Şifrəni unutmusan?</a>
+
+
+                    <!-- Button -->
+                    <input value="Daxil ol" class="button full-width button-sliding-icon ripple-effect" type="submit" />
+                    <button class="button full-width button-sliding-icon ripple-effect" type="button" asp-action="Register" asp-controller="Account">Qeydiyyatdan keçin<i class="icon-material-outline-arrow-right-alt"></i></button>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- Sign In Popup / End -->

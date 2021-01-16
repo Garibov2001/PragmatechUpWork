@@ -3,178 +3,196 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using pragmatechUpWork.Models;
-using Task = pragmatechUpWork.Models.Task;
+using pragmatechUpWork_BusinessLogicLayer.UnitOfWork.Abstract;
+using pragmatechUpWork_CoreMVC.UI.Models;
+using pragmatechUpWork_Entities;
 
 namespace pragmatechUpWork.Controllers
 {
     public class TaskController : Controller
     {
-        private readonly UpWorkContext _context = null;
-        public TaskController(UpWorkContext argContext)
+        private readonly IUnitOfWork unitofWork = null;
+
+        public TaskController(IUnitOfWork _unitofWork)
         {
-            _context = argContext;
+            unitofWork = _unitofWork;
         }
-       
+        [Authorize()]
         [HttpGet]
         [Route("/profile/tasks", Name = "profile-whole_tasks")]
         public async Task<IActionResult> ProfileTasks()
         {
-            var wholeTasks = await _context.Task.ToListAsync();
-            List<Task> tasksDetails = new List<Task>();
+            var projectTasks = await unitofWork.ProjectTasks.GetAll();
 
-            if (wholeTasks?.Any() == true)
+            if (projectTasks.Any())
             {
-                foreach (var project in wholeTasks)
+                foreach (var projectTask in projectTasks)
                 {
-                    tasksDetails.Add(new Task()
-                    {
-                        TaskId = project.TaskId,
-                        Name = project.Name,
-                        Cost = project.Cost,
-                        RequiredDays = project.RequiredDays,
-                        PublishDate = project.PublishDate,
-                        GithubUrl = project.GithubUrl,
-                        TaskInfo = project.TaskInfo,
-                        Status = project.Status,
-                        ProjectId = project.ProjectId,
-                        Project = await _context.Project.FindAsync(project.ProjectId),                        
-                    });
+                    projectTask.Project = await unitofWork.Projects.GetProjectByID(projectTask.ProjectId);
                 }
             }
-            return View("profile_tasks", tasksDetails);
+
+            var model = new AllProjectTasksWithOthers()
+            {
+                projecttasks = projectTasks
+            };
+            return View("profile_tasks", model);
         }
 
+        [Authorize()]
+        [HttpGet]
+        [Route("/tasks", Name = "task-whole_task")]
+        public async Task<IActionResult> WholeTasks()
+        {
+            var projectTasks = await unitofWork.ProjectTasks.GetAllDescending();
 
+            if (projectTasks.Any())
+            {
+                foreach (var projectTask in projectTasks)
+                {
+                    projectTask.Project = await unitofWork.Projects.GetProjectByID(projectTask.ProjectId);
+                }
+            }
+
+            var model = new AllProjectTasksWithOthers()
+            {
+                projecttasks = projectTasks
+            };
+            return View("whole_tasks", model);
+        }
+
+        [Route("/task/{id}", Name = "task-single_task")]
+        public async Task<IActionResult> SingleTask(int id)
+        {
+            ProjectTask task = await unitofWork.ProjectTasks.GetTasksByID(id);
+            var model = new ProjectTaskWithOther()
+            {
+                projectTask=task,
+                project=await unitofWork.Projects.GetProjectByTask(task)
+                
+            };
+            return View("single_task", model);
+        }
+
+        [Authorize()]
         [HttpGet]
         [Route("/task/create", Name = "task-create_task")]
-        public IActionResult CreateTask()
+        public async Task<IActionResult> CreateTask()
         {
-            var options = new SelectList(_context.Project, nameof(Project.ProjectId), nameof(Project.Name));
-            ViewBag.options = options;
+            var Projects = await unitofWork.Projects.GetAll();
+
+            var projectTaskWithOther = new ProjectTaskWithOther()
+            {
+                projects = new SelectList(Projects, nameof(Project.ProjectId), nameof(Project.Name)),
+                projectTask=new ProjectTask()
+            };
+            ViewBag.ProjectTask = projectTaskWithOther.projects;
             return View("create_task");
         }
 
-
+        [Authorize()]
         [HttpPost]
         [Route("/task/create", Name = "task-create_task")]
-        public async Task<IActionResult> CreateTask(Task client_post)
-        {            
+        public async Task<IActionResult> CreateTask(ProjectTask client_post)
+        {
             if (ModelState.IsValid)
             {
-                var newTask = new Task()
-                {
-                    Name = client_post.Name,
-                    Cost = client_post.Cost,
-                    RequiredDays = client_post.RequiredDays,
-                    PublishDate = DateTime.Now,
-                    GithubUrl = client_post.GithubUrl,
-                    TaskInfo = client_post.TaskInfo,
-                    Status = 0,
-                    Project = await _context.Project.FindAsync(client_post.ProjectId),
-                    ProjectId = client_post.ProjectId,
-                };
+                var project = await unitofWork.Projects.GetProjectByID(client_post.ProjectId);
+                client_post.Project = project;
+                client_post.Status = 0;
 
-                await _context.Task.AddAsync(newTask);
-                await _context.SaveChangesAsync();
+                await unitofWork.ProjectTasks.Add(client_post);
 
                 return RedirectToRoute("home-default_page");
             }
             else
             {
-                var options = new SelectList(_context.Project, nameof(Project.ProjectId), nameof(Project.Name));
-                ViewBag.options = options;
-                return View("create_task");
+                var Projects = await unitofWork.Projects.GetAll();
+
+                var model = new ProjectTaskWithOther()
+                {
+                    projects = new SelectList(Projects, nameof(Project.ProjectId), nameof(Project.Name))
+                };
+                return View("create_task", model);
             }
         }
 
-
+        [Authorize()]
         [HttpGet]
         [Route("/task/{id}/edit", Name = "task-edit_task")]
         public async Task<IActionResult> EditTask(int id)
         {
-            var task = await _context.Task.FindAsync(id);
+            var projectTask = await unitofWork.ProjectTasks.GetTasksByID(id);
 
-            if (task != null)
+            if (projectTask != null)
             {
-                var taskDetails = new Task()
+                projectTask.Project = await unitofWork.Projects.GetProjectByID(projectTask.ProjectId);
+
+                var Projects = await unitofWork.Projects.GetAll();
+
+                var projectTaskWithOther = new ProjectTaskWithOther()
                 {
-                    Name = task.Name,
-                    Cost = task.Cost,
-                    RequiredDays = task.RequiredDays,
-                    PublishDate = task.PublishDate,
-                    GithubUrl = task.GithubUrl,
-                    TaskInfo = task.TaskInfo,
-                    Status = task.Status,
-                    Project = await _context.Project.FindAsync(task.ProjectId),
-                    ProjectId = task.ProjectId,
+                    projects = new SelectList(Projects, nameof(Project.ProjectId), nameof(Project.Name),projectTask.ProjectId),
                 };
-
-                var options = new SelectList(_context.Project, nameof(Project.ProjectId), nameof(Project.Name), taskDetails.ProjectId);
-                ViewBag.options = options;
-
-                return View("edit_task", taskDetails);
+                ViewBag.Projects = projectTaskWithOther.projects;
+                var model = projectTask;
+                return View("edit_task", model);
             }
             else
             {
                 return NotFound();
             }
-
         }
 
-
+        [Authorize()]
         [HttpPost]
         [Route("/task/{id}/edit", Name = "task-edit_task")]
-        public async Task<IActionResult> EditTask(int id, Task client_data)
+        public async Task<IActionResult> EditTask(int id, ProjectTask client_data)
         {
             if (ModelState.IsValid)
             {
-                var oldTask = _context.Task.FirstOrDefault(e => e.TaskId == id);
-                if (oldTask == null)
+                if (client_data == null)
                 {
                     return NotFound();
                 }
                 else
                 {
-                    oldTask.Name = client_data.Name;
-                    oldTask.Cost = client_data.Cost;
-                    oldTask.RequiredDays = client_data.RequiredDays;
-                    oldTask.GithubUrl = client_data.GithubUrl;
-                    oldTask.TaskInfo = client_data.TaskInfo;
-                    oldTask.Status = client_data.Status;
-                    oldTask.Project = await _context.Project.FindAsync(client_data.ProjectId);
-                    oldTask.ProjectId = client_data.ProjectId;
+                    client_data.Project = await unitofWork.Projects.GetProjectByID(client_data.ProjectId);
 
-                    await _context.SaveChangesAsync();
+                    await unitofWork.ProjectTasks.Update(client_data);
                     return RedirectToRoute("profile-whole_tasks");
                 }
             }
             else
             {
-                var options = new SelectList(_context.Project, nameof(Project.ProjectId), nameof(Project.Name), client_data.ProjectId);
-                ViewBag.options = options;
-                return View("edit_task");
-            }           
+                var Projects = await unitofWork.Projects.GetAll();
+
+                var model = new ProjectTaskWithOther()
+                {
+                    projects = new SelectList(Projects, nameof(Project.ProjectId), nameof(Project.Name), client_data.ProjectId),
+                };
+                return View("edit_task", model);
+            }
         }
 
-
+        [Authorize()]
         [HttpDelete]
         [Route("/task/{id}/remove", Name = "task-remove_task")]
-        public IActionResult RemoveProject(int id)
+        public async Task<IActionResult> RemoveProject(int id)
         {
-            var task = _context.Task.FirstOrDefault(e => e.TaskId == id);
-            if (task == null)
+            var projecttask = await unitofWork.ProjectTasks.GetTasksByID(id);
+            if (projecttask == null)
             {
                 return NotFound();
             }
             else
             {
-                _context.Task.Remove(task);
-                _context.SaveChanges();
+                await unitofWork.ProjectTasks.Delete(id);
             }
             var responseData = new
             {

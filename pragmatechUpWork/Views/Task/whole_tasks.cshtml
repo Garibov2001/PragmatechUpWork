@@ -1,0 +1,97 @@
+﻿
+@model AllProjectTasksWithOthers
+<!-- Transparent Header Spacer -->
+<div class="transparent-header-spacer"></div>
+
+<!-- Tasks
+================================================== -->
+<div class="section padding-top-65 padding-bottom-75">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12">
+                <!-- Section Headline -->
+                <div class="section-headline margin-top-0 margin-bottom-35">
+                    <h3>Tasklar</h3>
+                </div>
+
+                <!-- Jobs Container -->
+                <div class="listings-container margin-top-35">
+
+                    @foreach (var task in Model.projecttasks)
+                    {
+                        <!-- Job Listing -->
+                        <div class="job-listing">
+                            <!-- Job Listing Details -->
+                            <div class="job-listing-details">
+                                <!-- Logo -->
+                                <a asp-route="task-single_task" asp-route-id="@task.TaskId" class="job-listing-company-logo">
+                                    <img src="/images/task-logo.png" alt="">
+                                </a>
+
+                                <!-- Details -->
+                                <div class="job-listing-description">
+                                    <a asp-route="project-single_project" asp-route-id="@task.ProjectId"><h4 class="job-listing-company">@task.Project.Name</h4></a>
+                                    <h3 class="job-listing-title">@task.Name</h3>
+                                    <p class="job-listing-text">@(task.TaskInfo.Substring(0, Math.Min(task.TaskInfo.Length, 300))+"....")</p>
+                                    <div class="task-tags">
+                                        <span>HTML</span>
+                                        <span>Css</span>
+                                        <span>Js</span>
+                                        <span>Bootstrap</span>
+                                        <span>ReactJS</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Job Listing Footer -->
+                            <div class="job-listing-footer d-flex justify-content-between">
+                                <ul>
+                                    <li><i class="icon-material-outline-business-center"></i><strong>@task.RequiredDays günlük</strong></li>
+                                    <li><i class="icon-material-outline-account-balance-wallet"></i><strong>@task.Cost &#8380; </strong> </li>
+                                    @{ 
+
+                                        //var publishDate = DateTime.Now.Day - task.s.Value.Day; //Burda sehvlik var publish date 
+                                    }
+                                    <li><i class="icon-material-outline-access-time"></i><strong>@task.RequiredDays gün əvvəl</strong></li>
+                                </ul>
+                                <a asp-route="task-single_task" asp-route-id="@task.TaskId" class="button ripple-effect button-sliding-icon" style="width: 155.406px;">Data ətraflı<i class="icon-feather-arrow-right"></i></a>
+                            </div>
+                        </div>
+
+                                        }
+
+
+                    <!-- Pagination -->
+                    <div class="clearfix"></div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!-- Pagination -->
+                            <div class="pagination-container margin-top-30 margin-bottom-60">
+                                <nav class="pagination">
+                                    <ul>
+                                        <li class="pagination-arrow"><a href="#"><i class="icon-material-outline-keyboard-arrow-left"></i></a></li>
+                                        <li><a href="#">1</a></li>
+                                        <li><a href="#" class="current-page">2</a></li>
+                                        <li><a href="#">3</a></li>
+                                        <li><a href="#">4</a></li>
+                                        <li class="pagination-arrow"><a href="#"><i class="icon-material-outline-keyboard-arrow-right"></i></a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Pagination / End -->
+                </div>
+                <!-- Jobs Container / End -->
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Tasks / End -->
+
+
+<partial name="_Footer" />
+
+

@@ -1,4 +1,5 @@
-﻿<!-- Intro Banner
+﻿@model AllProjectsWithOthers;
+<!-- Intro Banner
 ================================================== -->
 <div class="intro-banner dark-overlay big-padding">
 
@@ -79,177 +80,54 @@
                     <h3>Ən son tasklar</h3>
                 </div>
 
-                <!-- Jobs Container -->
+                <!-- Tasks Container -->
                 <div class="listings-container margin-top-35">
-                    <!-- Job Listing -->
-                    <div class="job-listing">
-                        <!-- Job Listing Details -->
-                        <div class="job-listing-details">
-                            <!-- Logo -->
-                            <a href="#" class="job-listing-company-logo">
-                                <img src="images/company-logo-01.png" alt="">
-                            </a>
 
-                            <!-- Details -->
-                            <div class="job-listing-description">
-                                <a href="#"><h4 class="job-listing-company">Pragmatech Student Management</h4></a>
-                                <h3 class="job-listing-title">Home Uİ</h3>
-                                <p class="job-listing-text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Non nobis, et expedita veritatis consectetur doloremque! Libero corporis mollitia quod. Labore delectus pariatur iste qui architecto asperiores nulla consequuntur aliquam distinctio?</p>
-                                <div class="task-tags">
-                                    <span>HTML</span>
-                                    <span>Css</span>
-                                    <span>Js</span>
-                                    <span>Bootstrap</span>
-                                    <span>ReactJS</span>
+                    @foreach (var task in Model.projectTasks)
+                    {
+                        <!-- Job Listing -->
+                        <div class="job-listing">
+                            <!-- Job Listing Details -->
+                            <div class="job-listing-details">
+                                <!-- Logo -->
+                                <a asp-route="task-single_task" asp-route-id="@task.TaskId" class="job-listing-company-logo">
+                                    <img src="/images/task-logo.png" alt="">
+                                </a>
+
+                                <!-- Details -->
+                                <div class="job-listing-description">
+                                    <a asp-route="project-single_project" asp-route-id="@task.ProjectId"><h4 class="job-listing-company">@task.Project.Name</h4></a>
+                                    <h3 class="job-listing-title">@task.Name</h3>
+                                    <p class="job-listing-text">@(task.TaskInfo.Substring(0, Math.Min(task.TaskInfo.Length, 300))+"....")</p>
+                                    <div class="task-tags">
+                                        <span>HTML</span>
+                                        <span>Css</span>
+                                        <span>Js</span>
+                                        <span>Bootstrap</span>
+                                        <span>ReactJS</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <!-- Job Listing Footer -->
-                        <div class="job-listing-footer d-flex justify-content-between">
-                            <ul>
-                                <li><i class="icon-material-outline-business-center"></i><strong>7-10 günlük</strong></li>
-                                <li><i class="icon-material-outline-account-balance-wallet"></i><strong>200&#8380; - 300&#8380;</strong> </li>
-                                <li><i class="icon-material-outline-access-time"></i><strong>2 gün əvvəl</strong></li>
-                            </ul>
-                            <a href="single-job-page.html" onclick="window.location.href='/page2'" class="button ripple-effect button-sliding-icon" style="width: 155.406px;">Data ətraflı<i class="icon-feather-arrow-right"></i></a>
-                        </div>
-                    </div>
-
-                    <!-- Job Listing -->
-                    <div class="job-listing">
-                        <!-- Job Listing Details -->
-                        <div class="job-listing-details">
-                            <!-- Logo -->
-                            <a href="#" class="job-listing-company-logo">
-                                <img src="images/company-logo-01.png" alt="">
-                            </a>
-
-                            <!-- Details -->
-                            <div class="job-listing-description">
-                                <a href="#"><h4 class="job-listing-company">Pragmatech Student Management</h4></a>
-                                <h3 class="job-listing-title">Home Uİ</h3>
-                                <p class="job-listing-text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Non nobis, et expedita veritatis consectetur doloremque! Libero corporis mollitia quod. Labore delectus pariatur iste qui architecto asperiores nulla consequuntur aliquam distinctio?</p>
-                                <div class="task-tags">
-                                    <span>HTML</span>
-                                    <span>Css</span>
-                                    <span>Js</span>
-                                    <span>Bootstrap</span>
-                                    <span>ReactJS</span>
-                                </div>
+                            <!-- Job Listing Footer -->
+                            <div class="job-listing-footer d-flex justify-content-between">
+                                <ul>
+                                    <li><i class="icon-material-outline-business-center"></i><strong>@task.RequiredDays günlük</strong></li>
+                                    <li><i class="icon-material-outline-account-balance-wallet"></i><strong>@task.Cost &#8380; </strong> </li>
+                                    @{
+                                        if (task.PublishDate!=null)
+                                        {
+                                            var publishDate = DateTime.Now.Day - task.PublishDate.Value.Day;
+                                        }
+                                        //Burda sehvlik var publish date
+                                    }
+                                    <li><i class="icon-material-outline-access-time"></i><strong>@task.RequiredDays gün əvvəl</strong></li>
+                                </ul>
+                                <a asp-route="task-single_task" asp-route-id="@task.TaskId" class="button ripple-effect button-sliding-icon" style="width: 155.406px;">Data ətraflı<i class="icon-feather-arrow-right"></i></a>
                             </div>
                         </div>
-                        <!-- Job Listing Footer -->
-                        <div class="job-listing-footer d-flex justify-content-between">
-                            <ul>
-                                <li><i class="icon-material-outline-business-center"></i><strong>7-10 günlük</strong></li>
-                                <li><i class="icon-material-outline-account-balance-wallet"></i><strong>200&#8380; - 300&#8380;</strong> </li>
-                                <li><i class="icon-material-outline-access-time"></i><strong>2 gün əvvəl</strong></li>
-                            </ul>
-                            <a href="single-job-page.html" onclick="window.location.href='/page2'" class="button ripple-effect button-sliding-icon" style="width: 155.406px;">Data ətraflı<i class="icon-feather-arrow-right"></i></a>
-                        </div>
-                    </div>
 
-                    <!-- Job Listing -->
-                    <div class="job-listing">
-                        <!-- Job Listing Details -->
-                        <div class="job-listing-details">
-                            <!-- Logo -->
-                            <a href="#" class="job-listing-company-logo">
-                                <img src="images/company-logo-01.png" alt="">
-                            </a>
+                    }
 
-                            <!-- Details -->
-                            <div class="job-listing-description">
-                                <a href="#"><h4 class="job-listing-company">Pragmatech Student Management</h4></a>
-                                <h3 class="job-listing-title">Home Uİ</h3>
-                                <p class="job-listing-text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Non nobis, et expedita veritatis consectetur doloremque! Libero corporis mollitia quod. Labore delectus pariatur iste qui architecto asperiores nulla consequuntur aliquam distinctio?</p>
-                                <div class="task-tags">
-                                    <span>HTML</span>
-                                    <span>Css</span>
-                                    <span>Js</span>
-                                    <span>Bootstrap</span>
-                                    <span>ReactJS</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Job Listing Footer -->
-                        <div class="job-listing-footer d-flex justify-content-between">
-                            <ul>
-                                <li><i class="icon-material-outline-business-center"></i><strong>7-10 günlük</strong></li>
-                                <li><i class="icon-material-outline-account-balance-wallet"></i><strong>200&#8380; - 300&#8380;</strong> </li>
-                                <li><i class="icon-material-outline-access-time"></i><strong>2 gün əvvəl</strong></li>
-                            </ul>
-                            <a href="single-job-page.html" onclick="window.location.href='/page2'" class="button ripple-effect button-sliding-icon" style="width: 155.406px;">Data ətraflı<i class="icon-feather-arrow-right"></i></a>
-                        </div>
-                    </div>
-
-                    <!-- Job Listing -->
-                    <div class="job-listing">
-                        <!-- Job Listing Details -->
-                        <div class="job-listing-details">
-                            <!-- Logo -->
-                            <a href="#" class="job-listing-company-logo">
-                                <img src="images/company-logo-01.png" alt="">
-                            </a>
-
-                            <!-- Details -->
-                            <div class="job-listing-description">
-                                <a href="#"><h4 class="job-listing-company">Pragmatech Student Management</h4></a>
-                                <h3 class="job-listing-title">Home Uİ</h3>
-                                <p class="job-listing-text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Non nobis, et expedita veritatis consectetur doloremque! Libero corporis mollitia quod. Labore delectus pariatur iste qui architecto asperiores nulla consequuntur aliquam distinctio?</p>
-                                <div class="task-tags">
-                                    <span>HTML</span>
-                                    <span>Css</span>
-                                    <span>Js</span>
-                                    <span>Bootstrap</span>
-                                    <span>ReactJS</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Job Listing Footer -->
-                        <div class="job-listing-footer d-flex justify-content-between">
-                            <ul>
-                                <li><i class="icon-material-outline-business-center"></i><strong>7-10 günlük</strong></li>
-                                <li><i class="icon-material-outline-account-balance-wallet"></i><strong>200&#8380; - 300&#8380;</strong> </li>
-                                <li><i class="icon-material-outline-access-time"></i><strong>2 gün əvvəl</strong></li>
-                            </ul>
-                            <a href="single-job-page.html" onclick="window.location.href='/page2'" class="button ripple-effect button-sliding-icon" style="width: 155.406px;">Data ətraflı<i class="icon-feather-arrow-right"></i></a>
-                        </div>
-                    </div>
-
-                    <!-- Job Listing -->
-                    <div class="job-listing">
-                        <!-- Job Listing Details -->
-                        <div class="job-listing-details">
-                            <!-- Logo -->
-                            <a href="#" class="job-listing-company-logo">
-                                <img src="images/company-logo-01.png" alt="">
-                            </a>
-
-                            <!-- Details -->
-                            <div class="job-listing-description">
-                                <a href="#"><h4 class="job-listing-company">Pragmatech Student Management</h4></a>
-                                <h3 class="job-listing-title">Home Uİ</h3>
-                                <p class="job-listing-text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Non nobis, et expedita veritatis consectetur doloremque! Libero corporis mollitia quod. Labore delectus pariatur iste qui architecto asperiores nulla consequuntur aliquam distinctio?</p>
-                                <div class="task-tags">
-                                    <span>HTML</span>
-                                    <span>Css</span>
-                                    <span>Js</span>
-                                    <span>Bootstrap</span>
-                                    <span>ReactJS</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Job Listing Footer -->
-                        <div class="job-listing-footer d-flex justify-content-between">
-                            <ul>
-                                <li><i class="icon-material-outline-business-center"></i><strong>7-10 günlük</strong></li>
-                                <li><i class="icon-material-outline-account-balance-wallet"></i><strong>200&#8380; - 300&#8380;</strong> </li>
-                                <li><i class="icon-material-outline-access-time"></i><strong>2 gün əvvəl</strong></li>
-                            </ul>
-                            <a href="single-job-page.html" onclick="window.location.href='/page2'" class="button ripple-effect button-sliding-icon" style="width: 155.406px;">Data ətraflı<i class="icon-feather-arrow-right"></i></a>
-                        </div>
-                    </div>
 
                     <!-- Pagination -->
                     <div class="clearfix"></div>
@@ -291,92 +169,40 @@
                 <!-- Section Headline -->
                 <div class="section-headline margin-top-0 margin-bottom-35">
                     <h3>Ən son layihələr</h3>
-                    <a href="jobs-list-layout-full-page-map.html" class="headline-link">Bütün layihələrə bax</a>
+                    <a href="profile/projects" class="headline-link">Bütün layihələrə bax</a>
                 </div>
+
+
 
                 <!-- Projects Container -->
                 <div class="listings-container compact-list-layout margin-top-35">
-
-                    <!-- Projects Listing -->
-                    <a href="single-job-page.html" class="job-listing with-apply-button">
-                        <!-- Project Listing Details -->
-                        <div class="job-listing-details">
-                            <!-- Details -->
-                            <div class="job-listing-description">
-                                <h3 class="job-listing-title">Pragmatech Student Management</h3>
-                                <!-- Project Listing Footer -->
-                                <div class="job-listing-footer">
-                                    <ul>
-                                        <li><i class="icon-material-outline-business-center"></i> 45 günlük</li>
-                                        <li><i class="icon-material-outline-access-time"></i> 2 gün əvvəl</li>
-                                    </ul>
+                    @foreach (var project in Model.projects)
+                    {
+                        <!-- Projects Listing -->
+                        <a asp-route="project-single_project" asp-route-id="@project.ProjectId" class="job-listing with-apply-button">
+                            <!-- Project Listing Details -->
+                            <div class="job-listing-details">
+                                <!-- Details -->
+                                <div class="job-listing-description">
+                                    <h3 class="job-listing-title">@project.Name</h3>
+                                    <!-- Project Listing Footer -->
+                                    <div class="job-listing-footer">
+                                        <ul>
+                                            @{
+                                                var jobDate = (project.EndDate - project.StartDate).Value.Days;
+                                                var publishDate = DateTime.Now.Day - project.StartDate.Value.Day; //Burda sehvlik var publish date basqasi olacaq
+                                            }
+                                            <li><i class="icon-material-outline-business-center"></i> @jobDate günlük</li>
+                                            <li><i class="icon-material-outline-access-time"></i>@publishDate gün əvvəl</li>
+                                        </ul>
+                                    </div>
                                 </div>
+                                <!-- More -->
+                                <span class="list-apply-button ripple-effect">Daha ətraflı</span>
                             </div>
-                            <!-- More -->
-                            <span class="list-apply-button ripple-effect">Daha ətraflı</span>
-                        </div>
-                    </a>
-
-                    <!-- Projects Listing -->
-                    <a href="single-job-page.html" class="job-listing with-apply-button">
-                        <!-- Project Listing Details -->
-                        <div class="job-listing-details">
-                            <!-- Details -->
-                            <div class="job-listing-description">
-                                <h3 class="job-listing-title">Elstore </h3>
-                                <!-- Project Listing Footer -->
-                                <div class="job-listing-footer">
-                                    <ul>
-                                        <li><i class="icon-material-outline-business-center"></i> 120 günlük</li>
-                                        <li><i class="icon-material-outline-access-time"></i> 15 gün əvvəl</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <!-- More -->
-                            <span class="list-apply-button ripple-effect">Daha ətraflı</span>
-                        </div>
-                    </a>
-
-                    <!-- Projects Listing -->
-                    <a href="single-job-page.html" class="job-listing with-apply-button">
-                        <!-- Project Listing Details -->
-                        <div class="job-listing-details">
-                            <!-- Details -->
-                            <div class="job-listing-description">
-                                <h3 class="job-listing-title">Pragmatech CRM</h3>
-                                <!-- Project Listing Footer -->
-                                <div class="job-listing-footer">
-                                    <ul>
-                                        <li><i class="icon-material-outline-business-center"></i> 75 günlük</li>
-                                        <li><i class="icon-material-outline-access-time"></i> 2 gün əvvəl</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <!-- More -->
-                            <span class="list-apply-button ripple-effect">Daha ətraflı</span>
-                        </div>
-                    </a>
-
-                    <!-- Projects Listing -->
-                    <a href="single-job-page.html" class="job-listing with-apply-button">
-                        <!-- Project Listing Details -->
-                        <div class="job-listing-details">
-                            <!-- Details -->
-                            <div class="job-listing-description">
-                                <h3 class="job-listing-title">Amazon CRM</h3>
-                                <!-- Project Listing Footer -->
-                                <div class="job-listing-footer">
-                                    <ul>
-                                        <li><i class="icon-material-outline-business-center"></i> 45 günlük</li>
-                                        <li><i class="icon-material-outline-access-time"></i> 2 gün əvvəl</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <!-- More -->
-                            <span class="list-apply-button ripple-effect">Daha ətraflı</span>
-                        </div>
-                    </a>
-
+                        </a>
+                        <!-- End of Projects Listing -->
+                    }
                 </div>
                 <!-- Jobs Container / End -->
 

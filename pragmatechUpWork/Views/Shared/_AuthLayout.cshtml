@@ -1,0 +1,66 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <!-- Basic Page Needs
+    ================================================== -->
+    <title>Hireo</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- CSS
+    ================================================== -->
+    <link rel="stylesheet" href="~/lib/twitter-bootstrap/css/bootstrap.min.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/style.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/colors/green.css" asp-append-version="true">
+
+    <style>
+        .validation-summary-errors {
+            color: red !important;
+        }
+        .field-validation-error {
+            color: red !important;
+        }
+
+        .field-validation-valid {
+            display: none !important;
+        }
+
+        .input-validation-error {
+            border: 1px solid red !important;
+        }
+    </style>
+
+    @RenderSection("styles", required: false)
+</head>
+<body>
+
+
+    @RenderBody()
+
+
+
+
+    <!-- Scripts
+    ================================================== -->
+    <script src="~/lib/jquery-3.3.1.min.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery-migrate-3.0.0.min.js" asp-append-version="true"></script>
+    <script src="~/lib/sweetalert/sweetalert.min.js" asp-append-version="true"></script>
+    <script src="~/lib/mmenu.min.js" asp-append-version="true"></script>
+    <script src="~/lib/tippy.all.min.js" asp-append-version="true"></script>
+    <script src="~/lib/simplebar.min.js" asp-append-version="true"></script>
+    <script src="~/lib/bootstrap-slider.min.js" asp-append-version="true"></script>
+    <script src="~/lib/bootstrap-select.min.js" asp-append-version="true"></script>
+    <script src="~/lib/snackbar.js" asp-append-version="true"></script>
+    <script src="~/lib/clipboard.min.js" asp-append-version="true"></script>
+    <script src="~/lib/counterup.min.js" asp-append-version="true"></script>
+    <script src="~/lib/magnific-popup.min.js" asp-append-version="true"></script>
+    <script src="~/lib/slick.min.js" asp-append-version="true"></script>
+    <script src="~/js/custom.js" asp-append-version="true"></script>
+
+    
+
+    @RenderSection("scripts", required: false)
+
+
+</body>
+</html>

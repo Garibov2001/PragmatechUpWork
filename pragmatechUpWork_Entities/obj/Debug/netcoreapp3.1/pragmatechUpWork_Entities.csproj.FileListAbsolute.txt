@@ -1,0 +1,15 @@
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_Entities\bin\Debug\netcoreapp3.1\pragmatechUpWork_Entities.deps.json
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_Entities\bin\Debug\netcoreapp3.1\pragmatechUpWork_Entities.runtimeconfig.json
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_Entities\bin\Debug\netcoreapp3.1\pragmatechUpWork_Entities.runtimeconfig.dev.json
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_Entities\bin\Debug\netcoreapp3.1\pragmatechUpWork_Entities.dll
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_Entities\bin\Debug\netcoreapp3.1\pragmatechUpWork_Entities.pdb
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_Entities\bin\Debug\netcoreapp3.1\pragmatechUpWork_GeneralLayer.dll
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_Entities\bin\Debug\netcoreapp3.1\pragmatechUpWork_GeneralLayer.pdb
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_Entities\obj\Debug\netcoreapp3.1\pragmatechUpWork_Entities.csprojAssemblyReference.cache
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_Entities\obj\Debug\netcoreapp3.1\pragmatechUpWork_Entities.AssemblyInfoInputs.cache
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_Entities\obj\Debug\netcoreapp3.1\pragmatechUpWork_Entities.AssemblyInfo.cs
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_Entities\obj\Debug\netcoreapp3.1\pragmatechUpWork_Entities.csproj.CoreCompileInputs.cache
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_Entities\obj\Debug\netcoreapp3.1\pragmatechUpWork_Entities.csproj.CopyComplete
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_Entities\obj\Debug\netcoreapp3.1\pragmatechUpWork_Entities.dll
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_Entities\obj\Debug\netcoreapp3.1\pragmatechUpWork_Entities.pdb
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_Entities\obj\Debug\netcoreapp3.1\pragmatechUpWork_Entities.genruntimeconfig.cache

@@ -1,4 +1,5 @@
-﻿<!-- Transparent Header Spacer -->
+﻿@model AllProjectsWithOthers
+<!-- Transparent Header Spacer -->
 <div class="transparent-header-spacer"></div>
 
 <!-- Projects
@@ -13,90 +14,40 @@
                     <h3>Bütün layihələr</h3>
                 </div>
 
+            
+
                 <!-- Projects Container -->
                 <div class="listings-container compact-list-layout margin-top-35">
-                    <!-- Projects Listing -->
-                    <a href="single-job-page.html" class="job-listing with-apply-button">
-                        <!-- Project Listing Details -->
-                        <div class="job-listing-details">
-                            <!-- Details -->
-                            <div class="job-listing-description">
-                                <h3 class="job-listing-title">Pragmatech Student Management</h3>
-                                <!-- Project Listing Footer -->
-                                <div class="job-listing-footer">
-                                    <ul>
-                                        <li><i class="icon-material-outline-business-center"></i> 45 günlük</li>
-                                        <li><i class="icon-material-outline-access-time"></i> 2 gün əvvəl</li>
-                                    </ul>
+                    @foreach (var project in Model.projects)
+                    {
+                        <!-- Projects Listing -->
+                        <a asp-route="project-single_project" asp-route-id="@project.ProjectId" class="job-listing with-apply-button">
+                            <!-- Project Listing Details -->
+                            <div class="job-listing-details">
+                                <!-- Details -->
+                                <div class="job-listing-description">
+                                    <h3 class="job-listing-title">@project.Name</h3>
+                                    <!-- Project Listing Footer -->
+                                    <div class="job-listing-footer">
+                                        <ul>
+                                            @{
+                                                var jobDate = (project.EndDate - project.StartDate).Value.Days;
+                                                var publishDate = DateTime.Now.Day - project.StartDate.Value.Day; //Burda sehvlik var publish date basqasi olacaq
+                                            }
+                                            <li><i class="icon-material-outline-business-center"></i> @jobDate günlük</li>
+                                            <li><i class="icon-material-outline-access-time"></i>@publishDate gün əvvəl</li>
+                                        </ul>
+                                    </div>
                                 </div>
+                                <!-- More -->
+                                <span class="list-apply-button ripple-effect">Daha ətraflı</span>
                             </div>
-                            <!-- More -->
-                            <span class="list-apply-button ripple-effect">Daha ətraflı</span>
-                        </div>
-                    </a>
-
-                    <!-- Projects Listing -->
-                    <a href="single-job-page.html" class="job-listing with-apply-button">
-                        <!-- Project Listing Details -->
-                        <div class="job-listing-details">
-                            <!-- Details -->
-                            <div class="job-listing-description">
-                                <h3 class="job-listing-title">Elstore </h3>
-                                <!-- Project Listing Footer -->
-                                <div class="job-listing-footer">
-                                    <ul>
-                                        <li><i class="icon-material-outline-business-center"></i> 120 günlük</li>
-                                        <li><i class="icon-material-outline-access-time"></i> 15 gün əvvəl</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <!-- More -->
-                            <span class="list-apply-button ripple-effect">Daha ətraflı</span>
-                        </div>
-                    </a>
-
-                    <!-- Projects Listing -->
-                    <a href="single-job-page.html" class="job-listing with-apply-button">
-                        <!-- Project Listing Details -->
-                        <div class="job-listing-details">
-                            <!-- Details -->
-                            <div class="job-listing-description">
-                                <h3 class="job-listing-title">Pragmatech CRM</h3>
-                                <!-- Project Listing Footer -->
-                                <div class="job-listing-footer">
-                                    <ul>
-                                        <li><i class="icon-material-outline-business-center"></i> 75 günlük</li>
-                                        <li><i class="icon-material-outline-access-time"></i> 2 gün əvvəl</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <!-- More -->
-                            <span class="list-apply-button ripple-effect">Daha ətraflı</span>
-                        </div>
-                    </a>
-
-                    <!-- Projects Listing -->
-                    <a href="single-job-page.html" class="job-listing with-apply-button">
-                        <!-- Project Listing Details -->
-                        <div class="job-listing-details">
-                            <!-- Details -->
-                            <div class="job-listing-description">
-                                <h3 class="job-listing-title">Amazon CRM</h3>
-                                <!-- Project Listing Footer -->
-                                <div class="job-listing-footer">
-                                    <ul>
-                                        <li><i class="icon-material-outline-business-center"></i> 45 günlük</li>
-                                        <li><i class="icon-material-outline-access-time"></i> 2 gün əvvəl</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <!-- More -->
-                            <span class="list-apply-button ripple-effect">Daha ətraflı</span>
-                        </div>
-                    </a>
-
+                        </a>
+                        <!-- End of Projects Listing -->
+                    }
                 </div>
                 <!-- Jobs Container / End -->
+              
                 <!-- Pagination -->
                 <div class="row">
                     <div class="col-md-12">

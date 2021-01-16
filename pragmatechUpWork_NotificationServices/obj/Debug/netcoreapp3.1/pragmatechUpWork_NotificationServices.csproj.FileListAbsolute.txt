@@ -1,0 +1,5 @@
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_NotificationServices\bin\Debug\netcoreapp3.1\pragmatechUpWork_NotificationServices.deps.json
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_NotificationServices\bin\Debug\netcoreapp3.1\pragmatechUpWork_NotificationServices.dll
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_NotificationServices\obj\Debug\netcoreapp3.1\pragmatechUpWork_NotificationServices.csprojAssemblyReference.cache
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_NotificationServices\obj\Debug\netcoreapp3.1\pragmatechUpWork_NotificationServices.AssemblyInfoInputs.cache
+C:\Users\Es-Selamun Aleykum\Desktop\SamirKerimov-GitHub_UpWork\pragmatechUpWork_NotificationServices\obj\Debug\netcoreapp3.1\pragmatechUpWork_NotificationServices.AssemblyInfo.cs

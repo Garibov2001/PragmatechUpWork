@@ -1,0 +1,141 @@
+﻿@model ProjectTaskWithOther
+
+<!-- Transparent Header Spacer -->
+<div class="transparent-header-spacer"></div>
+
+
+<!-- Titlebar
+================================================== -->
+<div class="single-page-header" data-background-image="/images/single_bg.jpg">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="single-page-header-inner">
+                    <div class="left-side">
+                        <div class="header-image"><a href="single-company-profile.html"><img asp-append-version="true" src="/images/task-logo.png" alt=""></a></div>
+                        <div class="header-details">
+                            <h3>@Model.projectTask.Name</h3>
+                            <h5><a asp-route="project-single_project" asp-route-id="@Model.project.ProjectId">@Model.project.Name</a></h5>
+                            <ul class="margin-top-19">
+                                @{
+                                    //var publishDate = DateTime.Now.Day - Model.PublishDate.Value.Day; //Burda sehvlik var publish date basqasi olacaq
+                                }
+                                <li><i class="icon-material-outline-business-center"></i>@Model.projectTask.RequiredDays günlük iş</li>
+                                <li><i class="icon-material-outline-access-time"></i>@Model.projectTask.RequiredDays gün əvvəl </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="right-side">
+                        <div class="salary-box">
+                            <div class="salary-type">Taskın dəyəri</div>
+                            <div class="salary-amount">@Model.projectTask.Cost &#8380;</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Page Content
+================================================== -->
+<div class="container">
+    <div class="row">
+
+        <!-- Content -->
+        <div class="col-xl-8 col-lg-8 content-right-offset">
+
+            <!-- Description -->
+            <div class="single-page-section">
+                <h3 class="margin-bottom-25">Task haqda</h3>
+                <p>@Model.projectTask.TaskInfo</p>
+            </div>
+
+            <div class="single-page-section">
+                <h3 class="margin-bottom-30">Texniki tapşırıq</h3>
+                <div class="attachments-container">
+                    <a href="#" class="attachment-box ripple-effect"><span>Task Haqda</span><i>PDF</i></a>
+                </div>
+            </div>
+
+            <!-- Skills -->
+            @* Bunlar Statikdir hele kiç amma dynamic hala getirilecek *@
+            <div class="single-page-section">
+                <h3>Skills Required</h3>
+                <div class="task-tags">
+                    <span>iOS</span>
+                    <span>Android</span>
+                    <span>mobile apps</span>
+                    <span>design</span>
+                </div>
+            </div>
+            <div class="clearfix"></div>           
+        </div>
+
+
+        <!-- Sidebar -->
+        <div class="col-xl-4 col-lg-4">
+            <div class="sidebar-container">
+
+                @{
+                    var taskStatus = (TaskStatus)Model.projectTask.Status;
+                }
+
+                <div class="countdown green margin-bottom-35">@taskStatus</div>
+
+                <div class="sidebar-widget">
+                    <div class="bidding-widget">
+                        <div class="bidding-headline"><h3>Öz təklifivi et!</h3></div>
+                        <div class="bidding-inner">
+
+                            <!-- Headline -->
+                            <span class="bidding-detail">Özüvə uyğun <strong>qiymət</strong> seç</span>
+
+                            <!-- Price Slider -->
+                            <div class="bidding-value">$<span id="biddingVal"></span></div>
+                            <input class="bidding-slider" type="text" value="" data-slider-handle="custom" data-slider-currency="$" data-slider-min="2500" data-slider-max="4500" data-slider-value="auto" data-slider-step="50" data-slider-tooltip="hide" />
+
+                            <!-- Headline -->
+                            <span class="bidding-detail margin-top-30">Özüvə uyğun <strong>gün</strong> seç</span>
+
+                            <!-- Fields -->
+                            <div class="bidding-fields">
+                                <div class="bidding-field">
+                                    <!-- Quantity Buttons -->
+                                    <div class="qtyButtons">
+                                        <div class="qtyDec"></div>
+                                        <input type="text" name="qtyInput" value="1">
+                                        <div class="qtyInc"></div>
+                                    </div>
+                                </div>
+                                <div class="bidding-field">
+                                    <select class="selectpicker default">
+                                        <option selected>Days</option>
+                                        <option>Hours</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Button -->
+                            <button id="snackbar-place-bid" class="button ripple-effect move-on-hover full-width margin-top-30"><span>Place a Bid</span></button>
+
+                        </div>
+                        <div class="bidding-signup">Don't have an account? <a href="#sign-in-dialog" class="register-tab sign-in popup-with-zoom-anim">Sign Up</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- Spacer -->
+<div class="margin-top-15"></div>
+<!-- Spacer / End-->
+
+
+
+<partial name="_Footer" />
+
