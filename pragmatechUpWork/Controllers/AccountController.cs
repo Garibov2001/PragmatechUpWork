@@ -125,6 +125,7 @@ namespace pragmatechUpWork_CoreMVC.UI.Controllers
             string apUrl = "http://157.230.220.111/api/person?email=" + apiUrl;
             Uri url = new Uri(apUrl);
             WebClient client = new WebClient();
+
             //var authString = Convert.ToBase64String(Encoding.UTF8.GetBytes("admin:admin123"));
             string credentials = Convert.ToBase64String(Encoding.ASCII.GetBytes(surname + ":" + password));
             client.Headers[HttpRequestHeader.Authorization] = string.Format("Basic {0}", credentials);

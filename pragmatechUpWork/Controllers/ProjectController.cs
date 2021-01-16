@@ -76,11 +76,11 @@ namespace pragmatechUpWork.Controllers
 
         [HttpPost]
         [Route("/project/{id}/edit", Name = "project-edit_project")]
-        public async Task<IActionResult> EditProject(Project client_data)
+        public async Task<IActionResult> EditProject(ProjectWithOthers client_data)
         {
             if (ModelState.IsValid)
             {
-                await unitofWork.Projects.Update(client_data);
+                await unitofWork.Projects.Update(client_data.project);
                 return RedirectToRoute("home-default_page");
             }
             else

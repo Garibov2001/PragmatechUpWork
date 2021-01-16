@@ -9,6 +9,11 @@
 *.user
 *.userosscache
 *.sln.docstates
+THEMELOCK.COM.url
+hireohtml.rar
+themelock.com.txt
+THEMELOCK.COM
+.vs
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
