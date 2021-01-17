@@ -5,43 +5,68 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using pragmatechUpWork_BusinessLogicLayer.UnitOfWork.Abstract;
+using pragmatechUpWork_CoreMVC.UI.IdentityClasses;
 using pragmatechUpWork_CoreMVC.UI.Models;
 using pragmatechUpWork_Entities;
+using pragmatechUpWork_GeneralLayer.Enums;
 
 namespace pragmatechUpWork.Controllers
 {
     public class TaskController : Controller
     {
         private readonly IUnitOfWork unitofWork = null;
+        private UserManager<ApplicationUser> userManager { get; set; }
 
-        public TaskController(IUnitOfWork _unitofWork)
+        public TaskController(IUnitOfWork _unitofWork, UserManager<ApplicationUser> _userManager)
         {
             unitofWork = _unitofWork;
+            userManager = _userManager;
         }
         [Authorize()]
         [HttpGet]
         [Route("/profile/tasks", Name = "profile-whole_tasks")]
         public async Task<IActionResult> ProfileTasks()
         {
-            var projectTasks = await unitofWork.ProjectTasks.GetAll();
+            var currentUser = await userManager.GetUserAsync(User);
+            var roles = await userManager.GetRolesAsync(currentUser);
+            var model = new AllProjectTasksWithOthers();
 
-            if (projectTasks.Any())
+            if (roles.Contains(UserRolesEnum.Müəllim.ToString()))
             {
-                foreach (var projectTask in projectTasks)
+                var projectTasks = await unitofWork.ProjectTasks.GetAll();
+
+                if (projectTasks.Any())
                 {
-                    projectTask.Project = await unitofWork.Projects.GetProjectByID(projectTask.ProjectId);
+                    foreach (var projectTask in projectTasks)
+                    {
+                        projectTask.Project = await unitofWork.Projects.GetProjectByID(projectTask.ProjectId);
+                    }
                 }
-            }
 
-            var model = new AllProjectTasksWithOthers()
+                model.projecttasks = projectTasks;
+            }
+            else
             {
-                projecttasks = projectTasks
-            };
+                var appliedTasks = await unitofWork.AplliedTasks.GetAppliedTasksByUserID(currentUser.Id);
+
+                if (appliedTasks.Any())
+                {
+                    foreach (var appliedTask in appliedTasks)
+                    {
+                        appliedTask.Task = await unitofWork.ProjectTasks.GetTasksByID(appliedTask.TaskID);
+                        appliedTask.Task.Project = await unitofWork.Projects.GetProjectByID(appliedTask.Task.ProjectId);
+                    }
+                }
+
+                model.appliedTasks = appliedTasks;
+            }            
+
             return View("profile_tasks", model);
         }
 
@@ -237,5 +262,6 @@ namespace pragmatechUpWork.Controllers
             return Json(responseData);
         }
 
+       
     }
 }

@@ -10,6 +10,7 @@ namespace pragmatechUpWork_BusinessLogicLayer.Abstract
     {
         Task<List<UserApplyAndConfirmTask>> GetAll();
         Task<UserApplyAndConfirmTask> GetAppliedTasksByID(int id);
+        Task<List<UserApplyAndConfirmTask>> GetAppliedTasksByUserID(string userId);
         Task<List<UserApplyAndConfirmTask>> GetAllDescending();
         Task<bool> Add(UserApplyAndConfirmTask appliedTask);
         Task<bool> Update(UserApplyAndConfirmTask appliedTask);

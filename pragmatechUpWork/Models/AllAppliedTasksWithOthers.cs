@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace pragmatechUpWork_CoreMVC.UI.Models
 {
-    public class AllProjectTasksWithOthers
+    public class AllAppliedTasksWithOthers
     {
-        public List<ProjectTask> projecttasks { get; set; }
-        public List<Project> projects { get; set; }
         public List<UserApplyAndConfirmTask> appliedTasks { get; set; }
-
     }
 }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using pragmatechUpWork_Entities;
 
 namespace pragmatechUpWork_CoreMVC.UI.Migrations
 {
     [DbContext(typeof(UpWorkContext))]
-    partial class UpWorkContextModelSnapshot : ModelSnapshot
+    [Migration("20210117093855_applyTaskInit2")]
+    partial class applyTaskInit2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -133,6 +135,9 @@ namespace pragmatechUpWork_CoreMVC.UI.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<int?>("ProjectId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
 
@@ -143,6 +148,8 @@ namespace pragmatechUpWork_CoreMVC.UI.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ProjectId");
 
                     b.HasIndex("TaskID");
 
@@ -162,11 +169,17 @@ namespace pragmatechUpWork_CoreMVC.UI.Migrations
 
             modelBuilder.Entity("pragmatechUpWork_Entities.UserApplyAndConfirmTask", b =>
                 {
+                    b.HasOne("pragmatechUpWork_Entities.Project", "Project")
+                        .WithMany()
+                        .HasForeignKey("ProjectId");
+
                     b.HasOne("pragmatechUpWork_Entities.ProjectTask", "Task")
                         .WithMany()
                         .HasForeignKey("TaskID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Project");
 
                     b.Navigation("Task");
                 });

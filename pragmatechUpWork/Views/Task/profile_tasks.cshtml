@@ -14,74 +14,140 @@
     <div class="dashboard-content-container" data-simplebar>
         <div class="dashboard-content-inner">
 
-            <!-- Dashboard Headline -->
-            <div class="dashboard-headline">
-                <h3>Tasklar</h3>
-            </div>
+            @if (Model.projecttasks != null)
+            {
+                <!-- Dashboard Headline -->
+                <div class="dashboard-headline">
+                    <h3>Tasklar</h3>
+                </div>
 
-            <!-- Row -->
-            <div class="row">
-                <div class="col-xl-12">
-                    <div class="dashboard-box margin-top-0">
-                        <!-- Headline -->
-                        <div class="headline">
-                            <h3><i class="icon-feather-bar-chart-2"></i> Layihələr</h3>
-                        </div>
+                <!-- Row -->
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="dashboard-box margin-top-0">
+                            <!-- Headline -->
+                            <div class="headline">
+                                <h3><i class="icon-feather-bar-chart-2"></i> Tasklar</h3>
+                            </div>
 
-                        <div class="content with-padding padding-bottom-10">
-                            <div class="row">
-                                <table id="projects_table" class="table table-striped text-center">
-                                    <thead>
-                                        <tr>
-                                            <th>Ad</th>
-                                            <th>Layihənin Adı</th>
-                                            <th>Dəyəri</th>
-                                            <th>İş müddəti</th>
-                                            <th>Publish.T</th>
-                                            <th>Github</th>
-                                            <th>Status</th>
-                                            <th>Alətlər</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @if (Model != null)
-                                        {
-                                            @foreach (var taskRecord in Model.projecttasks)
+                            <div class="content with-padding padding-bottom-10">
+                                <div class="row">
+                                    <table id="projects_table" class="table table-striped text-center">
+                                        <thead>
+                                            <tr>
+                                                <th>Ad</th>
+                                                <th>Layihənin Adı</th>
+                                                <th>Dəyəri</th>
+                                                <th>İş müddəti</th>
+                                                <th>Publish.T</th>
+                                                <th>Github</th>
+                                                <th>Status</th>
+                                                <th>Alətlər</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (Model != null)
                                             {
-                                        <tr>
-                                            <td><a href="#">@taskRecord.Name</a></td>
-                                            <td><a href="#">@taskRecord.Project.Name</a></td>
-                                            <td>@taskRecord.Cost</td>
-                                            <td>@taskRecord.RequiredDays</td>
-                                            <td>@{ 
-                                                if(taskRecord.PublishDate!=null)
-                                                { taskRecord.PublishDate.Value.ToString("dd.MM.yyyy"); }
-                                                else {<p>Publish Olunmayib</p>}
-                                            }</td>                                            
-                                            <td>
-                                                <a href="@taskRecord.GithubUrl"><i class="icon-feather-github" style="font-size:24px !important;"></i></a>
-                                            </td>
-                                            @{
-                                                var taskStatus = (TaskStatus)taskRecord.Status;
+                                                @foreach (var taskRecord in Model.projecttasks)
+                                                {
+                                                    <tr>
+                                                        <td><a href="#">@taskRecord.Name</a></td>
+                                                        <td><a href="#">@taskRecord.Project.Name</a></td>
+                                                        <td>@taskRecord.Cost</td>
+                                                        <td>@taskRecord.RequiredDays</td>
+                                                        <td>
+                                                            @{
+                                                                if (taskRecord.PublishDate != null)
+                                                                { taskRecord.PublishDate.Value.ToString("dd.MM.yyyy"); }
+                                                                else
+                                                                {<p>Publish Olunmayib</p>}
+                                                            }
+                                                        </td>
+                                                        <td>
+                                                            <a href="@taskRecord.GithubUrl"><i class="icon-feather-github" style="font-size:24px !important;"></i></a>
+                                                        </td>
+                                                        @{
+                                                            var taskStatus = (TaskStatus)taskRecord.Status;
+                                                        }
+                                                        <td>@taskStatus</td>
+                                                        <td>
+                                                            <a asp-route="task-edit_task" asp-route-id="@taskRecord.TaskId"><i class="icon-line-awesome-edit" style="font-size:24px !important;"></i></a>
+                                                            <a style="cursor: pointer;" onclick="event.preventDefault(); RemoveTask('@Url.RouteUrl("task-remove_task", new { id = taskRecord.TaskId })');"><i class="icon-material-outline-delete" style="font-size:24px !important; color: red !important;"></i></a>
+                                                            <a asp-route="task-single_task" asp-route-id="@taskRecord.TaskId"><i class="icon-material-outline-my-location" style="font-size:24px !important; "></i></a>
+                                                        </td>
+                                                    </tr>
+                                                }
                                             }
-                                            <td>@taskStatus</td>
-                                            <td>
-                                                <a asp-route="task-edit_task" asp-route-id="@taskRecord.TaskId"><i class="icon-line-awesome-edit" style="font-size:24px !important;"></i></a>
-                                                <a style="cursor: pointer;" onclick="event.preventDefault(); RemoveTask('@Url.RouteUrl("task-remove_task", new { id = taskRecord.TaskId})');"><i class="icon-material-outline-delete" style="font-size:24px !important; color: red !important;"></i></a>
-                                                <a asp-route="task-single_task" asp-route-id="@taskRecord.TaskId"><i class="icon-material-outline-my-location" style="font-size:24px !important; "></i></a>
-                                            </td>
-                                        </tr>
-                                            }
-                                        }
-                                    </tbody>
-                                </table>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
+
+                </div>
+                <!-- Row / End -->
+            }
+            else if (Model.appliedTasks != null)
+            {
+                <!-- Dashboard Headline -->
+                <div class="dashboard-headline">
+                    <h3>Tasklarım</h3>
                 </div>
 
-            </div>
-            <!-- Row / End -->
+                <!-- Row -->
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="dashboard-box margin-top-0">
+                            <!-- Headline -->
+                            <div class="headline">
+                                <h3><i class="icon-feather-bar-chart-2"></i> Tasklarım</h3>
+                            </div>
+
+                            <div class="content with-padding padding-bottom-10">
+                                <div class="row">
+                                    <table id="projects_table" class="table table-striped text-center">
+                                        <thead>
+                                            <tr>
+                                                <th>Ad</th>
+                                                <th>Layihənin Adı</th>
+                                                <th>Dəyəri</th>
+                                                <th>İş müddəti</th>
+                                                <th>Github</th>
+                                                <th>Qəbul/Status</th>
+                                                <th>Alətlər</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (Model != null)
+                                            {
+                                                @foreach (var taskRecord in Model.appliedTasks)
+                                                {
+                                                    <tr>
+                                                        <td>@taskRecord.Task.Name</td>
+                                                        <td><a asp-route="project-single_project" asp-route-id="@taskRecord.Task.Project.ProjectId">@taskRecord.Task.Project.Name</a></td>
+                                                        <td>@taskRecord.Price</td>
+                                                        <td>@taskRecord.Day</td>
+                                                        <td>
+                                                            <a href="@taskRecord.Task.GithubUrl"><i class="icon-feather-github" style="font-size:24px !important;"></i></a>
+                                                        </td>
+                                                        <td>@taskRecord.Status</td>
+                                                        <td>
+                                                            <a asp-route="task-single_task" asp-route-id="@taskRecord.Task.TaskId"><i class="icon-material-outline-my-location" style="font-size:24px !important; "></i></a>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- Row / End -->
+            }
             <!-- Footer -->
             <div class="dashboard-footer-spacer"></div>
             <div class="small-footer margin-top-15">

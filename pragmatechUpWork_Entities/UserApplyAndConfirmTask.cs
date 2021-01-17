@@ -14,5 +14,6 @@ namespace pragmatechUpWork_Entities
         public int Day { get; set; }
         public bool Status { get; set; }
         public DateTime? ApplyDate { get; set; }
+        public ProjectTask Task { get; set; }
     }
 }

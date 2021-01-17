@@ -36,14 +36,14 @@ namespace pragmatechUpWork.Controllers
                 projects = await unitofWork.Projects.GetAll()
             };
 
-            if (roles.Contains(UserRolesEnum.Müəllim.ToString()))
-            {
+            //if (roles.Contains(UserRolesEnum.Müəllim.ToString()))
+            //{
                 
-            }
-            else
-            {
+            //}
+            //else
+            //{
 
-            }
+            //}
 
 
             return View("~/Views/Project/profile_projects.cshtml", model);
