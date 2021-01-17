@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -66,6 +67,7 @@ namespace pragmatechUpWork.Controllers
             return View("whole_tasks", model);
         }
 
+        [HttpGet]
         [Route("/task/{id}", Name = "task-single_task")]
         public async Task<IActionResult> SingleTask(int id)
         {
@@ -73,8 +75,30 @@ namespace pragmatechUpWork.Controllers
             var model = new ProjectTaskWithOther()
             {
                 projectTask=task,
-                project=await unitofWork.Projects.GetProjectByTask(task)
-                
+                project = await unitofWork.Projects.GetProjectByTask(task),
+                appliedTask = new UserApplyAndConfirmTask()
+            };
+
+            return View("single_task", model);
+        }
+
+
+
+        [HttpPost]
+        [Route("/task/{id}", Name = "task-single_task")]
+        public async Task<IActionResult> SingleTask(int id, UserApplyAndConfirmTask appliedTask)
+        {
+            ProjectTask task = await unitofWork.ProjectTasks.GetTasksByID(id);
+
+            appliedTask.UserID = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            await unitofWork.AplliedTasks.Add(appliedTask);
+
+            var model = new ProjectTaskWithOther()
+            {
+                projectTask = task,
+                project = await unitofWork.Projects.GetProjectByTask(task),
+                appliedTask = new UserApplyAndConfirmTask()
+
             };
             return View("single_task", model);
         }

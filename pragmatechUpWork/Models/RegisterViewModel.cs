@@ -17,10 +17,6 @@ namespace pragmatechUpWork_CoreMVC.UI.Models
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Bu xana teleb olunur")]
-        [DataType(DataType.PhoneNumber, ErrorMessage = "Xahiş olunur düzgün telefon nomresi girəsiniz.")]
-        public string PhoneNumber { get; set; }
-
-        [Required(ErrorMessage = "Bu xana teleb olunur")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using pragmatechUpWork_BusinessLogicLayer.UnitOfWork.Abstract;
 using pragmatechUpWork_CoreMVC.UI.Models;
@@ -17,6 +18,17 @@ namespace pragmatechUpWork.Controllers
         {
             unitofWork = _unitofWork;
         }
+
+        [Route("/profile/projects", Name = "profile-whole_projects")]
+        public async Task<IActionResult> ProfileProjects()
+        {
+            var model = new AllProjectsWithOthers
+            {
+                projects = await unitofWork.Projects.GetAll()
+            };
+            return View("~/Views/Project/profile_projects.cshtml", model);
+        }
+
 
         [Route("/projects", Name = "project-whole_projects")]
         public async Task<IActionResult> WholeProjects()

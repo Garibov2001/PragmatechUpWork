@@ -24,20 +24,26 @@
 
                 <div class="welcome-text pt-4">
                     <h3>PragmatechUpWork</h3>
-                    <span>Hesabınız yoxdursa, <a href="#" class="register-tab">Qeydiyyatdan</a> keçin </span>
+                    <span>Hesabınız yoxdursa, <a asp-route="user-register">Qeydiyyatdan</a> keçin </span>
+                </div>
+
+                <div asp-validation-summary="ModelOnly">
+
                 </div>
 
                 <!-- Form -->
-                <form method="post" asp-action="Login" asp-controller="Account">
+                <form method="post" asp-route="user-login">
 
                     <div class="input-with-icon-left">
                         <i class="icon-material-baseline-mail-outline"></i>
                         <input type="text" class="input-text with-border" asp-for="UserName" placeholder="Kullanici Adi" required />
+                        <span asp-validation-for="UserName"></span>
                     </div>
 
                     <div class="input-with-icon-left">
                         <i class="icon-material-outline-lock"></i>
                         <input type="password" class="input-text with-border" asp-for="Password" placeholder="Password" required />
+                        <span asp-validation-for="Password"></span>
                     </div>
 
                     <div class="input-with-icon-left">
@@ -49,7 +55,6 @@
 
                     <!-- Button -->
                     <input value="Daxil ol" class="button full-width button-sliding-icon ripple-effect" type="submit" />
-                    <button class="button full-width button-sliding-icon ripple-effect" type="button" asp-action="Register" asp-controller="Account">Qeydiyyatdan keçin<i class="icon-material-outline-arrow-right-alt"></i></button>
                 </form>
 
             </div>

@@ -23,19 +23,15 @@ namespace pragmatechUpWork.Controllers
             unitofWork = _unitofWork;
         }
 
-        [Authorize(Roles ="Admin")]
+        //[Authorize(Roles ="Admin")]
         [HttpGet]
-        [Route("/profile/projects", Name = "profile-whole_projects")]
+        [Route("/profile", Name = "profile-account-page")]
         public async Task<IActionResult> Profile()
         {
-            var model = new AllProjectsWithOthers
-            {
-                projects = await unitofWork.Projects.GetAll()
-            };
-            return View("profile", model);
+            return View("~/Views/Profile/account_page.cshtml");
         }
 
 
-        
+
     }
 }

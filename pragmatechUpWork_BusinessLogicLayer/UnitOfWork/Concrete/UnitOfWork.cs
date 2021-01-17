@@ -16,14 +16,22 @@ namespace pragmatechUpWork_BusinessLogicLayer.UnitOfWork.Concrete
         {
             context = Context;
         }
+        public IProjectService project { get; set; }
         public IProjectService Projects
         {
             get { return project ?? new ProjectManager(new EfProjectDal(context)); }
         }
-        public IProjectTaskService ProjectTasks { get { return projectTask ?? new ProjectTaskManager(new EfProjectTaskDal(context)); } }
-        public IProjectService project { get; set; }
         public IProjectTaskService projectTask { get; set; }
+        public IProjectTaskService ProjectTasks 
+        { 
+            get { return projectTask ?? new ProjectTaskManager(new EfProjectTaskDal(context)); } 
+        }
 
+        public IUserApplyAndConfirmTaskService appliedTask { get; set; }
+        public IUserApplyAndConfirmTaskService AplliedTasks 
+        { 
+            get { return appliedTask ?? new UserApplyAndConfirmTaskManager(new EfUserApplyAndConfirmTaskDal(context)); } 
+        }
         public void Dispose()
         {
             context.DisposeAsync();

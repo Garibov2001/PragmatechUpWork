@@ -4,7 +4,7 @@ using System.Text;
 
 namespace pragmatechUpWork_GeneralLayer.Enums
 {
-    enum UserRolesEnum
+    public enum UserRolesEnum
     {
         Müəllim = 1,
         Proqramçı = 2,

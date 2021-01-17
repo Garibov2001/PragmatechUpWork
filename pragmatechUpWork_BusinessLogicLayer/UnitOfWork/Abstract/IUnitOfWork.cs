@@ -9,5 +9,6 @@ namespace pragmatechUpWork_BusinessLogicLayer.UnitOfWork.Abstract
     {
         IProjectService Projects { get; }
         IProjectTaskService ProjectTasks { get; }
+        IUserApplyAndConfirmTaskService AplliedTasks { get; }
     }
 }

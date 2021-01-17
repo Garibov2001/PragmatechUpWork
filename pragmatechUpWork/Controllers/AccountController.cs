@@ -38,12 +38,15 @@ namespace pragmatechUpWork_CoreMVC.UI.Controllers
         }
 
         [HttpGet]
+        [Route("/register",Name ="user-register")]
         public IActionResult Register()
         {
             return View("~/Views/Account/register.cshtml");
         }
-        [ValidateAntiForgeryToken]
+
+        [ValidateAntiForgeryToken] 
         [HttpPost]
+        [Route("/register", Name = "user-register")]
         public async Task<IActionResult> Register(RegisterViewModel register)
         {
             if (ModelState.IsValid)
@@ -54,44 +57,97 @@ namespace pragmatechUpWork_CoreMVC.UI.Controllers
                 {
                     ApplicationUser user = new ApplicationUser()
                     {
-                        Name = userApi.Name,
-                        Surname = userApi.Surname,
+                        Name = userApi.name,
+                        Surname = userApi.surname,
+                        Father_name = userApi.father_name,
                         UserName = register.UserName,
-                        Email = userApi.Email,
-                        PhoneNumber = register.PhoneNumber,
+                        Email = userApi.email,
                         registerDate = DateTime.Now
                     };
                     IdentityResult result = await userManager.CreateAsync(user, register.Password);
 
                     if (result.Succeeded)
                     {
-                        if(!roleManager.RoleExistsAsync("Admin").Result)
+                        string roleName = String.Empty;
+                        int roleNumber;
+                        foreach (string character in userApi.roles)
+                        {                           
+                            if (int.TryParse(character, out roleNumber))
+                            {
+                                if (roleNumber == (int)UserRolesEnum.Müəllim)
+                                {
+                                    roleName = UserRolesEnum.Müəllim.ToString();
+                                    break;
+                                }
+                                else if(roleNumber == (int)UserRolesEnum.Proqramçı)
+                                {
+                                    roleName = UserRolesEnum.Proqramçı.ToString();
+                                    break;
+                                }
+                                else if (roleNumber == (int)UserRolesEnum.Dəstək_Komandası)
+                                {
+                                    roleName = UserRolesEnum.Dəstək_Komandası.ToString();
+                                    break;
+                                }
+                                else if (roleNumber == (int)UserRolesEnum.Menecment)
+                                {
+                                    roleName = UserRolesEnum.Menecment.ToString();
+                                    break;
+                                }
+                                else if (roleNumber == (int)UserRolesEnum.Tələbə)
+                                {
+                                    roleName = UserRolesEnum.Tələbə.ToString();
+                                    break;
+                                }
+                            }
+                        }
+
+                        if(!roleManager.RoleExistsAsync(roleName).Result)
                         {
                             ApplicationRole role = new ApplicationRole
                             {
-                                Name = "Admin"
+                                Name = roleName
                             };
                             IdentityResult identityResult= roleManager.CreateAsync(role).Result;
                         }
 
-                        userManager.AddToRoleAsync(user,"ADMIN").Wait();
+                        userManager.AddToRoleAsync(user, roleName).Wait();
 
                         return RedirectToAction("Login");
                     }
                     else
                     {
-                        return View(register);
+                        var errors = result.Errors.ToList();
+
+                        foreach (var error in errors)
+                        {
+                            switch (error.Code)
+                            {
+                                case "DuplicateUserName":
+                                    ModelState.AddModelError("UserName", error.Description);
+                                    break;
+                                case "DuplicateEmail":
+                                    ModelState.AddModelError("Email", error.Description);
+                                    break;
+                                default:
+                                    ModelState.AddModelError("", error.Description);
+                                    break;
+                            }
+                        }
+
+                        return View("~/Views/Account/register.cshtml", register);
                     }
                 }
                 else
                 {
-                    return View();
+                    ModelState.AddModelError("Email", "Daxil etdiyiniz email CRM sistemində yoxdur");
+                    return View("~/Views/Account/register.cshtml", register);
                 }
             }
-            return View(register);
+            return View("~/Views/Account/register.cshtml", register);
         }
 
-        [Route("/")]
+        [Route("/", Name ="user-login")]
         public IActionResult Login()
         {
             return View("login");
@@ -99,7 +155,7 @@ namespace pragmatechUpWork_CoreMVC.UI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("/")]
+        [Route("/", Name = "user-login")]
         public IActionResult Login(LoginViewModel loginViewModel)
         {
             if (ModelState.IsValid)
@@ -110,23 +166,26 @@ namespace pragmatechUpWork_CoreMVC.UI.Controllers
                     return RedirectToRoute("home-default_page");
                 }
                 else
-                {
-                    return RedirectToAction("Register");
+                {                   
+                    ModelState.AddModelError("", "Daxil etdiyiniz username və ya şifrə düzgün deyil.");
+                    return View("login", loginViewModel);
                 }
             }
             else
             {
-                return View(loginViewModel);
+                return View("login", loginViewModel);
             }
         }
 
+        [HttpGet]
+        [Route("/signout", Name = "user-signout")]
         public IActionResult SignOut() 
         {
             signInManager.SignOutAsync().Wait();
             return RedirectToAction("Login");
         }
 
-        public ApplicationUser GetApiData(string apiUrl)
+        public dynamic GetApiData(string apiUrl)
         {
             //Connect API
             string apUrl = "http://157.230.220.111/api/person?email=" + apiUrl;
@@ -142,10 +201,11 @@ namespace pragmatechUpWork_CoreMVC.UI.Controllers
             ////END
 
             ////JSON Parse START
-            ApplicationUser user = JsonConvert.DeserializeObject<ApplicationUser>(json);
+            dynamic userData = JsonConvert.DeserializeObject<dynamic>(json);
+
             ////END
 
-            return user;
+            return userData;
         }
     }
 }
