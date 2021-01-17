@@ -3,29 +3,49 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using pragmatechUpWork_BusinessLogicLayer.UnitOfWork.Abstract;
+using pragmatechUpWork_CoreMVC.UI.IdentityClasses;
 using pragmatechUpWork_CoreMVC.UI.Models;
 using pragmatechUpWork_Entities;
+using pragmatechUpWork_GeneralLayer.Enums;
 
 namespace pragmatechUpWork.Controllers
 {
     public class ProjectController : Controller
     {
         private readonly IUnitOfWork unitofWork = null;
+        private UserManager<ApplicationUser> userManager { get; set; }
 
-        public ProjectController(IUnitOfWork _unitofWork)
+
+        public ProjectController(IUnitOfWork _unitofWork, UserManager<ApplicationUser> _userManager)
         {
             unitofWork = _unitofWork;
+            userManager = _userManager;
         }
 
         [Route("/profile/projects", Name = "profile-whole_projects")]
         public async Task<IActionResult> ProfileProjects()
         {
+            var currentUser = await userManager.GetUserAsync(User);
+            var roles = await userManager.GetRolesAsync(currentUser);
+
             var model = new AllProjectsWithOthers
             {
                 projects = await unitofWork.Projects.GetAll()
             };
+
+            if (roles.Contains(UserRolesEnum.Müəllim.ToString()))
+            {
+                
+            }
+            else
+            {
+
+            }
+
+
             return View("~/Views/Project/profile_projects.cshtml", model);
         }
 

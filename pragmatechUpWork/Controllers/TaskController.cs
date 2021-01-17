@@ -82,16 +82,11 @@ namespace pragmatechUpWork.Controllers
             return View("single_task", model);
         }
 
-
-
         [HttpPost]
         [Route("/task/{id}", Name = "task-single_task")]
         public async Task<IActionResult> SingleTask(int id, UserApplyAndConfirmTask appliedTask)
         {
             ProjectTask task = await unitofWork.ProjectTasks.GetTasksByID(id);
-
-            appliedTask.UserID = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            await unitofWork.AplliedTasks.Add(appliedTask);
 
             var model = new ProjectTaskWithOther()
             {
@@ -100,7 +95,23 @@ namespace pragmatechUpWork.Controllers
                 appliedTask = new UserApplyAndConfirmTask()
 
             };
-            return View("single_task", model);
+
+            if (ModelState.IsValid)
+            {
+                appliedTask.UserID = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                appliedTask.TaskID = id;
+                appliedTask.ApplyDate = DateTime.Now;
+
+                await unitofWork.AplliedTasks.Add(appliedTask);
+                model.appliedTask = appliedTask;
+
+                ViewBag.Success = true;
+                return View("single_task", model);
+            }
+            else
+            {
+                return View("single_task", model);                
+            }            
         }
 
         [Authorize()]

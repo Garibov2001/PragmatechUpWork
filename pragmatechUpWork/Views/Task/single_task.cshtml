@@ -43,6 +43,14 @@
 <div class="container">
     <div class="row">
 
+        @if (ViewBag.Success == true)
+        {            
+            <div class="alert alert-info alert-dismissible fade show col-xl-12 col-lg-12" role="alert">
+                Təklifiniz <strong>müvəffəqiyyətlə</strong> göndərildi
+                <a style="cursor: pointer;" class="close">&times;</a>
+            </div>      
+        }
+
         <!-- Content -->
         <div class="col-xl-8 col-lg-8 content-right-offset">
 
@@ -70,7 +78,7 @@
                     <span>design</span>
                 </div>
             </div>
-            <div class="clearfix"></div>           
+            <div class="clearfix"></div>
         </div>
 
 
@@ -86,42 +94,41 @@
 
                 <div class="sidebar-widget">
                     <div class="bidding-widget">
-                        <div class="bidding-headline"><h3>Öz təklifivi et!</h3></div>
+                        <div class="bidding-headline"><h3>Razılaş və ya öz təklifivi et!</h3></div>
                         <div class="bidding-inner">
 
                             <!-- Headline -->
                             <span class="bidding-detail">Özüvə uyğun <strong>qiymət</strong> seç</span>
 
-                            <!-- Price Slider -->
-                            <div class="bidding-value">$<span id="biddingVal"></span></div>
-                            <input class="bidding-slider" type="text" value="" data-slider-handle="custom" data-slider-currency="$" data-slider-min="2500" data-slider-max="4500" data-slider-value="auto" data-slider-step="50" data-slider-tooltip="hide" />
+                            <form asp-route="task-single_task" method="post">
+                                <!-- Price Slider -->
+                                <div class="bidding-value">&#8380; <span id="biddingVal"></span></div>
+                                <input class="bidding-slider" asp-for="appliedTask.Price" data-slider-handle="custom" data-slider-currency="&#8380;" data-slider-min="@Model.projectTask.Cost" data-slider-max="4500" data-slider-value="@Model.projectTask.Cost" data-slider-step="20" data-slider-tooltip="hide" />
 
-                            <!-- Headline -->
-                            <span class="bidding-detail margin-top-30">Özüvə uyğun <strong>gün</strong> seç</span>
+                                <!-- Headline -->
+                                <span class="bidding-detail margin-top-30">Özüvə uyğun <strong>gün</strong> seç</span>
 
-                            <!-- Fields -->
-                            <div class="bidding-fields">
-                                <div class="bidding-field">
-                                    <!-- Quantity Buttons -->
-                                    <div class="qtyButtons">
-                                        <div class="qtyDec"></div>
-                                        <input type="text" name="qtyInput" value="1">
-                                        <div class="qtyInc"></div>
+                                <!-- Fields -->
+                                <div class="bidding-fields col-11">
+                                    <div class="bidding-field">
+                                        <!-- Quantity Buttons -->
+                                        <div class="qtyButtons">
+                                            <div class="qtyDec"></div>
+                                            <input asp-for="appliedTask.Day" type="text" value="@Model.projectTask.RequiredDays">
+                                            <div class="qtyInc"></div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="bidding-field">
-                                    <select class="selectpicker default">
-                                        <option selected>Days</option>
-                                        <option>Hours</option>
-                                    </select>
-                                </div>
-                            </div>
 
-                            <!-- Button -->
-                            <button id="snackbar-place-bid" class="button ripple-effect move-on-hover full-width margin-top-30"><span>Place a Bid</span></button>
+                                @* Entitylerin updatede duzgun islemesi ucun bu vacibdir *@
+                                <input type="hidden" asp-for="projectTask.TaskId" />
+
+                                <!-- Button -->
+                                <button type="submit" id="snackbar-place-bid" class="button ripple-effect move-on-hover full-width margin-top-30" ><span>Təklif göndər</span></button>
+                            </form>
+
 
                         </div>
-                        <div class="bidding-signup">Don't have an account? <a href="#sign-in-dialog" class="register-tab sign-in popup-with-zoom-anim">Sign Up</a></div>
                     </div>
                 </div>
             </div>
