@@ -30,23 +30,31 @@ namespace pragmatechUpWork.Controllers
         {
             var currentUser = await userManager.GetUserAsync(User);
             var roles = await userManager.GetRolesAsync(currentUser);
+            var model = new AllProjectsWithOthers();
 
-            var model = new AllProjectsWithOthers
+            if (roles.Contains(UserRolesEnum.Müəllim.ToString()))
             {
-                projects = await unitofWork.Projects.GetAll()
-            };
+                var projects = await unitofWork.Projects.GetAll();
 
-            //if (roles.Contains(UserRolesEnum.Müəllim.ToString()))
-            //{
-                
-            //}
-            //else
-            //{
+                model.projects = projects;
+            }
+            else
+            {
+                var appliedTasks = await unitofWork.AplliedTasks.GetAppliedTasksByUserID(currentUser.Id);
 
-            //}
+                if (appliedTasks.Any())
+                {
+                    foreach (var appliedTask in appliedTasks)
+                    {
+                        appliedTask.Task = await unitofWork.ProjectTasks.GetTasksByID(appliedTask.TaskID);
+                        appliedTask.Task.Project = await unitofWork.Projects.GetProjectByID(appliedTask.Task.ProjectId);
+                    }
+                }
 
+                model.appliedTasks = appliedTasks;
+            }
 
-            return View("~/Views/Project/profile_projects.cshtml", model);
+            return View("profile_projects", model);
         }
 
 
@@ -86,7 +94,7 @@ namespace pragmatechUpWork.Controllers
             if (ModelState.IsValid)
             {
                 await unitofWork.Projects.Add(client_data);
-                return RedirectToRoute("home-default_page");
+                return RedirectToRoute("profile-whole_projects");
             }
             else
             {

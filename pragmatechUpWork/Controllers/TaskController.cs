@@ -168,7 +168,7 @@ namespace pragmatechUpWork.Controllers
 
                 await unitofWork.ProjectTasks.Add(client_post);
 
-                return RedirectToRoute("home-default_page");
+                return RedirectToRoute("profile-whole_tasks");
             }
             else
             {
