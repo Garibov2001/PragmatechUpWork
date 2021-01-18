@@ -146,27 +146,28 @@ namespace pragmatechUpWork.Controllers
         {
             var Projects = await unitofWork.Projects.GetAll();
 
-            var projectTaskWithOther = new ProjectTaskWithOther()
+            var model = new ProjectTaskWithOther()
             {
                 projects = new SelectList(Projects, nameof(Project.ProjectId), nameof(Project.Name)),
                 projectTask=new ProjectTask()
             };
-            ViewBag.ProjectTask = projectTaskWithOther.projects;
-            return View("create_task");
+            ViewBag.ProjectTask = model.projects;
+
+            return View("create_task", model);
         }
 
         [Authorize()]
         [HttpPost]
         [Route("/task/create", Name = "task-create_task")]
-        public async Task<IActionResult> CreateTask(ProjectTask client_post)
+        public async Task<IActionResult> CreateTask(ProjectTaskWithOther client_post)
         {
             if (ModelState.IsValid)
             {
-                var project = await unitofWork.Projects.GetProjectByID(client_post.ProjectId);
-                client_post.Project = project;
-                client_post.Status = 0;
+                var project = await unitofWork.Projects.GetProjectByID(client_post.projectTask.ProjectId);
+                client_post.projectTask.Project = project;
+                client_post.projectTask.Status = 0;
 
-                await unitofWork.ProjectTasks.Add(client_post);
+                await unitofWork.ProjectTasks.Add(client_post.projectTask);
 
                 return RedirectToRoute("profile-whole_tasks");
             }

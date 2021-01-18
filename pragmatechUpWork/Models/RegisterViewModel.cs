@@ -13,7 +13,7 @@ namespace pragmatechUpWork_CoreMVC.UI.Models
         public string UserName { get; set; }
 
         [Required(ErrorMessage = "Bu xana teleb olunur")]
-        [DataType(DataType.EmailAddress,ErrorMessage ="Xahiş olunur düzgün mail adresi girəsiniz.")]
+        [DataType(DataType.EmailAddress, ErrorMessage ="Xahiş olunur düzgün mail adresi girəsiniz.")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Bu xana teleb olunur")]
@@ -21,6 +21,7 @@ namespace pragmatechUpWork_CoreMVC.UI.Models
         public string Password { get; set; }
 
         [Required(ErrorMessage = "Bu xana teleb olunur")]
+        [Compare("Password", ErrorMessage = "Şifrələr bir-biriylə uyuşmur.")]
         [DataType(DataType.Password)]
         public string ConfirmPassword { get; set; }
     }

@@ -1,0 +1,198 @@
+﻿@model ProfileSettingsViewModel
+
+<!-- Transparent Header Spacer -->
+<div class="transparent-header-spacer"></div>
+
+
+<!-- Dashboard Container -->
+<div class="dashboard-container">
+
+
+    <partial name="_Profile_sidebar" />
+
+    <!-- Dashboard Content
+     ================================================== -->
+    <div class="dashboard-content-container" data-simplebar>
+        <div class="dashboard-content-inner">
+
+            <!-- Dashboard Headline -->
+            <div class="dashboard-headline">
+                <h3>Prametrlər</h3>
+            </div>
+
+            <!-- Row -->
+            <div class="row">
+
+                <!-- Dashboard Box -->
+                <div class="col-xl-12">
+                    <div class="dashboard-box margin-top-0">
+
+                        <!-- Headline -->
+                        <div class="headline">
+                            <h3><i class="icon-material-outline-account-circle"></i> Account haqda</h3>
+                        </div>
+
+                        <div class="content with-padding padding-bottom-0">
+
+                            <div class="row">
+
+                                <div class="col-auto">
+                                    <div class="avatar-wrapper" data-tippy-placement="bottom" title="Change Avatar">
+                                        <img class="profile-pic" src="images/user-avatar-placeholder.png" alt="" />
+                                        <div class="upload-button"></div>
+                                        <input class="file-upload" type="file" accept="image/*" />
+                                    </div>
+                                </div>
+
+                                <div class="col">
+                                    <div class="row">
+
+                                        <div class="col-xl-7">
+                                            <div class="submit-field">
+                                                <h5>Email</h5>
+                                                <div class="input-with-icon-left no-border">
+                                                    <i class="icon-material-outline-account-circle"></i>
+                                                    <input type="text" class="input-text" value="@Model.User.Email" readonly="">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xl-5">
+                                            <div class="submit-field">
+                                                <h5>İstifadəçi adınız</h5>
+                                                <div class="input-with-icon-left no-border">
+                                                    <i class="icon-material-outline-account-circle"></i>
+                                                    <input type="text" class="input-text" value="@Model.User.UserName" readonly="">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xl-3">
+                                            <!-- Account Type -->
+                                            <div class="submit-field">
+                                                <h5>Rolunuz</h5>
+                                                <div class="task-tags">
+                                                    @foreach (var role in @Model.UserRoles)
+                                                    {
+                                                        <a href="#"><span>@role</span></a>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xl-5">
+                                            <div class="submit-field">
+                                                <h5>Adınız</h5>
+                                                <div class="input-with-icon-left no-border">
+                                                    <i class="icon-material-outline-account-circle"></i>
+                                                    <input type="text" class="input-text" value="@Model.User.Name" readonly="">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xl-4">
+                                            <div class="submit-field">
+                                                <h5>Soyadınız</h5>
+                                                <div class="input-with-icon-left no-border">
+                                                    <i class="icon-material-outline-account-circle"></i>
+                                                    <input type="text" class="input-text" value="@Model.User.Surname" readonly="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dashboard Box -->
+                <div class="col-xl-12">
+                    <div id="test1" class="dashboard-box">
+
+                        <!-- Headline -->
+                        <div class="headline">
+                            <h3><i class="icon-material-outline-lock"></i> Şifrə & Təhlükəsizlik</h3>
+                        </div>
+
+                        <div class="content with-padding">
+                            <div class="row">
+                                <div class="col-xl-4">
+                                    <div class="submit-field">
+                                        <h5>Hazırdakı Şifrə</h5>
+                                        <input asp-for="OldPassword" class="with-border">
+                                    </div>
+                                </div>
+
+                                <div class="col-xl-4">
+                                    <div class="submit-field">
+                                        <h5>Yeni şifrə</h5>
+                                        <input asp-for="NewPassword" class="with-border">
+                                    </div>
+                                </div>
+
+                                <div class="col-xl-4">
+                                    <div class="submit-field">
+                                        <h5>Təkrar yeni şifrə</h5>
+                                        <input asp-for="ConfirmNewPassword" class="with-border">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Button -->
+                <div class="col-xl-12">
+                    <a href="#" class="button ripple-effect big margin-top-30">Şifrəni yadda saxla</a>
+                </div>
+
+            </div>
+            <!-- Row / End -->
+            <!-- Footer -->
+            <div class="dashboard-footer-spacer"></div>
+            <div class="small-footer margin-top-15">
+                <div class="small-footer-copyrights">
+                    © 2018 <strong>Hireo</strong>. All Rights Reserved.
+                </div>
+                <ul class="footer-social-links">
+                    <li>
+                        <a href="#" title="Facebook" data-tippy-placement="top">
+                            <i class="icon-brand-facebook-f"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" title="Twitter" data-tippy-placement="top">
+                            <i class="icon-brand-twitter"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" title="Google Plus" data-tippy-placement="top">
+                            <i class="icon-brand-google-plus-g"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" title="LinkedIn" data-tippy-placement="top">
+                            <i class="icon-brand-linkedin-in"></i>
+                        </a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <!-- Footer / End -->
+
+        </div>
+    </div>
+    <!-- Dashboard Content / End -->
+
+</div>
+<!-- Dashboard Container / End -->
+
+
+
+@section scripts{
+    <script src="~/lib/twitter-bootstrap/js/bootstrap.min.js" asp-append-version="true"></script>
+    <script src="~/js/projects.js" asp-append-version="true"></script>
+
+}

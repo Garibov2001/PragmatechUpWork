@@ -35,7 +35,21 @@ namespace pragmatechUpWork.Controllers
             return View("~/Views/Profile/account_page.cshtml");
         }
 
+        [HttpGet]
+        [Route("/profile/settings", Name = "profile-settings-page")]
+        public async Task<IActionResult> ProfileSettings()
+        {
+            var currentUser = await userManager.GetUserAsync(User);
+            var roles = await userManager.GetRolesAsync(currentUser);
+            var model = new ProfileSettingsViewModel
+            {
+                User = currentUser,
+                UserRoles = roles,
+            };            
 
+            return View("~/Views/Profile/settings_page.cshtml", model);
+        }
 
+        
     }
 }

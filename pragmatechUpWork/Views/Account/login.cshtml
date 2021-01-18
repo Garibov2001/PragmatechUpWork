@@ -1,4 +1,4 @@
-﻿@model LoginViewModel;
+﻿@model LoginViewModel
 @{
     Layout = "~/Views/Shared/_AuthLayout.cshtml";
 }
@@ -17,6 +17,7 @@
             <!-- Login -->
             <div class="popup-tab-content" id="login">
 
+                
                 <!-- Welcome Text -->
                 <div class="text-center">
                     <img width="350" class="text-center" src="~/images/logo_pragma.png">
@@ -34,6 +35,8 @@
                 <!-- Form -->
                 <form method="post" asp-route="user-login">
 
+
+
                     <div class="input-with-icon-left">
                         <i class="icon-material-baseline-mail-outline"></i>
                         <input type="text" class="input-text with-border" asp-for="UserName" placeholder="Kullanici Adi" required />
@@ -46,12 +49,15 @@
                         <span asp-validation-for="Password"></span>
                     </div>
 
-                    <div class="input-with-icon-left">
-                        <i class="icon-material-outline-check-circle"></i>
-                        <input type="checkbox" class="input-text with-border" asp-for="RememberMe" placeholder="Password" required />
+                    <div class="d-flex justify-content-between">
+                        <div class="checkbox">
+                            <input type="checkbox" asp-for="RememberMe"id="two-step" checked="">
+                            <label for="two-step"><span class="checkbox-icon"></span> Yadda saxla</label>
+                        </div>
+                        <div>                            
+                            <a href="#"><label style="cursor: pointer;"><span class="checkbox-icon"></span> Şifrəni unutmusan?</label></a>
+                        </div>
                     </div>
-                    <a href="#" class="forgot-password">Şifrəni unutmusan?</a>
-
 
                     <!-- Button -->
                     <input value="Daxil ol" class="button full-width button-sliding-icon ripple-effect" type="submit" />
