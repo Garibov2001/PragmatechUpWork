@@ -18,6 +18,7 @@ namespace pragmatechUpWork_CoreMVC.UI.IdentityClasses
         {
             builder.Entity<ApplicationRole>().HasKey(x => x.Id);
             builder.Entity<ApplicationUser>().HasKey(x => x.Id);
+            builder.Entity<ApplicationUser>().HasIndex(x => x.Email).IsUnique();
             base.OnModelCreating(builder);
         }
 

@@ -17,7 +17,7 @@
             <!-- Login -->
             <div class="popup-tab-content" id="login">
 
-                
+
                 <!-- Welcome Text -->
                 <div class="text-center">
                     <img width="350" class="text-center" src="~/images/logo_pragma.png">
@@ -35,26 +35,35 @@
                 <!-- Form -->
                 <form method="post" asp-route="user-login">
 
+                    @if (ViewBag.IsRegistered == true)
+                    {
+                        <div class="col-xl-12 col-lg-12 d-flex justify-content-center">
+                            <div class="alert alert-success alert-dismissible fade show col-xl-10 col-lg-12 " role="alert">
+                                Şifrəniz emailinizə göndərildi!
+                                <a style="cursor: pointer;" class="close">&times;</a>
+                            </div>
+                        </div>
+                    }
 
 
                     <div class="input-with-icon-left">
-                        <i class="icon-material-baseline-mail-outline"></i>
-                        <input type="text" class="input-text with-border" asp-for="UserName" placeholder="Kullanici Adi" required />
+                        <i class="icon-material-outline-account-circle"></i>
+                        <input type="text" class="input-text with-border" asp-for="UserName" placeholder="İstifadəçi adı" required />
                         <span asp-validation-for="UserName"></span>
                     </div>
 
                     <div class="input-with-icon-left">
                         <i class="icon-material-outline-lock"></i>
-                        <input type="password" class="input-text with-border" asp-for="Password" placeholder="Password" required />
+                        <input type="password" class="input-text with-border" asp-for="Password" placeholder="Şifrə" required />
                         <span asp-validation-for="Password"></span>
                     </div>
 
                     <div class="d-flex justify-content-between">
                         <div class="checkbox">
-                            <input type="checkbox" asp-for="RememberMe"id="two-step" checked="">
+                            <input type="checkbox" asp-for="RememberMe" id="two-step" checked="">
                             <label for="two-step"><span class="checkbox-icon"></span> Yadda saxla</label>
                         </div>
-                        <div>                            
+                        <div>
                             <a href="#"><label style="cursor: pointer;"><span class="checkbox-icon"></span> Şifrəni unutmusan?</label></a>
                         </div>
                     </div>

@@ -10,11 +10,14 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using PasswordGenerator;
 using pragmatechUpWork.Controllers;
 using pragmatechUpWork_CoreMVC.UI.IdentityClasses;
 using pragmatechUpWork_CoreMVC.UI.Models;
 using pragmatechUpWork_Entities;
 using pragmatechUpWork_GeneralLayer.Enums;
+using pragmatechUpWork_NotificationServices.Abstract;
+using pragmatechUpWork_NotificationServices.General;
 
 namespace pragmatechUpWork_CoreMVC.UI.Controllers
 {
@@ -25,16 +28,20 @@ namespace pragmatechUpWork_CoreMVC.UI.Controllers
         private SignInManager<ApplicationUser> signInManager { get; set; }
         public IConfiguration Configuration { get; }
 
+        private readonly IEmailService _emailSender;
+
         public AccountController(
             UserManager<ApplicationUser> _userManager, 
             RoleManager<ApplicationRole> _roleManager,
             SignInManager<ApplicationUser> _signInManager,
-            IConfiguration _configuration)
+            IConfiguration _configuration,
+            IEmailService emailSender)
         {
             userManager = _userManager;
             roleManager = _roleManager;
             signInManager = _signInManager;
             Configuration = _configuration;
+            _emailSender = emailSender;
         }
 
         [HttpGet]
@@ -64,8 +71,14 @@ namespace pragmatechUpWork_CoreMVC.UI.Controllers
                         Email = userApi.email,
                         registerDate = DateTime.Now
                     };
-                    IdentityResult result = await userManager.CreateAsync(user, register.Password);
 
+                    //Check email unique or not
+
+                    var randPass = new Password().Next();
+
+                    IdentityResult result = await userManager.CreateAsync(user, randPass);
+
+                    
                     if (result.Succeeded)
                     {
                         string roleName = String.Empty;
@@ -113,7 +126,15 @@ namespace pragmatechUpWork_CoreMVC.UI.Controllers
 
                         userManager.AddToRoleAsync(user, roleName).Wait();
 
-                        return RedirectToAction("Login");
+                        //Send created user accounto email to verify:
+                        string subject = "PragmatechUpWork Account";
+                        string body = $"Sizin PragmatechUpWork hesabınlz:\nUsername: {register.UserName}\nŞifrə: {randPass}";
+
+                        var message = new Message(
+                            new string[] { $"{userApi.email}" }, subject, body);
+                        _emailSender.SendEmail(message);
+
+                        return RedirectToRoute("user-login", new{route="register"});
                     }
                     else
                     {
@@ -150,6 +171,13 @@ namespace pragmatechUpWork_CoreMVC.UI.Controllers
         [Route("/", Name ="user-login")]
         public IActionResult Login()
         {
+            ViewBag.IsRegistered = false;
+
+            if (HttpContext.Request.Query["route"] == "register")
+            {
+                ViewBag.IsRegistered = true;
+            }
+
             return View("login");
         }
 

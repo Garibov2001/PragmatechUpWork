@@ -14,15 +14,6 @@ namespace pragmatechUpWork_CoreMVC.UI.Models
 
         [Required(ErrorMessage = "Bu xana teleb olunur")]
         [DataType(DataType.EmailAddress, ErrorMessage ="Xahiş olunur düzgün mail adresi girəsiniz.")]
-        public string Email { get; set; }
-
-        [Required(ErrorMessage = "Bu xana teleb olunur")]
-        [DataType(DataType.Password)]
-        public string Password { get; set; }
-
-        [Required(ErrorMessage = "Bu xana teleb olunur")]
-        [Compare("Password", ErrorMessage = "Şifrələr bir-biriylə uyuşmur.")]
-        [DataType(DataType.Password)]
-        public string ConfirmPassword { get; set; }
+        public string Email { get; set; }      
     }
 }

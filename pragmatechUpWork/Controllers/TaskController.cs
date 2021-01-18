@@ -149,7 +149,7 @@ namespace pragmatechUpWork.Controllers
             var model = new ProjectTaskWithOther()
             {
                 projects = new SelectList(Projects, nameof(Project.ProjectId), nameof(Project.Name)),
-                projectTask=new ProjectTask()
+                projectTask=new ProjectTask(),
             };
             ViewBag.ProjectTask = model.projects;
 
@@ -167,7 +167,7 @@ namespace pragmatechUpWork.Controllers
                 client_post.projectTask.Project = project;
                 client_post.projectTask.Status = 0;
 
-                await unitofWork.ProjectTasks.Add(client_post.projectTask);
+                await unitofWork.ProjectTasks.Add(client_post.projectTask);              
 
                 return RedirectToRoute("profile-whole_tasks");
             }

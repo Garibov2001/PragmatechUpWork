@@ -60,6 +60,7 @@ namespace pragmatechUpWork
                 options.Password.RequiredLength = 6;
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
+                options.User.RequireUniqueEmail = true;
             });
 
             services.AddControllersWithViews();
@@ -104,7 +105,7 @@ namespace pragmatechUpWork
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/error/500");
             }
 
             app.UseRouting();
