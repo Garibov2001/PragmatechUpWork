@@ -10,10 +10,10 @@ namespace pragmatechUpWork_CoreMVC.UI.Controllers
     public class ErrorController : Controller
     {
 
-        [Route("500")]
-        public IActionResult AppError()
+        [Route("404")]
+        public IActionResult UrlNotFound()
         {
-            return View();
+            return View("~/Views/Error/not_fount_error_page.cshtml");
         }
     }
 }

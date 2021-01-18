@@ -115,14 +115,21 @@ namespace pragmatechUpWork
             app.UseHttpsRedirection();
             app.UseAuthentication();
 
+            
+            // 404 Not Found Page
+            app.Use(async (ctx, next) =>
+            {
+                await next();
 
-            //app.UseEndpoints(endpoints =>
-            //{
-            //endpoints.MapControllerRoute(
-            //name: "default",
-            //pattern: "{ controller = Home}/{ action = Index}/{ id ?}");
-            //endpoints.MapRazorPages();
-            //});
+                if (ctx.Response.StatusCode == 404 && !ctx.Response.HasStarted)
+                {
+                    //Re-execute the request so the user gets the error page
+                    string originalPath = ctx.Request.Path.Value;
+                    ctx.Items["originalPath"] = originalPath;
+                    ctx.Request.Path = "/error/404";
+                    await next();
+                }
+            });
 
             app.UseMvc(ConfigurationRouter);
         }
