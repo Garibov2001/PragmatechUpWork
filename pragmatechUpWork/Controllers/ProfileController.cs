@@ -50,6 +50,45 @@ namespace pragmatechUpWork.Controllers
             return View("~/Views/Profile/settings_page.cshtml", model);
         }
 
-        
+        [HttpPost]
+        [Route("/profile/settings", Name = "profile-settings-page")]
+        public async Task<IActionResult> ProfileSettings(ProfileSettingsViewModel client_data)
+        {
+            var currentUser = await userManager.GetUserAsync(User);
+            var roles = await userManager.GetRolesAsync(currentUser);
+            var model = new ProfileSettingsViewModel
+            {
+                User = currentUser,
+                UserRoles = roles,
+            };
+
+            if (ModelState.IsValid)
+            {
+                var result = await userManager.ChangePasswordAsync(currentUser, client_data.OldPassword, client_data.NewPassword);
+                if (result.Succeeded)
+                {
+                    ViewBag.IsSuccess = true;
+                    ModelState.Clear();
+                    return View("~/Views/Profile/settings_page.cshtml", model);
+                }
+                else
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("OldPassword", error.Description);
+                    }
+
+                    return View("~/Views/Profile/settings_page.cshtml", model);
+                }
+
+            }
+            else
+            {
+                return View("~/Views/Profile/settings_page.cshtml", model); 
+            }
+
+        }
+
+
     }
 }

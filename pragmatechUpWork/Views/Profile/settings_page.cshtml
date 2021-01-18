@@ -1,5 +1,4 @@
 ﻿@model ProfileSettingsViewModel
-
 <!-- Transparent Header Spacer -->
 <div class="transparent-header-spacer"></div>
 
@@ -106,47 +105,65 @@
                         </div>
                     </div>
                 </div>
+                <form method="POST" class="col-xl-12">
+                    <!-- Dashboard Box -->
+                    <div class="col-xl-12">
+                        <div id="test1" class="dashboard-box">
 
-                <!-- Dashboard Box -->
-                <div class="col-xl-12">
-                    <div id="test1" class="dashboard-box">
+                            <!-- Headline -->
+                            <div class="headline">
+                                <h3><i class="icon-material-outline-lock"></i> Şifrə & Təhlükəsizlik</h3>
+                            </div>
 
-                        <!-- Headline -->
-                        <div class="headline">
-                            <h3><i class="icon-material-outline-lock"></i> Şifrə & Təhlükəsizlik</h3>
-                        </div>
+                            <div asp-validation-summary="ModelOnly">
 
-                        <div class="content with-padding">
-                            <div class="row">
-                                <div class="col-xl-4">
-                                    <div class="submit-field">
-                                        <h5>Hazırdakı Şifrə</h5>
-                                        <input asp-for="OldPassword" class="with-border">
+                            </div>
+
+                            @if (ViewBag.IsSuccess == true)
+                            {
+                                <div class="col-xl-8 col-lg-8">
+                                    <div class="alert alert-success alert-dismissible fade show col-xl-10 col-lg-12 " role="alert">
+                                        Şifrəniz dəyişdirildi!
+                                        <a style="cursor: pointer;" class="close">&times;</a>
                                     </div>
                                 </div>
+                            }
 
-                                <div class="col-xl-4">
-                                    <div class="submit-field">
-                                        <h5>Yeni şifrə</h5>
-                                        <input asp-for="NewPassword" class="with-border">
+                            <div class="content with-padding">
+                                <div class="row">
+                                    <div class="col-xl-4">
+                                        <div class="submit-field">
+                                            <h5>Hazırdakı Şifrə</h5>
+                                            <input asp-for="OldPassword" class="with-border">
+                                            <span asp-validation-for="OldPassword"></span>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="col-xl-4">
-                                    <div class="submit-field">
-                                        <h5>Təkrar yeni şifrə</h5>
-                                        <input asp-for="ConfirmNewPassword" class="with-border">
+                                    <div class="col-xl-4">
+                                        <div class="submit-field">
+                                            <h5>Yeni şifrə</h5>
+                                            <input asp-for="NewPassword" class="with-border">
+                                            <span asp-validation-for="NewPassword"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-4">
+                                        <div class="submit-field">
+                                            <h5>Təkrar yeni şifrə</h5>
+                                            <input asp-for="ConfirmNewPassword" class="with-border">
+                                            <span asp-validation-for="ConfirmNewPassword"></span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Button -->
-                <div class="col-xl-12">
-                    <a href="#" class="button ripple-effect big margin-top-30">Şifrəni yadda saxla</a>
-                </div>
+                    <!-- Button -->
+                    <div class="col-xl-12">
+                        <button type="submit" class="button ripple-effect big margin-top-30">Şifrəni yadda saxla</button>
+                    </div>
+                </form>
 
             </div>
             <!-- Row / End -->

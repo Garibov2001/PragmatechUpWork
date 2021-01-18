@@ -18,6 +18,9 @@ using pragmatechUpWork_BusinessLogicLayer.UnitOfWork.Concrete;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Principal;
 using pragmatechUpWork_CoreMVC.UI.IdentityClasses;
+using pragmatechUpWork_NotificationServices.General;
+using pragmatechUpWork_NotificationServices.Concrete;
+using pragmatechUpWork_NotificationServices.Abstract;
 
 namespace pragmatechUpWork
 {
@@ -74,6 +77,23 @@ namespace pragmatechUpWork
                 options.AccessDeniedPath = "/Account/Register";
                 options.SlidingExpiration = true;
             });
+
+            //-----------------------------------------------------------------
+            //---------------------- Email Notification ---------------------------
+            //-----------------------------------------------------------------
+
+            //Email konqurasiyasi ucun:
+            var emailConfig = Configuration
+                .GetSection("EmailConfiguration")
+                .Get<EmailConfiguration>();
+
+            //Email konfiqurasiyasini inject edirik 
+            //EmailSender ucun ele ona gore de AddSingleton yazmisiq
+            services.AddSingleton(emailConfig);
+
+            //Hansi controllere email gondermek lazim olsa, inject ede bilecek:
+            services.AddScoped<IEmailService, EmailSender>();
+
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -86,6 +106,7 @@ namespace pragmatechUpWork
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
             app.UseRouting();
             app.UseStaticFiles();
             app.UseStatusCodePages();
@@ -93,6 +114,8 @@ namespace pragmatechUpWork
             app.UseAuthorization();
             app.UseHttpsRedirection();
             app.UseAuthentication();
+
+
             //app.UseEndpoints(endpoints =>
             //{
             //endpoints.MapControllerRoute(
