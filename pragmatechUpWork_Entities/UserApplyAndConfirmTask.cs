@@ -10,7 +10,7 @@ namespace pragmatechUpWork_Entities
         public int Id { get; set; }
         public int TaskID { get; set; } 
         public string UserID { get; set; }
-        public decimal Price { get; set; }
+        public int Price { get; set; }
         public int Day { get; set; }
         public bool Status { get; set; }
         public DateTime? ApplyDate { get; set; }
