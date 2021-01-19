@@ -1,4 +1,4 @@
-﻿@model ProjectTask
+﻿@model ProjectTaskWithOther
 <!-- Transparent Header Spacer -->
 <div class="transparent-header-spacer"></div>
 
@@ -34,10 +34,10 @@
                                             <div class="col-xl-8">
                                                 <div class="submit-field">
                                                     <h5 class="text-center">Aid olduğu layihəni seç</h5>
-                                                    <select asp-for="ProjectId" asp-items="@ViewBag.ProjectTask" class="selectpicker with-border" title="Aid oldugu Layiheni seç..">
+                                                    <select asp-for="projectTask.ProjectId" asp-items="@ViewBag.ProjectTask" class="selectpicker with-border" title="Aid oldugu Layiheni seç..">
                                                     </select>
                                                 </div>
-                                                <span asp-validation-for="ProjectId"></span>
+                                                <span asp-validation-for="projectTask.ProjectId"></span>
                                             </div>
                                         </div>
                                     </div>
@@ -47,8 +47,8 @@
                                             <div class="col-xl-8">
                                                 <div class="submit-field">
                                                     <h5 class="text-center">Taskın adı</h5>
-                                                    <input class="with-border" asp-for="Name">
-                                                    <span asp-validation-for="Name"></span>
+                                                    <input class="with-border" asp-for="projectTask.Name">
+                                                    <span asp-validation-for="projectTask.Name"></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -58,10 +58,10 @@
                                         <div class="submit-field">
                                             <h5>Taskın dəyəri</h5>
                                             <div class="input-with-icon">
-                                                <input type="number" class="with-border" asp-for="Cost" placeholder="Ortalama qiymət">
+                                                <input type="number" class="with-border" asp-for="projectTask.Cost" placeholder="Ortalama qiymət">
                                                 <i class="currency">AZN</i>
                                             </div>
-                                            <span asp-validation-for="Cost"></span>
+                                            <span asp-validation-for="projectTask.Cost"></span>
                                         </div>
                                     </div>
 
@@ -69,10 +69,10 @@
                                         <div class="submit-field">
                                             <h5>Taskın müddəti</h5>
                                             <div class="input-with-icon">
-                                                <input type="number" class="with-border" asp-for="RequiredDays" placeholder="Ortalama iş müddəti">
+                                                <input type="number" class="with-border" asp-for="projectTask.RequiredDays" placeholder="Ortalama iş müddəti">
                                                 <i class="currency">Gün</i>
                                             </div>
-                                            <span asp-validation-for="RequiredDays"></span>
+                                            <span asp-validation-for="projectTask.RequiredDays"></span>
                                         </div>
                                     </div>
 
@@ -81,17 +81,17 @@
                                             <h5>Github</h5>
                                             <div class="input-with-icon-left">
                                                 <i class="icon-line-awesome-github-square"></i>
-                                                <input asp-for="GithubUrl" class="input-text with-border" placeholder="Layihənin github reposu">
+                                                <input asp-for="projectTask.GithubUrl" class="input-text with-border" placeholder="Layihənin github reposu">
                                             </div>
-                                            <span asp-validation-for="GithubUrl"></span>
+                                            <span asp-validation-for="projectTask.GithubUrl"></span>
                                         </div>
                                     </div>
 
                                     <div class="col-xl-12">
                                         <div class="submit-field">
                                             <h5>Task haqda</h5>
-                                            <textarea asp-for="TaskInfo" cols="30" rows="5" class="with-border"></textarea>
-                                            <span asp-validation-for="TaskInfo"></span>
+                                            <textarea asp-for="projectTask.TaskInfo" cols="30" rows="5" class="with-border"></textarea>
+                                            <span asp-validation-for="projectTask.TaskInfo"></span>
 
                                             @*<div class="uploadButton margin-top-30">
                     <input class="uploadButton-input" type="file" accept="image/*, application/pdf" id="upload" multiple />

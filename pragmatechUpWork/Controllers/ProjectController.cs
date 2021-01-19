@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using pragmatechUpWork_BusinessLogicLayer.UnitOfWork.Abstract;
 using pragmatechUpWork_CoreMVC.UI.IdentityClasses;
 using pragmatechUpWork_CoreMVC.UI.Models;
@@ -17,12 +18,13 @@ namespace pragmatechUpWork.Controllers
     {
         private readonly IUnitOfWork unitofWork = null;
         private UserManager<ApplicationUser> userManager { get; set; }
+        private RoleManager<ApplicationRole> roleManager { get; set; }
 
-
-        public ProjectController(IUnitOfWork _unitofWork, UserManager<ApplicationUser> _userManager)
+        public ProjectController(IUnitOfWork _unitofWork, UserManager<ApplicationUser> _userManager, RoleManager<ApplicationRole> _roleManager)
         {
             unitofWork = _unitofWork;
             userManager = _userManager;
+            roleManager = _roleManager;
         }
 
         [Route("/profile/projects", Name = "profile-whole_projects")]
@@ -81,24 +83,40 @@ namespace pragmatechUpWork.Controllers
 
         [HttpGet]
         [Route("/project/create", Name = "project-create_project")]
-        public IActionResult CreateProject()
+        public async Task<IActionResult> CreateProject()
         {
-            ViewBag.isValidForm = true;
-            return View("create_project");
+
+            var projectManagers = await GetProjectManagers();           
+
+            var model = new ProjectWithOthers 
+            { 
+                ProjectManagers = new SelectList(projectManagers, nameof(ApplicationUser.Id), nameof(ApplicationUser.Name))
+            };
+
+            return View("create_project", model);
         }
 
         [HttpPost]
         [Route("/project/create", Name = "project-create_project")]
-        public async Task<IActionResult> CreateProject(Project client_data)
+        public async Task<IActionResult> CreateProject(ProjectWithOthers client_data)
         {
+            var projectManagers = await GetProjectManagers();
+
+            var model = new ProjectWithOthers
+            {
+                project = new Project(),
+                ProjectManagers = new SelectList(projectManagers, nameof(ApplicationUser.Id), nameof(ApplicationUser.Name))
+            };
+
+
             if (ModelState.IsValid)
             {
-                await unitofWork.Projects.Add(client_data);
+                await unitofWork.Projects.Add(client_data.project);
                 return RedirectToRoute("profile-whole_projects");
             }
             else
             {
-                return View("create_project");
+                return View("create_project", model);
             }
         }
 
@@ -106,9 +124,12 @@ namespace pragmatechUpWork.Controllers
         [Route("/project/{id}/edit", Name = "project-edit_project")]
         public async Task<IActionResult> EditProject(int id)
         {
+            var projectManagers = await GetProjectManagers();
+            var project = await unitofWork.Projects.GetProjectByID(id);
             var model = new ProjectWithOthers()
             {
-                project = await unitofWork.Projects.GetProjectByID(id)
+                project = project,
+                ProjectManagers = new SelectList(projectManagers, nameof(ApplicationUser.Id), nameof(ApplicationUser.Name), project.ProjectManagerID)
             };
 
             return View("edit_project", model);
@@ -118,14 +139,21 @@ namespace pragmatechUpWork.Controllers
         [Route("/project/{id}/edit", Name = "project-edit_project")]
         public async Task<IActionResult> EditProject(ProjectWithOthers client_data)
         {
+            var projectManagers = await GetProjectManagers();
+            var model = new ProjectWithOthers()
+            {
+                project = client_data.project,
+                ProjectManagers = new SelectList(projectManagers, nameof(ApplicationUser.Id), nameof(ApplicationUser.Name), client_data.project.ProjectManagerID)
+            };
+
             if (ModelState.IsValid)
             {
                 await unitofWork.Projects.Update(client_data.project);
-                return RedirectToRoute("home-default_page");
+                return RedirectToRoute("profile-whole_projects");
             }
             else
             {
-                return View("edit_project");
+                return View("edit_project", model);
             }
         }
 
@@ -140,7 +168,28 @@ namespace pragmatechUpWork.Controllers
             };
 
         return Json(responseData);
-    }
+        }
+
+        private async Task<List<ApplicationUser>> GetProjectManagers() 
+        {
+            List<string> roles = new List<string>();
+            roles.Add(UserRolesEnum.Müəllim.ToString());
+            roles.Add(UserRolesEnum.Proqramçı.ToString());
+            roles.Add(UserRolesEnum.Dəstək_Komandası.ToString());
+
+            List<ApplicationUser> projectManagers = new List<ApplicationUser>();
+
+            foreach (var role in roles)
+            {
+                var usersInRole = await userManager.GetUsersInRoleAsync(role);
+                foreach (var user in usersInRole)
+                {
+                    projectManagers.Add(user);
+                }
+            }
+
+            return projectManagers;
+        }
 
 
 

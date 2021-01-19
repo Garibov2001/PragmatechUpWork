@@ -24,7 +24,8 @@ namespace pragmatechUpWork_Entities
         [Required(ErrorMessage = "Bu xana boş ola bilməz.")]
         public int? MaxCost { get; set; }
 
-        public string ProjectManager { get; set; }
+        [Required(ErrorMessage = "Bu xana boş ola bilməz.")]
+        public string ProjectManagerID { get; set; }
 
         [Required(ErrorMessage = "Bu xana boş ola bilməz.")]
         public DateTime? StartDate { get; set; }

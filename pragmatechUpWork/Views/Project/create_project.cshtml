@@ -1,5 +1,5 @@
 ﻿@using pragmatechUpWork_Entities;
-@model Project;
+@model ProjectWithOthers
 
 <!-- Transparent Header Spacer -->
 <div class="transparent-header-spacer"></div>
@@ -34,16 +34,16 @@
                                     <div class="col-xl-6">
                                         <div class="submit-field">
                                             <h5>Layihənin adı</h5>
-                                            <input class="with-border" asp-for="Name">
-                                            <span asp-validation-for="Name"></span>
+                                            <input class="with-border" asp-for="project.Name">
+                                            <span asp-validation-for="project.Name"></span>
                                         </div>
                                     </div>
 
                                     <div class="col-xl-6">
                                         <div class="submit-field">
                                             <h5>Layihənin kateqoriyası</h5>
-                                            <input class="with-border" asp-for="Category">
-                                            <span asp-validation-for="Category"></span>
+                                            <input class="with-border" asp-for="project.Category">
+                                            <span asp-validation-for="project.Category"></span>
                                         </div>
                                     </div>
 
@@ -54,19 +54,19 @@
                                                 <!-- Min Cost ================= -->
                                                 <div class="col-xl-6">
                                                     <div class="input-with-icon">
-                                                        <input type="number" class="with-border" asp-for="MinCost" placeholder="Min">
+                                                        <input type="number" class="with-border" asp-for="project.MinCost" placeholder="Min">
                                                         <i class="currency">AZN</i>
                                                     </div>
-                                                    <span asp-validation-for="MinCost"></span>
+                                                    <span asp-validation-for="project.MinCost"></span>
                                                 </div>
                                                 <!-- End of Min Cost =============== -->
                                                 <!-- Max Cost ================= -->
                                                 <div class="col-xl-6">
                                                     <div class="input-with-icon">
-                                                        <input type="number" class="with-border" asp-for="MaxCost" placeholder="Max">
+                                                        <input type="number" class="with-border" asp-for="project.MaxCost" placeholder="Max">
                                                         <i class="currency">AZN</i>
                                                     </div>
-                                                    <span asp-validation-for="MaxCost"></span>
+                                                    <span asp-validation-for="project.MaxCost"></span>
 
                                                 </div>
                                                 <!-- End of Max Cost ================= -->
@@ -77,11 +77,9 @@
                                     <div class="col-xl-6">
                                         <div class="submit-field">
                                             <h5>Layihə rəhbəri</h5>
-                                            <select class="selectpicker with-border" asp-for="ProjectManager" data-size="3" title="Seç..">
-                                                <option>Fərid Babayev</option>
-                                                <option>Yasin Uğur</option>
-                                                <option>Şəmistan Sofiyev</option>
+                                            <select class="selectpicker with-border" asp-for="project.ProjectManagerID" asp-items="Model.ProjectManagers" title="Layihə rəhbərini seç..">
                                             </select>
+                                            <span asp-validation-for="project.ProjectManagerID"></span>
                                         </div>
                                     </div>
 
@@ -89,8 +87,8 @@
                                     <div class="col-xl-4">
                                         <div class="submit-field">
                                             <h5>Layihənin başlanğıc tarixi</h5>
-                                            <input type="date" asp-for="StartDate" class="with-border">
-                                            <span asp-validation-for="StartDate"></span>
+                                            <input type="date" asp-for="project.StartDate" class="with-border">
+                                            <span asp-validation-for="project.StartDate"></span>
                                         </div>
                                     </div>
                                     <!-- End of Start Date ================= -->
@@ -98,8 +96,8 @@
                                     <div class="col-xl-4">
                                         <div class="submit-field">
                                             <h5>Layihənin bitmə tarixi</h5>
-                                            <input type="date" asp-for="EndDate" class="with-border">
-                                            <span asp-validation-for="EndDate"></span>
+                                            <input type="date" asp-for="project.EndDate" class="with-border">
+                                            <span asp-validation-for="project.EndDate"></span>
                                         </div>
                                     </div>
                                     <!-- End of Finish Date ================= -->
@@ -110,8 +108,8 @@
                                             <h5>Github</h5>
                                             <div class="input-with-icon-left">
                                                 <i class="icon-line-awesome-github-square"></i>
-                                                <input asp-for="GithubUrl" class="input-text with-border" placeholder="Layihənin github reposu">
-                                                <span asp-validation-for="GithubUrl"></span>
+                                                <input asp-for="project.GithubUrl" class="input-text with-border" placeholder="Layihənin github reposu">
+                                                <span asp-validation-for="project.GithubUrl"></span>
                                             </div>
                                         </div>
                                     </div>
@@ -119,8 +117,8 @@
                                     <div class="col-xl-12">
                                         <div class="submit-field">
                                             <h5>Layihə haqda</h5>
-                                            <textarea asp-for="ProjectInfo" cols="30" rows="5" class="with-border"></textarea>
-                                            <span asp-validation-for="ProjectInfo"></span>
+                                            <textarea asp-for="project.ProjectInfo" cols="30" rows="5" class="with-border"></textarea>
+                                            <span asp-validation-for="project.ProjectInfo"></span>
 
                                             @*<div class="uploadButton margin-top-30">
                                                     <input class="uploadButton-input" type="file" accept="image/*, application/pdf" id="upload" multiple />

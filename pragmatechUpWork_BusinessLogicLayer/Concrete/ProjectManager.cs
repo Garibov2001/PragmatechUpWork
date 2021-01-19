@@ -59,7 +59,7 @@ namespace pragmatechUpWork_BusinessLogicLayer.Concrete
 
         public async Task<List<Project>> GetProjectsByProjectManager(string projectManager)
         {
-            return await projectDal.GetAll(x => x.ProjectManager == projectManager);
+            return await projectDal.GetAll(x => x.ProjectManagerID == projectManager);
         }
 
         public async Task<bool> Update(Project project)

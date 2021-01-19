@@ -6,11 +6,13 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using MimeKit;
 using Newtonsoft.Json;
+using PasswordGenerator;
 using pragmatechUpWork.Controllers;
 using pragmatechUpWork_CoreMVC.UI.IdentityClasses;
 using pragmatechUpWork_CoreMVC.UI.Models;
@@ -28,19 +30,21 @@ namespace pragmatechUpWork_CoreMVC.UI.Controllers
         private RoleManager<ApplicationRole> roleManager { get; set; }
         private SignInManager<ApplicationUser> signInManager { get; set; }
         public IConfiguration Configuration { get; }
-        private readonly IEmailService emailSender;
+
+        private readonly IEmailService _emailSender;
 
         public AccountController(
             UserManager<ApplicationUser> _userManager, 
             RoleManager<ApplicationRole> _roleManager,
             SignInManager<ApplicationUser> _signInManager,
-            IConfiguration _configuration, IEmailService _emailSender)
+            IConfiguration _configuration,
+            IEmailService emailSender)
         {
             userManager = _userManager;
             roleManager = _roleManager;
             signInManager = _signInManager;
             Configuration = _configuration;
-            emailSender = _emailSender;
+            _emailSender = emailSender;
         }
 
         [HttpGet]
@@ -70,10 +74,18 @@ namespace pragmatechUpWork_CoreMVC.UI.Controllers
                         Email = userApi.email,
                         registerDate = DateTime.Now
                     };
-                    IdentityResult result = await userManager.CreateAsync(user, register.Password);
 
+                    //Check email unique or not
+
+                    var randPass = new Password().Next();
+
+                    IdentityResult result = await userManager.CreateAsync(user, randPass);
+
+
+                    
                     if (result.Succeeded)
                     {
+
                         string roleName = String.Empty;
                         int roleNumber;
                         foreach (string character in userApi.roles)
@@ -119,7 +131,15 @@ namespace pragmatechUpWork_CoreMVC.UI.Controllers
 
                         userManager.AddToRoleAsync(user, roleName).Wait();
 
-                        return RedirectToAction("Login");
+                        //Send created user accounto email to verify:
+                        string subject = "PragmatechUpWork Account";
+                        string body = $"Sizin PragmatechUpWork hesabınlz:\nUsername: {register.UserName}\nŞifrə: {randPass}";
+
+                        var message = new Message(
+                            new string[] { $"{userApi.email}" }, subject, body);
+                        _emailSender.SendEmail(message);
+
+                        return RedirectToRoute("user-login", new{route="register"});
                     }
                     else
                     {
@@ -156,6 +176,13 @@ namespace pragmatechUpWork_CoreMVC.UI.Controllers
         [Route("/", Name ="user-login")]
         public IActionResult Login()
         {
+            ViewBag.IsRegistered = false;
+
+            if (HttpContext.Request.Query["route"] == "register")
+            {
+                ViewBag.IsRegistered = true;
+            }
+
             return View("login");
         }
 
@@ -213,5 +240,110 @@ namespace pragmatechUpWork_CoreMVC.UI.Controllers
 
             return userData;
         }
+    
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("/forgotpassword", Name = "user-forgot-password")]
+        public IActionResult ForgotPassword()
+        {
+               return View("~/Views/Account/forgot_password.cshtml");
+        }
+
+
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("/forgotpassword", Name = "user-forgot-password")]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel client_data)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await userManager.FindByEmailAsync(client_data.Email);
+                if (user != null)
+                {
+                    ModelState.Clear();
+                    // Token hazirlanir
+                    var token = await userManager.GeneratePasswordResetTokenAsync(user);
+
+                    var passwordResetLink = Url.RouteUrl("user-reset-password",
+                        new { email = client_data.Email, token = token }, Request.Scheme);
+
+                    //Send created user accounto email to verify:
+                    string subject = "PragmatechUpWork Reset Account";
+                    string body = $"Şifrəni yeniləmə linki\nLink: {passwordResetLink}";
+
+                    var message = new Message(
+                        new string[] { $"{client_data.Email}" }, subject, body);
+                    _emailSender.SendEmail(message);
+
+                    ViewBag.IsSuccess = true;
+                    return View("~/Views/Account/forgot_password.cshtml", client_data);
+                }
+                else
+                {
+                    ModelState.AddModelError("Email", "Bu email pragmatechUpWork sistemində yoxdur.");
+                    return View("~/Views/Account/forgot_password.cshtml", client_data);
+                }
+            }
+            else
+            {
+                return View("~/Views/Account/forgot_password.cshtml", client_data);
+            }
+
+        }
+
+
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("/resetpassword", Name = "user-reset-password")]
+        public IActionResult ResetPassword(string token, string email)
+        {
+            if (token == null || email == null)
+            {
+                ModelState.AddModelError("", "Bərba olunma linki düzgün deyil");
+            }
+
+            return View("~/Views/Account/reset_password.cshtml");
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("/resetpassword", Name = "user-reset-password")]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel client_data)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await userManager.FindByEmailAsync(client_data.Email);
+                if (user != null)
+                {
+                    ModelState.Clear();
+
+                    var result = await userManager.ResetPasswordAsync(user, client_data.Token, client_data.Password);
+
+                    if (result.Succeeded)
+                    {
+                        return RedirectToRoute("user-login");
+                    }
+                    else
+                    {
+                        foreach (var error in result.Errors)
+                        {
+                            ModelState.AddModelError("", error.Description);
+                        }
+                        
+                        return View("~/Views/Account/forgot_password.cshtml", client_data);
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("Email", "Bu email pragmatechUpWork sistemində yoxdur.");
+                    return View("~/Views/Account/reset_password.cshtml", client_data);
+                }
+            }
+            else
+            {
+                return View("~/Views/Account/reset_password.cshtml", client_data);
+            }
+        }
     }
 }
+ 
