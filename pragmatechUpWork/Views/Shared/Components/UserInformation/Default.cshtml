@@ -4,7 +4,7 @@
     <!-- Messages -->
     <div class="header-notifications user-menu">
         <div class="header-notifications-trigger">
-            <a href="#"><div class="user-avatar"><img src="~/images/user-avatar-small-01.jpg" alt=""></div></a>
+            <a href="#"><div class="user-avatar"><img asp-append-version="true" src="~/images/user-avatar-default.png" alt=""></div></a>
         </div>
         <!-- Dropdown -->
         <div class="header-notifications-dropdown">
@@ -12,7 +12,7 @@
             <div class="user-status">
                 <!-- User Name / Avatar -->
                 <div class="user-details">
-                    <div class="user-avatar status-online"><img src="~/images/user-avatar-small-01.jpg" alt=""></div>
+                    <div class="user-avatar status-online"><img asp-append-version="true" src="~/images/user-avatar-default.png" alt=""></div>
                     <div class="user-name">
                         @Model.User.Name @Model.User.Surname <span>@Model.User.UserName</span>
                     </div>
