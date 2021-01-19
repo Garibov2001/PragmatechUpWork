@@ -1,4 +1,6 @@
-﻿@model AllProjectTasksWithOthers;
+﻿@model AllApliedTasksWithOthers;
+
+@inject UserManager<ApplicationUser> userManager
 <!-- Transparent Header Spacer -->
 <div class="transparent-header-spacer"></div>
 
@@ -14,11 +16,11 @@
     <div class="dashboard-content-container" data-simplebar>
         <div class="dashboard-content-inner">
 
-            @if (Model.projecttasks != null)
+            @if (Model.appliedTasks != null)
             {
                 <!-- Dashboard Headline -->
                 <div class="dashboard-headline">
-                    <h3>Tasklar</h3>
+                    <h3>Muraciet Olunan Tasklar</h3>
                 </div>
 
                 <!-- Row -->
@@ -36,46 +38,30 @@
                                         <thead>
                                             <tr>
                                                 <th>Ad</th>
-                                                <th>Layihənin Adı</th>
+                                                <th>Muraciet Eden</th>
                                                 <th>Dəyəri</th>
                                                 <th>İş müddəti</th>
-                                                <th>Publish.T</th>
-                                                <th>Github</th>
                                                 <th>Status</th>
-                                                <th>Alətlər</th>
+                                                <th>Muraciet Tarixi</th>
+                                                <th>Qebul Et</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @if (Model != null)
                                             {
-                                                @foreach (var taskRecord in Model.projecttasks)
+                                                @foreach (var applyTask in Model.appliedTasks)
                                                 {
-                                                    <tr>
-                                                        <td><a href="#">@taskRecord.Name</a></td>
-                                                        <td><a href="#">@taskRecord.Project.Name</a></td>
-                                                        <td>@taskRecord.Cost</td>
-                                                        <td>@taskRecord.RequiredDays</td>
-                                                        <td>
-                                                            @{
-                                                                if (taskRecord.PublishDate != null)
-                                                                { taskRecord.PublishDate.Value.ToString("dd.MM.yyyy"); }
-                                                                else
-                                                                {<p>Publish Olunmayib</p>}
-                                                            }
-                                                        </td>
-                                                        <td>
-                                                            <a href="@taskRecord.GithubUrl"><i class="icon-feather-github" style="font-size:24px !important;"></i></a>
-                                                        </td>
-                                                        @{
-                                                            var taskStatus = (TaskStatus)taskRecord.Status;
-                                                        }
-                                                        <td>@taskStatus</td>
-                                                        <td>
-                                                            <a asp-route="task-edit_task" asp-route-id="@taskRecord.TaskId"><i class="icon-line-awesome-edit" style="font-size:24px !important;"></i></a>
-                                                            <a style="cursor: pointer;" onclick="event.preventDefault(); RemoveTask('@Url.RouteUrl("task-remove_task", new { id = taskRecord.TaskId })');"><i class="icon-material-outline-delete" style="font-size:24px !important; color: red !important;"></i></a>
-                                                            <a asp-route="task-single_task" asp-route-id="@taskRecord.TaskId"><i class="icon-material-outline-my-location" style="font-size:24px !important; "></i></a>
-                                                        </td>
-                                                    </tr>
+                                                <tr>
+                                                <td><a href="#">@applyTask.Task.Name</a></td>
+                                                <td><a href="#">@{var user = userManager.FindByIdAsync(applyTask.UserID).Result; ;} @user.Name @user.Surname</a></td>
+                                                <td>@applyTask.Price</td>
+                                                <td>@applyTask.Day</td>
+                                                <td><div class="countdown green margin-bottom-35">Gozlemede</div></td>
+                                                <td>@applyTask.ApplyDate</td>
+                                                <td>
+                                                    <a class="btn btn-primary" asp-route="single-applied_task" asp-route-id="@applyTask.Id" role="button">Təklifə Ətrafli Bax</a>
+                                                </td>
+                                                </tr>
                                                 }
                                             }
                                         </tbody>
@@ -88,11 +74,11 @@
                 </div>
                 <!-- Row / End -->
             }
-            
-    
-    
-    
-    
+
+
+
+
+
             <!-- Footer -->
             <div class="dashboard-footer-spacer"></div>
             <div class="small-footer margin-top-15">

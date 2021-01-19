@@ -7,6 +7,6 @@ namespace pragmatechUpWork_NotificationServices.Abstract
 {
     public interface IEmailService
     {
-        //public void SendEmail(Message message);
+        public void SendEmail(Message message);
     }
 }

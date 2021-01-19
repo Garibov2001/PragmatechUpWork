@@ -1,5 +1,4 @@
-﻿@model ProjectTaskWithOther
-
+﻿@model AppliedTaskWithOthers
 <!-- Transparent Header Spacer -->
 <div class="transparent-header-spacer"></div>
 
@@ -14,21 +13,12 @@
                     <div class="left-side">
                         <div class="header-image"><a href="single-company-profile.html"><img asp-append-version="true" src="/images/task-logo.png" alt=""></a></div>
                         <div class="header-details">
-                            <h3>@Model.projectTask.Name</h3>
-                            <h5><a asp-route="project-single_project" asp-route-id="@Model.project.ProjectId">@Model.project.Name</a></h5>
+                            <h3>@Model.user.Name</h3>
+                            <h5><a href="#"><i class="icon-material-outline-email"></i>@Model.user.Email</a></h5>
                             <ul class="margin-top-19">
-                                @{
-                                    //var publishDate = DateTime.Now.Day - Model.PublishDate.Value.Day; //Burda sehvlik var publish date basqasi olacaq
-                                }
-                                <li><i class="icon-material-outline-business-center"></i>@Model.projectTask.RequiredDays günlük iş</li>
-                                <li><i class="icon-material-outline-access-time"></i>@Model.projectTask.RequiredDays gün əvvəl </li>
+                                <li><i class="icon-material-outline-person-pin"></i>@Model.user.Father_name</li>
+                                <li><i class="icon-material-outline-person-pin"></i>@Model.user.UserName</li>
                             </ul>
-                        </div>
-                    </div>
-                    <div class="right-side">
-                        <div class="salary-box">
-                            <div class="salary-type">Taskın dəyəri</div>
-                            <div class="salary-amount">@Model.projectTask.Cost &#8380;</div>
                         </div>
                     </div>
                 </div>
@@ -44,11 +34,11 @@
     <div class="row">
 
         @if (ViewBag.Success == true)
-        {            
+        {
             <div class="alert alert-info alert-dismissible fade show col-xl-12 col-lg-12" role="alert">
-                Təklifiniz <strong>müvəffəqiyyətlə</strong> göndərildi
+                Təklifini  <strong>Qebul Etdiniz</strong>
                 <a style="cursor: pointer;" class="close">&times;</a>
-            </div>      
+            </div>
         }
 
         <!-- Content -->
@@ -57,7 +47,7 @@
             <!-- Description -->
             <div class="single-page-section">
                 <h3 class="margin-bottom-25">Task haqda</h3>
-                <p>@Model.projectTask.TaskInfo</p>
+                <p>@Model.applyTask.Task.TaskInfo</p>
             </div>
 
             <div class="single-page-section">
@@ -67,46 +57,27 @@
                 </div>
             </div>
 
-            <!-- Skills -->
-            @* Bunlar Statikdir hele kiç amma dynamic hala getirilecek *@
-            <div class="single-page-section">
-                <h3>Skills Required</h3>
-                <div class="task-tags">
-                    <span>iOS</span>
-                    <span>Android</span>
-                    <span>mobile apps</span>
-                    <span>design</span>
-                </div>
-            </div>
-            <div class="clearfix"></div>
         </div>
 
 
         <!-- Sidebar -->
         <div class="col-xl-4 col-lg-4">
             <div class="sidebar-container">
-
-                @{
-                    var taskStatus = (TaskStatus)Model.projectTask.Status;
-                }
-
-                <div class="countdown green margin-bottom-35">@taskStatus</div>
-
                 <div class="sidebar-widget">
                     <div class="bidding-widget">
-                        <div class="bidding-headline"><h3>Razılaş və ya öz təklifivi et!</h3></div>
+                        <div class="bidding-headline"><h3>Teklifi Qebul Et</h3></div>
                         <div class="bidding-inner">
 
                             <!-- Headline -->
                             <span class="bidding-detail">Özüvə uyğun <strong>qiymət</strong> seç</span>
 
-                            <form asp-route="task-single_task" method="post">
+                            <form asp-route="project-confirmed_task" method="post">
                                 <!-- Price Slider -->
                                 <div class="bidding-value">&#8380; <span id="biddingVal"></span></div>
-                                <input class="bidding-slider" asp-for="appliedTask.Price" data-slider-handle="custom" data-slider-currency="&#8380;" data-slider-min="@Model.projectTask.Cost" data-slider-max="4500" data-slider-value="@Model.projectTask.Cost" data-slider-step="20" data-slider-tooltip="hide" />
+                                <input class="bidding-slider" data-slider-handle="custom" data-slider-currency="&#8380;" data-slider-min="@Model.applyTask.Task.Cost" data-slider-max="4500" data-slider-value="@Model.applyTask.Price" data-slider-step="20" data-slider-tooltip="hide" asp-for="@Model.applyTask.Price" readonly />
 
                                 <!-- Headline -->
-                                <span class="bidding-detail margin-top-30">Özüvə uyğun <strong>gün</strong> seç</span>
+                                <span class="bidding-detail margin-top-30">Teklif Etdiyi <strong>gün</strong> seç</span>
 
                                 <!-- Fields -->
                                 <div class="bidding-fields col-11">
@@ -114,17 +85,20 @@
                                         <!-- Quantity Buttons -->
                                         <div class="qtyButtons">
                                             <div class="qtyDec"></div>
-                                            <input asp-for="appliedTask.Day" type="text" value="@Model.projectTask.RequiredDays">
+                                            <input asp-for="@Model.applyTask.Day" type="text" value="@Model.applyTask.Day" readonly>
                                             <div class="qtyInc"></div>
                                         </div>
                                     </div>
                                 </div>
 
                                 @* Entitylerin updatede duzgun islemesi ucun bu vacibdir *@
-                                <input type="hidden" asp-for="projectTask.TaskId" />
-
+                                <input type="hidden" asp-for="@Model.applyTask.Id" readonly />
+                                <input type="hidden" asp-for="@Model.applyTask.ApplyDate" readonly />
+                                <input type="hidden" asp-for="@Model.applyTask.TaskID" readonly />
+                                <input type="hidden" asp-for="@Model.applyTask.UserID" readonly />
                                 <!-- Button -->
-                                <button asp-route="task-single_task" type="submit" id="snackbar-place-bid" class="button ripple-effect move-on-hover full-width margin-top-30" ><span>Təklif göndər</span></button>
+                                <button type="submit" id="snackbar-place-bid" class="button ripple-effect move-on-hover full-width margin-top-30"><span>Təklifi Qebul Et</span></button>
+                                <button asp-route="project-confirmed_task" type="submit" id="snackbar-place-bid" class="button ripple-effect move-on-hover full-width margin-top-30"><span>Təklifi Qebul Et</span></button>
                             </form>
 
 
@@ -145,4 +119,5 @@
 
 
 <partial name="_Footer" />
+
 

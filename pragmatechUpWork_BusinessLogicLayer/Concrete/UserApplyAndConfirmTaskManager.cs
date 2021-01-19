@@ -48,6 +48,11 @@ namespace pragmatechUpWork_BusinessLogicLayer.Concrete
             return await applyTaskDal.Get(x => x.Id == id);
         }
 
+        public async Task<List<UserApplyAndConfirmTask>> GetAppliedTasksByStatus(bool status)
+        {
+            return await applyTaskDal.GetAll(x => x.Status==status);
+        }
+
         public async Task<List<UserApplyAndConfirmTask>> GetAppliedTasksByUserID(string userId)
         {
             return await applyTaskDal.GetAll(x => x.UserID == userId);

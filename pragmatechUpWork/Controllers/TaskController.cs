@@ -15,6 +15,8 @@ using pragmatechUpWork_CoreMVC.UI.IdentityClasses;
 using pragmatechUpWork_CoreMVC.UI.Models;
 using pragmatechUpWork_Entities;
 using pragmatechUpWork_GeneralLayer.Enums;
+using pragmatechUpWork_NotificationServices.Abstract;
+using pragmatechUpWork_NotificationServices.General;
 
 namespace pragmatechUpWork.Controllers
 {
@@ -22,11 +24,13 @@ namespace pragmatechUpWork.Controllers
     {
         private readonly IUnitOfWork unitofWork = null;
         private UserManager<ApplicationUser> userManager { get; set; }
+        private IEmailService emailService;
 
-        public TaskController(IUnitOfWork _unitofWork, UserManager<ApplicationUser> _userManager)
+        public TaskController(IUnitOfWork _unitofWork, UserManager<ApplicationUser> _userManager,IEmailService _emailService)
         {
             unitofWork = _unitofWork;
             userManager = _userManager;
+            emailService = _emailService;
         }
         [Authorize()]
         [HttpGet]
@@ -92,6 +96,82 @@ namespace pragmatechUpWork.Controllers
             return View("whole_tasks", model);
         }
 
+        //Elave olunacaq
+        [Authorize()]
+        [HttpGet]
+        [Route("/applied/tasks", Name = "project-applied_task")]
+        public async Task<IActionResult> AppliedTasks()
+        {
+            var appliedTasks = await unitofWork.AplliedTasks.GetAppliedTasksByStatus(false);
+
+            if (appliedTasks.Any())
+            {
+                foreach (var appliedTask in appliedTasks)
+                {
+                    appliedTask.Task = await unitofWork.ProjectTasks.GetTasksByID(appliedTask.TaskID);
+                }
+            }
+
+            var model = new AllApliedTasksWithOthers()
+            {
+                appliedTasks = appliedTasks,
+                appliedTask=new UserApplyAndConfirmTask()
+            };
+            return View("applied_tasks", model);
+        }
+
+        //Elave olunacaq
+        [Authorize()]
+        [HttpGet]
+        [Route("/single_applied/tasks/{id}", Name = "single-applied_task")]
+        public async Task<IActionResult> Single_AppliedTasks(int id)
+        {
+            var appliedTask = await unitofWork.AplliedTasks.GetAppliedTasksByID(id);
+
+            if (appliedTask!=null)
+            {
+                    appliedTask.Task = await unitofWork.ProjectTasks.GetTasksByID(appliedTask.TaskID);
+            }
+
+            var model = new AppliedTaskWithOthers()
+            {
+                applyTask = appliedTask,
+                user = userManager.FindByIdAsync(appliedTask.UserID).Result
+            };
+            return View("single_appliedtask", model);
+        }
+
+        //Elave olunacaq
+        [Authorize()]
+        [HttpPost]
+        [Route("/confirmed/tasks", Name = "project-confirmed_task")]
+        public async Task<IActionResult> ConfirmTask(AppliedTaskWithOthers appliedTask)
+        {
+            ProjectTask task= await unitofWork.ProjectTasks.GetTasksByID(appliedTask.applyTask.TaskID);
+
+            appliedTask.applyTask.Task = task;
+            appliedTask.applyTask.Status = true;
+
+            var user = userManager.FindByIdAsync(appliedTask.applyTask.UserID).Result;
+
+            bool result=await unitofWork.AplliedTasks.Update(appliedTask.applyTask);
+            if (result==true)
+            {
+                EmailGonder(user.Email, user.Name, task.Name);
+            }
+
+            return RedirectToRoute("project-applied_task");
+        }
+
+        //Elave olunacaq
+        private void EmailGonder(string targetEmail,string user,string taskName)
+        {
+            string subject = "Pragmatech Task Teklifi Qebulu";
+            string body = string.Format("{0} bəy {1} taskı hakkındakı teklifiniz müdüriyyət tərəfindən qebul olundu.Taskı qeyd etdiyiniz vaxtda tehvil vermeyiniz xahis olunur.",user,taskName);
+            var message = new Message(
+                new string[] { $"{targetEmail}" }, subject, body);
+            emailService.SendEmail(message);
+        }
         [HttpGet]
         [Route("/task/{id}", Name = "task-single_task")]
         public async Task<IActionResult> SingleTask(int id)
@@ -125,9 +205,10 @@ namespace pragmatechUpWork.Controllers
             {
                 appliedTask.UserID = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 appliedTask.TaskID = id;
+                appliedTask.Task = task;
                 appliedTask.ApplyDate = DateTime.Now;
 
-                await unitofWork.AplliedTasks.Add(appliedTask);
+                bool result=await unitofWork.AplliedTasks.Add(appliedTask);
                 model.appliedTask = appliedTask;
 
                 ViewBag.Success = true;

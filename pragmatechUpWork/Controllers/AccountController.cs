@@ -9,12 +9,16 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using MimeKit;
 using Newtonsoft.Json;
 using pragmatechUpWork.Controllers;
 using pragmatechUpWork_CoreMVC.UI.IdentityClasses;
 using pragmatechUpWork_CoreMVC.UI.Models;
 using pragmatechUpWork_Entities;
 using pragmatechUpWork_GeneralLayer.Enums;
+using pragmatechUpWork_NotificationServices.Abstract;
+using pragmatechUpWork_NotificationServices.Concrete;
+using pragmatechUpWork_NotificationServices.General;
 
 namespace pragmatechUpWork_CoreMVC.UI.Controllers
 {
@@ -24,17 +28,19 @@ namespace pragmatechUpWork_CoreMVC.UI.Controllers
         private RoleManager<ApplicationRole> roleManager { get; set; }
         private SignInManager<ApplicationUser> signInManager { get; set; }
         public IConfiguration Configuration { get; }
+        private readonly IEmailService emailSender;
 
         public AccountController(
             UserManager<ApplicationUser> _userManager, 
             RoleManager<ApplicationRole> _roleManager,
             SignInManager<ApplicationUser> _signInManager,
-            IConfiguration _configuration)
+            IConfiguration _configuration, IEmailService _emailSender)
         {
             userManager = _userManager;
             roleManager = _roleManager;
             signInManager = _signInManager;
             Configuration = _configuration;
+            emailSender = _emailSender;
         }
 
         [HttpGet]
