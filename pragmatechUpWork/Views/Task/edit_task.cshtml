@@ -1,4 +1,4 @@
-﻿@model ProjectTask;
+﻿@model ProjectTask
 <!-- Transparent Header Spacer -->
 <div class="transparent-header-spacer"></div>
 
@@ -86,7 +86,7 @@
                                             <span asp-validation-for="GithubUrl"></span>
                                         </div>
                                     </div>
-                                    <input type="hidden" asp-for="TaskId"/>
+                                    
                                     <div class="col-xl-12">
                                         <div class="submit-field">
                                             <h5>Task haqda</h5>
@@ -100,6 +100,9 @@
                                                 </div>*@
                                         </div>
                                     </div>
+
+                                    @* Entitylerin updatede duzgun islemesi ucun bu vacibdir *@
+                                    <input type="hidden" asp-for="TaskId"/>
 
                                 </div>
                             </div>

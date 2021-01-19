@@ -1,0 +1,123 @@
+﻿@model AppliedTaskWithOthers
+<!-- Transparent Header Spacer -->
+<div class="transparent-header-spacer"></div>
+
+
+<!-- Titlebar
+================================================== -->
+<div class="single-page-header" data-background-image="/images/single_bg.jpg">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="single-page-header-inner">
+                    <div class="left-side">
+                        <div class="header-image"><a href="single-company-profile.html"><img asp-append-version="true" src="/images/task-logo.png" alt=""></a></div>
+                        <div class="header-details">
+                            <h3>@Model.user.Name</h3>
+                            <h5><a href="#"><i class="icon-material-outline-email"></i>@Model.user.Email</a></h5>
+                            <ul class="margin-top-19">
+                                <li><i class="icon-material-outline-person-pin"></i>@Model.user.Father_name</li>
+                                <li><i class="icon-material-outline-person-pin"></i>@Model.user.UserName</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Page Content
+================================================== -->
+<div class="container">
+    <div class="row">
+
+        @if (ViewBag.Success == true)
+        {
+            <div class="alert alert-info alert-dismissible fade show col-xl-12 col-lg-12" role="alert">
+                Təklifini  <strong>Qebul Etdiniz</strong>
+                <a style="cursor: pointer;" class="close">&times;</a>
+            </div>
+        }
+
+        <!-- Content -->
+        <div class="col-xl-8 col-lg-8 content-right-offset">
+
+            <!-- Description -->
+            <div class="single-page-section">
+                <h3 class="margin-bottom-25">Task haqda</h3>
+                <p>@Model.applyTask.Task.TaskInfo</p>
+            </div>
+
+            <div class="single-page-section">
+                <h3 class="margin-bottom-30">Texniki tapşırıq</h3>
+                <div class="attachments-container">
+                    <a href="#" class="attachment-box ripple-effect"><span>Task Haqda</span><i>PDF</i></a>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- Sidebar -->
+        <div class="col-xl-4 col-lg-4">
+            <div class="sidebar-container">
+                <div class="sidebar-widget">
+                    <div class="bidding-widget">
+                        <div class="bidding-headline"><h3>Teklifi Qebul Et</h3></div>
+                        <div class="bidding-inner">
+
+                            <!-- Headline -->
+                            <span class="bidding-detail">Özüvə uyğun <strong>qiymət</strong> seç</span>
+
+                            <form asp-route="project-confirmed_task" method="post">
+                                <!-- Price Slider -->
+                                <div class="bidding-value">&#8380; <span id="biddingVal"></span></div>
+                                <input class="bidding-slider" data-slider-handle="custom" data-slider-currency="&#8380;" data-slider-min="@Model.applyTask.Task.Cost" data-slider-max="4500" data-slider-value="@Model.applyTask.Price" data-slider-step="20" data-slider-tooltip="hide" asp-for="@Model.applyTask.Price" readonly />
+
+                                <!-- Headline -->
+                                <span class="bidding-detail margin-top-30">Teklif Etdiyi <strong>gün</strong> seç</span>
+
+                                <!-- Fields -->
+                                <div class="bidding-fields col-11">
+                                    <div class="bidding-field">
+                                        <!-- Quantity Buttons -->
+                                        <div class="qtyButtons">
+                                            <div class="qtyDec"></div>
+                                            <input asp-for="@Model.applyTask.Day" type="text" value="@Model.applyTask.Day" readonly>
+                                            <div class="qtyInc"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                @* Entitylerin updatede duzgun islemesi ucun bu vacibdir *@
+                                <input type="hidden" asp-for="@Model.applyTask.Id" readonly />
+                                <input type="hidden" asp-for="@Model.applyTask.ApplyDate" readonly />
+                                <input type="hidden" asp-for="@Model.applyTask.TaskID" readonly />
+                                <input type="hidden" asp-for="@Model.applyTask.UserID" readonly />
+                                <!-- Button -->
+                                <button type="submit" id="snackbar-place-bid" class="button ripple-effect move-on-hover full-width margin-top-30"><span>Təklifi Qebul Et</span></button>
+                                <button asp-route="project-confirmed_task" type="submit" id="snackbar-place-bid" class="button ripple-effect move-on-hover full-width margin-top-30"><span>Təklifi Qebul Et</span></button>
+                            </form>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- Spacer -->
+<div class="margin-top-15"></div>
+<!-- Spacer / End-->
+
+
+
+<partial name="_Footer" />
+
+

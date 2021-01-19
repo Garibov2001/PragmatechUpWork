@@ -77,11 +77,9 @@
                                     <div class="col-xl-6">
                                         <div class="submit-field">
                                             <h5>Layihə rəhbəri</h5>
-                                            <select class="selectpicker with-border" data-size="3" title="Seç..">
-                                                <option>Fərid Babayev</option>
-                                                <option>Yasin Uğur</option>
-                                                <option>Şəmistan Sofiyev</option>
+                                            <select class="selectpicker with-border" asp-for="project.ProjectManagerID" asp-items="Model.ProjectManagers" title="Layihə rəhbərini seç..">
                                             </select>
+                                            <span asp-validation-for="project.ProjectManagerID"></span>
                                         </div>
                                     </div>
 
@@ -136,7 +134,7 @@
                     </div>
 
                     <div class="col-xl-12">
-                        <button type="submit" class="button ripple-effect big margin-top-30"><i class="icon-feather-plus"></i> Əlavə et</button>
+                        <button type="submit" class="button ripple-effect big margin-top-30"><i class="icon-feather-plus"></i> Yadda saxla</button>
                     </div>
                 </form>
             </div>

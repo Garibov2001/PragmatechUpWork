@@ -1,4 +1,4 @@
-﻿@model LoginViewModel;
+﻿@model LoginViewModel
 @{
     Layout = "~/Views/Shared/_AuthLayout.cshtml";
 }
@@ -17,6 +17,7 @@
             <!-- Login -->
             <div class="popup-tab-content" id="login">
 
+
                 <!-- Welcome Text -->
                 <div class="text-center">
                     <img width="350" class="text-center" src="~/images/logo_pragma.png">
@@ -24,32 +25,51 @@
 
                 <div class="welcome-text pt-4">
                     <h3>PragmatechUpWork</h3>
-                    <span>Hesabınız yoxdursa, <a href="#" class="register-tab">Qeydiyyatdan</a> keçin </span>
+                    <span>Hesabınız yoxdursa, <a asp-route="user-register">Qeydiyyatdan</a> keçin </span>
+                </div>
+
+                <div asp-validation-summary="ModelOnly">
+
                 </div>
 
                 <!-- Form -->
-                <form method="post" asp-action="Login" asp-controller="Account">
+                <form method="post" asp-route="user-login">
+
+                    @if (ViewBag.IsRegistered == true)
+                    {
+                        <div class="col-xl-12 col-lg-12 d-flex justify-content-center">
+                            <div class="alert alert-success alert-dismissible fade show col-xl-10 col-lg-12 " role="alert">
+                                Şifrəniz emailinizə göndərildi!
+                                <a style="cursor: pointer;" class="close">&times;</a>
+                            </div>
+                        </div>
+                    }
+
 
                     <div class="input-with-icon-left">
-                        <i class="icon-material-baseline-mail-outline"></i>
-                        <input type="text" class="input-text with-border" asp-for="UserName" placeholder="Kullanici Adi" required />
+                        <i class="icon-material-outline-account-circle"></i>
+                        <input type="text" class="input-text with-border" asp-for="UserName" placeholder="İstifadəçi adı" required />
+                        <span asp-validation-for="UserName"></span>
                     </div>
 
                     <div class="input-with-icon-left">
                         <i class="icon-material-outline-lock"></i>
-                        <input type="password" class="input-text with-border" asp-for="Password" placeholder="Password" required />
+                        <input type="password" class="input-text with-border" asp-for="Password" placeholder="Şifrə" required />
+                        <span asp-validation-for="Password"></span>
                     </div>
 
-                    <div class="input-with-icon-left">
-                        <i class="icon-material-outline-check-circle"></i>
-                        <input type="checkbox" class="input-text with-border" asp-for="RememberMe" placeholder="Password" required />
+                    <div class="d-flex justify-content-between">
+                        <div class="checkbox">
+                            <input type="checkbox" asp-for="RememberMe" id="two-step" checked="">
+                            <label for="two-step"><span class="checkbox-icon"></span> Yadda saxla</label>
+                        </div>
+                        <div>
+                            <a asp-route="user-forgot-password"><label style="cursor: pointer;"><span class="checkbox-icon"></span> Şifrəni unutmusan?</label></a>
+                        </div>
                     </div>
-                    <a href="#" class="forgot-password">Şifrəni unutmusan?</a>
-
 
                     <!-- Button -->
                     <input value="Daxil ol" class="button full-width button-sliding-icon ripple-effect" type="submit" />
-                    <button class="button full-width button-sliding-icon ripple-effect" type="button" asp-action="Register" asp-controller="Account">Qeydiyyatdan keçin<i class="icon-material-outline-arrow-right-alt"></i></button>
                 </form>
 
             </div>

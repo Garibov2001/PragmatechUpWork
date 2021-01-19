@@ -1,4 +1,10 @@
-﻿<!-- Dashboard Sidebar
+﻿
+
+@inject SignInManager<ApplicationUser> signInManager
+@inject UserManager<ApplicationUser> userManager
+
+
+<!-- Dashboard Sidebar
 ================================================== -->
 <div class="dashboard-sidebar">
     <div class="dashboard-sidebar-inner" data-simplebar>
@@ -17,7 +23,6 @@
             <!-- Navigation -->
             <div class="dashboard-nav">
                 <div class="dashboard-nav-inner">
-
                     <ul data-submenu-title="Start">
                         <li class="active"><a href="dashboard.html"><i class="icon-material-outline-dashboard"></i> Dashboard</a></li>
                         <li><a href="dashboard-messages.html"><i class="icon-material-outline-question-answer"></i> Messages <span class="nav-tag">2</span></a></li>
@@ -25,26 +30,51 @@
                         <li><a href="dashboard-reviews.html"><i class="icon-material-outline-rate-review"></i> Reviews</a></li>
                     </ul>
 
-                    <ul data-submenu-title="Layihələr və Tasklar">
-                        <li>
-                            <a href="#"><i class="icon-material-outline-business-center"></i> Layihələr</a>
-                            <ul>
-                                <li><a asp-route="profile-whole_projects">Bütün Layihələr</a></li>
-                                <li><a asp-route="project-create_project">Yeni layihə əlavə et</a></li>
-                            </ul>
-                        </li>
-                        <li>                            
-                            <a href="profile-whole_tasks"><i class="icon-material-outline-assignment"></i> Tasklar</a>
-                            <ul>
-                                <li><a asp-route="profile-whole_tasks">Bütün Tasklar</a></li>
-                                <li><a asp-route="task-create_task">Yeni Task əlavə et</a></li>
-                            </ul>
-                        </li>
-                    </ul>
+                    @{
+                        var currentUser = await userManager.GetUserAsync(User);
+                        var roles = await userManager.GetRolesAsync(currentUser);
+                    }
+                    @if (roles.Contains(UserRolesEnum.Müəllim.ToString()))
+                    {
+                        <ul data-submenu-title="Layihələr və Tasklar">
+                            <li>
+                                <a href="#"><i class="icon-material-outline-business-center"></i> Layihələr</a>
+                                <ul>
+                                    <li><a asp-route="profile-whole_projects">Bütün Layihələr</a></li>
+                                    <li><a asp-route="project-create_project">Yeni layihə əlavə et</a></li>
+                                    <li><a asp-route="project-applied_task">Muraciet olunan tasklar</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="profile-whole_tasks"><i class="icon-material-outline-assignment"></i> Tasklar</a>
+                                <ul>
+                                    <li><a asp-route="profile-whole_tasks">Bütün Tasklar</a></li>
+                                    <li><a asp-route="task-create_task">Yeni Task əlavə et</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    }
+                    else
+                    {
+                        <ul data-submenu-title="Layihələrim və Tasklarım">
+                            <li>
+                                <a href="#"><i class="icon-material-outline-business-center"></i> Layihələrim</a>
+                                <ul>
+                                    <li><a asp-route="profile-whole_projects">Bütün Layihələrim</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="profile-whole_tasks"><i class="icon-material-outline-assignment"></i> Tasklarım</a>
+                                <ul>
+                                    <li><a asp-route="profile-whole_tasks">Bütün Tasklarım</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    }
 
                     <ul data-submenu-title="Account">
-                        <li><a href="dashboard-settings.html"><i class="icon-material-outline-settings"></i> Settings</a></li>
-                        <li><a href="index-logged-out.html"><i class="icon-material-outline-power-settings-new"></i> Logout</a></li>
+                        <li><a asp-route="profile-settings-page"><i class="icon-material-outline-settings"></i> Parametrlər</a></li>
+                        <li><a asp-route="user-signout"><i class="icon-material-outline-power-settings-new"></i> Çıxmaq</a></li>
                     </ul>
 
                 </div>

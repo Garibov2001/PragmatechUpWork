@@ -1,0 +1,194 @@
+﻿@model AllProjectsWithOthers;
+@inject UserManager<ApplicationUser> userManager
+<!-- Transparent Header Spacer -->
+<div class="transparent-header-spacer"></div>
+
+
+<!-- Dashboard Container -->
+<div class="dashboard-container">
+
+
+    <partial name="_Profile_sidebar" />
+
+    <!-- Dashboard Content
+    ================================================== -->
+    <div class="dashboard-content-container" data-simplebar>
+        <div class="dashboard-content-inner">
+            @if (Model.projects != null)
+            {
+                <!-- Dashboard Headline -->
+                <div class="dashboard-headline">
+                    <h3>Layihələr</h3>
+                </div>
+
+                <!-- Row -->
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="dashboard-box margin-top-0">
+                            <!-- Headline -->
+                            <div class="headline">
+                                <h3><i class="icon-feather-bar-chart-2"></i> Layihələr</h3>
+                            </div>
+
+                            <div class="content with-padding padding-bottom-10">
+                                <div class="row">
+                                    <table id="projects_table" class="table table-striped text-center">
+                                        <thead>
+                                            <tr>
+                                                <th>Ad</th>
+                                                <th>Rəhbər</th>
+                                                <th>Deadline</th>
+                                                <th>Github</th>
+                                                <th>Status</th>
+                                                <th>Texniki.T</th>
+                                                <th>Alətlər</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (Model != null)
+                                            {
+                                                @foreach (var projectRecord in Model.projects)
+                                                {
+
+                                                    <tr>
+                                                        <td><a asp-route="project-single_project" asp-route-id="@projectRecord.ProjectId">@projectRecord.Name</a></td>
+
+                                                        <td><a href="#">@userManager.FindByIdAsync(projectRecord.ProjectManagerID).Result.Name @userManager.FindByIdAsync(projectRecord.ProjectManagerID).Result.Surname</a></td>
+                                                        <td>
+                                                            @projectRecord.StartDate.Value.ToString("dd.MM.yyyy") - @projectRecord.EndDate.Value.ToString("dd.MM.yyyy")
+                                                        </td>
+                                                        <td>
+                                                            <a href="@projectRecord.GithubUrl"><i class="icon-feather-github" style="font-size:24px !important;"></i></a>
+                                                        </td>
+                                                        @{
+                                                            var projStatus = (ProjectStatus)@projectRecord.Status;
+                                                        }
+                                                        <td>@projStatus</td>
+                                                        <td>
+                                                            <a href="#"><i class="icon-line-awesome-download" style="font-size:24px !important;"></i></a>
+                                                        </td>
+                                                        <td>
+                                                            <a asp-route="project-edit_project" asp-route-id="@projectRecord.ProjectId"><i class="icon-line-awesome-edit" style="font-size:24px !important;"></i></a>
+                                                            <a style="cursor: pointer;" onclick="event.preventDefault(); RemoveProject('@Url.RouteUrl("project-remove_project", new { id = projectRecord.ProjectId})');"><i class="icon-material-outline-delete" style="font-size:24px !important; color: red !important;"></i></a>
+                                                            <a asp-route="project-single_project" asp-route-id="@projectRecord.ProjectId"><i class="icon-material-outline-my-location" style="font-size:24px !important; "></i></a>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- Row / End -->
+            }
+            else if (Model.appliedTasks != null)
+            {
+                <!-- Dashboard Headline -->
+                <div class="dashboard-headline">
+                    <h3>Layihələrim</h3>
+                </div>
+
+                <!-- Row -->
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="dashboard-box margin-top-0">
+                            <!-- Headline -->
+                            <div class="headline">
+                                <h3><i class="icon-feather-bar-chart-2"></i> Layihələrim</h3>
+                            </div>
+
+                            <div class="content with-padding padding-bottom-10">
+                                <div class="row">
+                                    <table id="projects_table" class="table table-striped text-center">
+                                        <thead>
+                                            <tr>
+                                                <th>Layihə</th>
+                                                <th>Taskım</th>
+                                                <th>Rəhbər</th>
+                                                <th>Deadline</th>
+                                                <th>Github</th>
+                                                <th>Alətlər</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (Model != null)
+                                            {
+                                                @foreach (var appliedTask in Model.appliedTasks)
+                                                {
+
+                                                    <tr>
+                                                        <td>@appliedTask.Task.Project.Name</td>
+                                                        <td><a asp-route="task-single_task" asp-route-id="@appliedTask.Task.TaskId">@appliedTask.Task.Name</a></td>
+                                                        <td><a href="#">@appliedTask.Task.Project.ProjectManagerID</a></td>
+                                                        <td>
+                                                            @appliedTask.Task.Project.StartDate.Value.ToString("dd.MM.yyyy") - @appliedTask.Task.Project.EndDate.Value.ToString("dd.MM.yyyy")
+                                                        </td>
+                                                        <td>
+                                                            <a href="@appliedTask.Task.Project.GithubUrl"><i class="icon-feather-github" style="font-size:24px !important;"></i></a>
+                                                        </td>
+                                                        <td>
+                                                            <a asp-route="project-single_project" asp-route-id="@appliedTask.Task.Project.ProjectId"><i class="icon-material-outline-my-location" style="font-size:24px !important; "></i></a>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- Row / End -->
+            }
+            <!-- Footer -->
+            <div class="dashboard-footer-spacer"></div>
+            <div class="small-footer margin-top-15">
+                <div class="small-footer-copyrights">
+                    © 2018 <strong>Hireo</strong>. All Rights Reserved.
+                </div>
+                <ul class="footer-social-links">
+                    <li>
+                        <a href="#" title="Facebook" data-tippy-placement="top">
+                            <i class="icon-brand-facebook-f"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" title="Twitter" data-tippy-placement="top">
+                            <i class="icon-brand-twitter"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" title="Google Plus" data-tippy-placement="top">
+                            <i class="icon-brand-google-plus-g"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" title="LinkedIn" data-tippy-placement="top">
+                            <i class="icon-brand-linkedin-in"></i>
+                        </a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <!-- Footer / End -->
+
+        </div>
+    </div>
+    <!-- Dashboard Content / End -->
+
+</div>
+<!-- Dashboard Container / End -->
+
+
+
+@section scripts{
+    <script src="~/lib/twitter-bootstrap/js/bootstrap.min.js" asp-append-version="true"></script>
+    <script src="~/js/projects.js" asp-append-version="true"></script>
+
+}

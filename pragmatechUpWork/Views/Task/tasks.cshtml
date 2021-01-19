@@ -50,7 +50,7 @@
 
                                                 <tr>
                                                     <td><a asp-route="project-single_project" asp-route-id="@projectRecord.ProjectId">@projectRecord.Name</a></td>
-                                                    <td><a href="#">@projectRecord.ProjectManager</a></td>
+                                                    <td><a href="#">@projectRecord.ProjectManagerID</a></td>
                                                     <td>
                                                         @projectRecord.StartDate.Value.ToString("dd.MM.yyyy") - @projectRecord.EndDate.Value.ToString("dd.MM.yyyy")
                                                     </td>

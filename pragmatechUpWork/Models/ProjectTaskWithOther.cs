@@ -12,5 +12,6 @@ namespace pragmatechUpWork_CoreMVC.UI.Models
         public ProjectTask projectTask { get; set; }
         public SelectList projects { get; set; }
         public Project project { get; set; }
+        public UserApplyAndConfirmTask appliedTask { get; set; }
     }
 }

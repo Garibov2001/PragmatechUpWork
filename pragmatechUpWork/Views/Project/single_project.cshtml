@@ -1,4 +1,5 @@
 ﻿@model ProjectWithOthers;
+@inject UserManager<ApplicationUser> userManager
 <!-- Transparent Header Spacer -->
 <div class="transparent-header-spacer"></div>
 
@@ -67,7 +68,7 @@
                                 <li>
                                     <i class="icon-feather-user"></i>
                                     <span>Layihə rəhbəri</span>
-                                    <h5><a href="#">@Model.project.ProjectManager</a></h5>
+                                    <h5><a href="#">@userManager.FindByIdAsync(Model.project.ProjectManagerID).Result.Name @userManager.FindByIdAsync(Model.project.ProjectManagerID).Result.Surname</a></h5>
                                 </li>
                                 <li>
                                     <i class="icon-material-outline-business-center"></i>

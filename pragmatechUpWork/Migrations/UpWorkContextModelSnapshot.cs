@@ -57,7 +57,8 @@ namespace pragmatechUpWork_CoreMVC.UI.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.Property<string>("ProjectManager")
+                    b.Property<string>("ProjectManagerID")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("StartDate")
@@ -117,6 +118,38 @@ namespace pragmatechUpWork_CoreMVC.UI.Migrations
                     b.ToTable("Task");
                 });
 
+            modelBuilder.Entity("pragmatechUpWork_Entities.UserApplyAndConfirmTask", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<DateTime?>("ApplyDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Day")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Price")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("TaskID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TaskID");
+
+                    b.ToTable("ApplyTask");
+                });
+
             modelBuilder.Entity("pragmatechUpWork_Entities.ProjectTask", b =>
                 {
                     b.HasOne("pragmatechUpWork_Entities.Project", "Project")
@@ -126,6 +159,17 @@ namespace pragmatechUpWork_CoreMVC.UI.Migrations
                         .IsRequired();
 
                     b.Navigation("Project");
+                });
+
+            modelBuilder.Entity("pragmatechUpWork_Entities.UserApplyAndConfirmTask", b =>
+                {
+                    b.HasOne("pragmatechUpWork_Entities.ProjectTask", "Task")
+                        .WithMany()
+                        .HasForeignKey("TaskID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Task");
                 });
 
             modelBuilder.Entity("pragmatechUpWork_Entities.Project", b =>

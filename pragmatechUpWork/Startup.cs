@@ -18,6 +18,9 @@ using pragmatechUpWork_BusinessLogicLayer.UnitOfWork.Concrete;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Principal;
 using pragmatechUpWork_CoreMVC.UI.IdentityClasses;
+using pragmatechUpWork_NotificationServices.General;
+using pragmatechUpWork_NotificationServices.Abstract;
+using pragmatechUpWork_NotificationServices.Concrete;
 
 namespace pragmatechUpWork
 {
@@ -49,6 +52,17 @@ namespace pragmatechUpWork
                         _ => "Bu xana bos ola bilmez");
                 });
 
+            // Buradan Identitimizi configure ede bilirik
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequiredLength = 6;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.User.RequireUniqueEmail = true;
+            });
+
             services.AddControllersWithViews();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IProjectDal, EfProjectDal>();
@@ -64,6 +78,22 @@ namespace pragmatechUpWork
                 options.AccessDeniedPath = "/Account/Register";
                 options.SlidingExpiration = true;
             });
+
+            //-----------------------------------------------------------------
+            //---------------------- Email Notification ---------------------------
+            //-----------------------------------------------------------------
+
+            //Email konqurasiyasi ucun:
+            var emailConfig = Configuration
+                .GetSection("EmailConfiguration")
+                .Get<EmailConfiguration>();
+
+            //Email konfiqurasiyasini inject edirik 
+            //EmailSender ucun ele ona gore de AddSingleton yazmisiq
+            services.AddSingleton(emailConfig);
+
+            //Hansi controllere email gondermek lazim olsa, inject ede bilecek:
+            services.AddScoped<IEmailService, EmailSender>();
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -74,8 +104,9 @@ namespace pragmatechUpWork
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/error/500");
             }
+
             app.UseRouting();
             app.UseStaticFiles();
             app.UseStatusCodePages();
@@ -83,13 +114,22 @@ namespace pragmatechUpWork
             app.UseAuthorization();
             app.UseHttpsRedirection();
             app.UseAuthentication();
-            //app.UseEndpoints(endpoints =>
-            //{
-            //endpoints.MapControllerRoute(
-            //name: "default",
-            //pattern: "{ controller = Home}/{ action = Index}/{ id ?}");
-            //endpoints.MapRazorPages();
-            //});
+
+            
+            // 404 Not Found Page
+            app.Use(async (ctx, next) =>
+            {
+                await next();
+
+                if (ctx.Response.StatusCode == 404 && !ctx.Response.HasStarted)
+                {
+                    //Re-execute the request so the user gets the error page
+                    string originalPath = ctx.Request.Path.Value;
+                    ctx.Items["originalPath"] = originalPath;
+                    ctx.Request.Path = "/error/404";
+                    await next();
+                }
+            });
 
             app.UseMvc(ConfigurationRouter);
         }
