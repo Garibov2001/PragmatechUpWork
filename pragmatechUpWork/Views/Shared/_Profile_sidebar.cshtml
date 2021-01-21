@@ -2,8 +2,6 @@
 
 @inject SignInManager<ApplicationUser> signInManager
 @inject UserManager<ApplicationUser> userManager
-
-
 <!-- Dashboard Sidebar
 ================================================== -->
 <div class="dashboard-sidebar">
@@ -24,10 +22,7 @@
             <div class="dashboard-nav">
                 <div class="dashboard-nav-inner">
                     <ul data-submenu-title="Start">
-                        <li class="active"><a href="dashboard.html"><i class="icon-material-outline-dashboard"></i> Dashboard</a></li>
-                        <li><a href="dashboard-messages.html"><i class="icon-material-outline-question-answer"></i> Messages <span class="nav-tag">2</span></a></li>
-                        <li><a href="dashboard-bookmarks.html"><i class="icon-material-outline-star-border"></i> Bookmarks</a></li>
-                        <li><a href="dashboard-reviews.html"><i class="icon-material-outline-rate-review"></i> Reviews</a></li>
+                        <li @Html.Raw((ViewBag.ProfilePage == true) ? "class='active'" : "")><a asp-route="profile-account-page"><i class="icon-material-outline-dashboard"></i> Profil</a></li>
                     </ul>
 
                     @{
@@ -37,7 +32,7 @@
                     @if (roles.Contains(UserRolesEnum.Müəllim.ToString()))
                     {
                         <ul data-submenu-title="Layihələr və Tasklar">
-                            <li>
+                            <li @Html.Raw((ViewBag.ProjectsPage == true) ? "class='active'" : "")>
                                 <a href="#"><i class="icon-material-outline-business-center"></i> Layihələr</a>
                                 <ul>
                                     <li><a asp-route="profile-whole_projects">Bütün Layihələr</a></li>
@@ -45,7 +40,7 @@
                                     <li><a asp-route="project-applied_task">Muraciet olunan tasklar</a></li>
                                 </ul>
                             </li>
-                            <li>
+                            <li @Html.Raw((ViewBag.TasksPage == true) ? "class='active'" : "")>
                                 <a href="profile-whole_tasks"><i class="icon-material-outline-assignment"></i> Tasklar</a>
                                 <ul>
                                     <li><a asp-route="profile-whole_tasks">Bütün Tasklar</a></li>
@@ -57,13 +52,14 @@
                     else
                     {
                         <ul data-submenu-title="Layihələrim və Tasklarım">
-                            <li>
+                            <li @Html.Raw((ViewBag.ProjectsPage == true) ? "class='active'" : "")>
                                 <a href="#"><i class="icon-material-outline-business-center"></i> Layihələrim</a>
                                 <ul>
                                     <li><a asp-route="profile-whole_projects">Bütün Layihələrim</a></li>
                                 </ul>
                             </li>
-                            <li>
+
+                            <li @Html.Raw((ViewBag.TasksPage == true) ? "class='active'" : "")>
                                 <a href="profile-whole_tasks"><i class="icon-material-outline-assignment"></i> Tasklarım</a>
                                 <ul>
                                     <li><a asp-route="profile-whole_tasks">Bütün Tasklarım</a></li>
@@ -73,8 +69,8 @@
                     }
 
                     <ul data-submenu-title="Account">
-                        <li><a asp-route="profile-settings-page"><i class="icon-material-outline-settings"></i> Parametrlər</a></li>
-                        <li><a asp-route="user-signout"><i class="icon-material-outline-power-settings-new"></i> Çıxmaq</a></li>
+                        <li @Html.Raw((ViewBag.SettingsPage == true) ? "class='active'" : "")><a asp-route="profile-settings-page"><i class="icon-material-outline-settings"></i> Parametrlər</a></li>
+                        <li @Html.Raw((ViewBag.SignoutPage == true) ? "class='active'" : "")><a asp-route="user-signout"><i class="icon-material-outline-power-settings-new"></i> Çıxmaq</a></li>
                     </ul>
 
                 </div>

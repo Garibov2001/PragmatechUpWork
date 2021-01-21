@@ -32,11 +32,15 @@ namespace pragmatechUpWork.Controllers
             userManager = _userManager;
             emailService = _emailService;
         }
+
         [Authorize()]
         [HttpGet]
         [Route("/profile/tasks", Name = "profile-whole_tasks")]
         public async Task<IActionResult> ProfileTasks()
         {
+            //Active Page
+            ViewBag.TasksPage = true;
+
             var currentUser = await userManager.GetUserAsync(User);
             var roles = await userManager.GetRolesAsync(currentUser);
             var model = new AllProjectTasksWithOthers();
@@ -79,6 +83,7 @@ namespace pragmatechUpWork.Controllers
         [Route("/tasks", Name = "task-whole_task")]
         public async Task<IActionResult> WholeTasks()
         {
+
             var projectTasks = await unitofWork.ProjectTasks.GetAllDescending();
 
             if (projectTasks.Any())
@@ -102,6 +107,9 @@ namespace pragmatechUpWork.Controllers
         [Route("/applied/tasks", Name = "project-applied_task")]
         public async Task<IActionResult> AppliedTasks()
         {
+            //Active Page
+            ViewBag.ProjectsPage = true;
+
             var appliedTasks = await unitofWork.AplliedTasks.GetAppliedTasksByStatus(false);
 
             if (appliedTasks.Any())
@@ -147,6 +155,7 @@ namespace pragmatechUpWork.Controllers
         [Route("/confirmed/tasks", Name = "project-confirmed_task")]
         public async Task<IActionResult> ConfirmTask(AppliedTaskWithOthers appliedTask)
         {
+
             ProjectTask task= await unitofWork.ProjectTasks.GetTasksByID(appliedTask.applyTask.TaskID);
 
             appliedTask.applyTask.Task = task;
@@ -172,6 +181,8 @@ namespace pragmatechUpWork.Controllers
                 new string[] { $"{targetEmail}" }, subject, body);
             emailService.SendEmail(message);
         }
+
+        [Authorize()]
         [HttpGet]
         [Route("/task/{id}", Name = "task-single_task")]
         public async Task<IActionResult> SingleTask(int id)
@@ -187,6 +198,8 @@ namespace pragmatechUpWork.Controllers
             return View("single_task", model);
         }
 
+
+        [Authorize()]
         [HttpPost]
         [Route("/task/{id}", Name = "task-single_task")]
         public async Task<IActionResult> SingleTask(int id, UserApplyAndConfirmTask appliedTask)
@@ -225,6 +238,9 @@ namespace pragmatechUpWork.Controllers
         [Route("/task/create", Name = "task-create_task")]
         public async Task<IActionResult> CreateTask()
         {
+            //Active Page
+            ViewBag.TasksPage = true;
+
             var Projects = await unitofWork.Projects.GetAll();
 
             var model = new ProjectTaskWithOther()
@@ -242,6 +258,9 @@ namespace pragmatechUpWork.Controllers
         [Route("/task/create", Name = "task-create_task")]
         public async Task<IActionResult> CreateTask(ProjectTaskWithOther client_post)
         {
+            //Active Page
+            ViewBag.TasksPage = true;
+
             if (ModelState.IsValid)
             {
                 var project = await unitofWork.Projects.GetProjectByID(client_post.projectTask.ProjectId);
@@ -269,20 +288,23 @@ namespace pragmatechUpWork.Controllers
         [Route("/task/{id}/edit", Name = "task-edit_task")]
         public async Task<IActionResult> EditTask(int id)
         {
+            //Active Page
+            ViewBag.TasksPage = true;
+
             var projectTask = await unitofWork.ProjectTasks.GetTasksByID(id);
 
             if (projectTask != null)
             {
                 projectTask.Project = await unitofWork.Projects.GetProjectByID(projectTask.ProjectId);
-
                 var Projects = await unitofWork.Projects.GetAll();
 
-                var projectTaskWithOther = new ProjectTaskWithOther()
+                var model = new ProjectTaskWithOther()
                 {
-                    projects = new SelectList(Projects, nameof(Project.ProjectId), nameof(Project.Name),projectTask.ProjectId),
+                    projects = new SelectList(Projects, nameof(Project.ProjectId), nameof(Project.Name), projectTask.ProjectId),
+                    projectTask = projectTask
                 };
-                ViewBag.Projects = projectTaskWithOther.projects;
-                var model = projectTask;
+
+
                 return View("edit_task", model);
             }
             else
@@ -294,8 +316,11 @@ namespace pragmatechUpWork.Controllers
         [Authorize()]
         [HttpPost]
         [Route("/task/{id}/edit", Name = "task-edit_task")]
-        public async Task<IActionResult> EditTask(int id, ProjectTask client_data)
+        public async Task<IActionResult> EditTask(int id, ProjectTaskWithOther client_data)
         {
+            //Active Page
+            ViewBag.TasksPage = true;
+
             if (ModelState.IsValid)
             {
                 if (client_data == null)
@@ -304,9 +329,9 @@ namespace pragmatechUpWork.Controllers
                 }
                 else
                 {
-                    client_data.Project = await unitofWork.Projects.GetProjectByID(client_data.ProjectId);
+                    client_data.projectTask.Project = await unitofWork.Projects.GetProjectByID(client_data.projectTask.ProjectId);
 
-                    await unitofWork.ProjectTasks.Update(client_data);
+                    await unitofWork.ProjectTasks.Update(client_data.projectTask);
                     return RedirectToRoute("profile-whole_tasks");
                 }
             }
@@ -316,7 +341,7 @@ namespace pragmatechUpWork.Controllers
 
                 var model = new ProjectTaskWithOther()
                 {
-                    projects = new SelectList(Projects, nameof(Project.ProjectId), nameof(Project.Name), client_data.ProjectId),
+                    projects = new SelectList(Projects, nameof(Project.ProjectId), nameof(Project.Name), client_data.projectTask.ProjectId),
                 };
                 return View("edit_task", model);
             }

@@ -123,7 +123,7 @@
                                                     <tr>
                                                         <td>@appliedTask.Task.Project.Name</td>
                                                         <td><a asp-route="task-single_task" asp-route-id="@appliedTask.Task.TaskId">@appliedTask.Task.Name</a></td>
-                                                        <td><a href="#">@appliedTask.Task.Project.ProjectManagerID</a></td>
+                                                        <td><a href="#">@userManager.FindByIdAsync(appliedTask.Task.Project.ProjectManagerID).Result.Name @userManager.FindByIdAsync(appliedTask.Task.Project.ProjectManagerID).Result.Surname</a></td>
                                                         <td>
                                                             @appliedTask.Task.Project.StartDate.Value.ToString("dd.MM.yyyy") - @appliedTask.Task.Project.EndDate.Value.ToString("dd.MM.yyyy")
                                                         </td>
