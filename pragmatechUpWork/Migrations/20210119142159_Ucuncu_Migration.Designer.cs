@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using pragmatechUpWork_Entities;
 
 namespace pragmatechUpWork_CoreMVC.UI.Migrations
 {
     [DbContext(typeof(UpWorkContext))]
-    partial class UpWorkContextModelSnapshot : ModelSnapshot
+    [Migration("20210119142159_Ucuncu_Migration")]
+    partial class Ucuncu_Migration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -118,43 +120,6 @@ namespace pragmatechUpWork_CoreMVC.UI.Migrations
                     b.ToTable("Task");
                 });
 
-            modelBuilder.Entity("pragmatechUpWork_Entities.ProjectTaskMilestone", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<DateTime?>("FinishDate")
-                        .IsRequired()
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("MilestoneText")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(75)
-                        .HasColumnType("nvarchar(75)");
-
-                    b.Property<int>("ProjectTaskId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("PublishDate")
-                        .IsRequired()
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("ProjectTaskId");
-
-                    b.ToTable("TaskMilestone");
-                });
-
             modelBuilder.Entity("pragmatechUpWork_Entities.UserApplyAndConfirmTask", b =>
                 {
                     b.Property<int>("Id")
@@ -198,21 +163,10 @@ namespace pragmatechUpWork_CoreMVC.UI.Migrations
                     b.Navigation("Project");
                 });
 
-            modelBuilder.Entity("pragmatechUpWork_Entities.ProjectTaskMilestone", b =>
-                {
-                    b.HasOne("pragmatechUpWork_Entities.ProjectTask", "ProjectTask")
-                        .WithMany("Milestones")
-                        .HasForeignKey("ProjectTaskId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ProjectTask");
-                });
-
             modelBuilder.Entity("pragmatechUpWork_Entities.UserApplyAndConfirmTask", b =>
                 {
                     b.HasOne("pragmatechUpWork_Entities.ProjectTask", "Task")
-                        .WithMany("AppliedTasks")
+                        .WithMany()
                         .HasForeignKey("TaskID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -223,13 +177,6 @@ namespace pragmatechUpWork_CoreMVC.UI.Migrations
             modelBuilder.Entity("pragmatechUpWork_Entities.Project", b =>
                 {
                     b.Navigation("Tasks");
-                });
-
-            modelBuilder.Entity("pragmatechUpWork_Entities.ProjectTask", b =>
-                {
-                    b.Navigation("AppliedTasks");
-
-                    b.Navigation("Milestones");
                 });
 #pragma warning restore 612, 618
         }

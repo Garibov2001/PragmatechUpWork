@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using pragmatechUpWork_BusinessLogicLayer.UnitOfWork.Abstract;
+using pragmatechUpWork_CoreMVC.UI;
 using pragmatechUpWork_CoreMVC.UI.IdentityClasses;
 using pragmatechUpWork_CoreMVC.UI.Models;
 using pragmatechUpWork_Entities;
@@ -32,11 +33,15 @@ namespace pragmatechUpWork.Controllers
             userManager = _userManager;
             emailService = _emailService;
         }
+
         [Authorize()]
         [HttpGet]
         [Route("/profile/tasks", Name = "profile-whole_tasks")]
         public async Task<IActionResult> ProfileTasks()
         {
+            //Active Page
+            ViewBag.TasksPage = true;
+
             var currentUser = await userManager.GetUserAsync(User);
             var roles = await userManager.GetRolesAsync(currentUser);
             var model = new AllProjectTasksWithOthers();
@@ -79,6 +84,7 @@ namespace pragmatechUpWork.Controllers
         [Route("/tasks", Name = "task-whole_task")]
         public async Task<IActionResult> WholeTasks()
         {
+
             var projectTasks = await unitofWork.ProjectTasks.GetAllDescending();
 
             if (projectTasks.Any())
@@ -96,12 +102,86 @@ namespace pragmatechUpWork.Controllers
             return View("whole_tasks", model);
         }
 
+
+        #region Task Milestones
+
+        [HttpGet]
+        [Route("/profile/task/{task_id}/milestones", Name = "task-profile_milestones")]
+        public async Task<IActionResult> TaskMilestones(int task_id)
+        {
+            var projectTask = await unitofWork.ProjectTasks.GetTasksByID(task_id);
+            //var model = new TaskMilestonesWithOthers
+            //{
+                
+            //}
+
+            return View("task_milestones", projectTask);
+        }
+
+
+        [HttpGet]
+        [Route("/profile/task/{task_id}/milestone/add", Name = "task-profile_milestone-add")]
+        public async Task<IActionResult> AddTaskMilestone(int task_id)
+        {
+            var projectTask = await unitofWork.ProjectTasks.GetTasksByID(task_id);
+
+            return View("task_milestone_add");
+        }
+
+
+        [HttpGet]
+        [Route("/profile/task/{task_id}/milestone/{milestone_id}/edit", Name = "task-profile_milestone-edit")]
+        public async Task<IActionResult> EditTaskMilestone(int task_id, int milestone_id)
+        {
+            return View("task_milestone_edit");
+        }
+
+        [HttpPost]
+        [Route("/profile/task/{task_id}/milestone/{milestone_id}/remove", Name = "task-profile_milestone-remove")]
+        public async Task<IActionResult> RemoveTaskMilestones(int task_id, int milestone_id)
+        {
+            return View("task_milestone");
+        }
+
+        [HttpGet]
+        [Route("/profile/task/{task_id}/milestone/{milestone_id}/proofs", Name = "task-profile_milestone-proofs")]
+        public async Task<IActionResult> TaskMilestoneProofs(int task_id, int milestone_id)
+        {
+            return View("task_milestone_proofs");
+        }
+
+        [HttpGet]
+        [Route("/profile/task/{task_id}/milestone/{milestone_id}/proof/add", Name = "task-profile_milestone-proof-add")]
+        public async Task<IActionResult> TaskMilestoneProofAdd(int task_id, int milestone_id)
+        {
+            return View("task_milestone_proof_add");
+        }
+
+        [HttpGet]
+        [Route("/profile/task/{task_id}/milestone/{milestone_id}/proof/{proof_id}/edit", Name = "task-profile_milestone-proof-edit")]
+        public async Task<IActionResult> TaskMilestoneProofEdit(int task_id, int milestone_id, int proof_id)
+        {
+            return View("task_milestone_proof_edit");
+        }
+
+        [HttpPost]
+        [Route("/profile/task/{task_id}/milestone/{milestone_id}/proof/{proof_id}/remove", Name = "task-profile_milestone-proof-remove")]
+        public async Task<IActionResult> TaskMilestoneProofRemove(int task_id, int milestone_id, int proof_id)
+        {
+            return View("task_milestone_proof");
+        }
+
+        #endregion 
+
         //Elave olunacaq
         [Authorize()]
         [HttpGet]
         [Route("/applied/tasks", Name = "project-applied_task")]
         public async Task<IActionResult> AppliedTasks()
         {
+            //Active Page
+            ViewBag.ProjectsPage = true;
+
             var appliedTasks = await unitofWork.AplliedTasks.GetAppliedTasksByStatus(false);
 
             if (appliedTasks.Any())
@@ -128,7 +208,7 @@ namespace pragmatechUpWork.Controllers
         {
             var appliedTask = await unitofWork.AplliedTasks.GetAppliedTasksByID(id);
 
-            if (appliedTask!=null)
+            if (appliedTask != null)
             {
                     appliedTask.Task = await unitofWork.ProjectTasks.GetTasksByID(appliedTask.TaskID);
             }
@@ -147,6 +227,7 @@ namespace pragmatechUpWork.Controllers
         [Route("/confirmed/tasks", Name = "project-confirmed_task")]
         public async Task<IActionResult> ConfirmTask(AppliedTaskWithOthers appliedTask)
         {
+
             ProjectTask task= await unitofWork.ProjectTasks.GetTasksByID(appliedTask.applyTask.TaskID);
 
             appliedTask.applyTask.Task = task;
@@ -172,6 +253,8 @@ namespace pragmatechUpWork.Controllers
                 new string[] { $"{targetEmail}" }, subject, body);
             emailService.SendEmail(message);
         }
+
+        [Authorize()]
         [HttpGet]
         [Route("/task/{id}", Name = "task-single_task")]
         public async Task<IActionResult> SingleTask(int id)
@@ -187,6 +270,8 @@ namespace pragmatechUpWork.Controllers
             return View("single_task", model);
         }
 
+
+        [Authorize()]
         [HttpPost]
         [Route("/task/{id}", Name = "task-single_task")]
         public async Task<IActionResult> SingleTask(int id, UserApplyAndConfirmTask appliedTask)
@@ -225,6 +310,9 @@ namespace pragmatechUpWork.Controllers
         [Route("/task/create", Name = "task-create_task")]
         public async Task<IActionResult> CreateTask()
         {
+            //Active Page
+            ViewBag.TasksPage = true;
+
             var Projects = await unitofWork.Projects.GetAll();
 
             var model = new ProjectTaskWithOther()
@@ -242,6 +330,9 @@ namespace pragmatechUpWork.Controllers
         [Route("/task/create", Name = "task-create_task")]
         public async Task<IActionResult> CreateTask(ProjectTaskWithOther client_post)
         {
+            //Active Page
+            ViewBag.TasksPage = true;
+
             if (ModelState.IsValid)
             {
                 var project = await unitofWork.Projects.GetProjectByID(client_post.projectTask.ProjectId);
@@ -269,20 +360,23 @@ namespace pragmatechUpWork.Controllers
         [Route("/task/{id}/edit", Name = "task-edit_task")]
         public async Task<IActionResult> EditTask(int id)
         {
+            //Active Page
+            ViewBag.TasksPage = true;
+
             var projectTask = await unitofWork.ProjectTasks.GetTasksByID(id);
 
             if (projectTask != null)
             {
                 projectTask.Project = await unitofWork.Projects.GetProjectByID(projectTask.ProjectId);
-
                 var Projects = await unitofWork.Projects.GetAll();
 
-                var projectTaskWithOther = new ProjectTaskWithOther()
+                var model = new ProjectTaskWithOther()
                 {
-                    projects = new SelectList(Projects, nameof(Project.ProjectId), nameof(Project.Name),projectTask.ProjectId),
+                    projects = new SelectList(Projects, nameof(Project.ProjectId), nameof(Project.Name), projectTask.ProjectId),
+                    projectTask = projectTask
                 };
-                ViewBag.Projects = projectTaskWithOther.projects;
-                var model = projectTask;
+
+
                 return View("edit_task", model);
             }
             else
@@ -294,8 +388,11 @@ namespace pragmatechUpWork.Controllers
         [Authorize()]
         [HttpPost]
         [Route("/task/{id}/edit", Name = "task-edit_task")]
-        public async Task<IActionResult> EditTask(int id, ProjectTask client_data)
+        public async Task<IActionResult> EditTask(int id, ProjectTaskWithOther client_data)
         {
+            //Active Page
+            ViewBag.TasksPage = true;
+
             if (ModelState.IsValid)
             {
                 if (client_data == null)
@@ -304,9 +401,9 @@ namespace pragmatechUpWork.Controllers
                 }
                 else
                 {
-                    client_data.Project = await unitofWork.Projects.GetProjectByID(client_data.ProjectId);
+                    client_data.projectTask.Project = await unitofWork.Projects.GetProjectByID(client_data.projectTask.ProjectId);
 
-                    await unitofWork.ProjectTasks.Update(client_data);
+                    await unitofWork.ProjectTasks.Update(client_data.projectTask);
                     return RedirectToRoute("profile-whole_tasks");
                 }
             }
@@ -316,7 +413,7 @@ namespace pragmatechUpWork.Controllers
 
                 var model = new ProjectTaskWithOther()
                 {
-                    projects = new SelectList(Projects, nameof(Project.ProjectId), nameof(Project.Name), client_data.ProjectId),
+                    projects = new SelectList(Projects, nameof(Project.ProjectId), nameof(Project.Name), client_data.projectTask.ProjectId),
                 };
                 return View("edit_task", model);
             }

@@ -14,6 +14,7 @@ using pragmatechUpWork_GeneralLayer.Enums;
 
 namespace pragmatechUpWork.Controllers
 {
+
     public class ProjectController : Controller
     {
         private readonly IUnitOfWork unitofWork = null;
@@ -27,9 +28,13 @@ namespace pragmatechUpWork.Controllers
             roleManager = _roleManager;
         }
 
+        [Authorize()]
         [Route("/profile/projects", Name = "profile-whole_projects")]
         public async Task<IActionResult> ProfileProjects()
         {
+            //Active Page
+            ViewBag.ProjectsPage = true;
+            
             var currentUser = await userManager.GetUserAsync(User);
             var roles = await userManager.GetRolesAsync(currentUser);
             var model = new AllProjectsWithOthers();
@@ -59,7 +64,7 @@ namespace pragmatechUpWork.Controllers
             return View("profile_projects", model);
         }
 
-
+        [Authorize()]
         [Route("/projects", Name = "project-whole_projects")]
         public async Task<IActionResult> WholeProjects()
         {
@@ -70,6 +75,7 @@ namespace pragmatechUpWork.Controllers
             return View("whole_projects",model);
         }
 
+        [Authorize()]
         [Route("/project/{id}", Name = "project-single_project")]
         public async Task<IActionResult> SingleProject(int id)
         {
@@ -81,10 +87,13 @@ namespace pragmatechUpWork.Controllers
             return View("single_project", model);
         }
 
+        [Authorize()]
         [HttpGet]
         [Route("/project/create", Name = "project-create_project")]
         public async Task<IActionResult> CreateProject()
         {
+            //Active Page
+            ViewBag.ProjectsPage = true;
 
             var projectManagers = await GetProjectManagers();           
 
@@ -96,10 +105,14 @@ namespace pragmatechUpWork.Controllers
             return View("create_project", model);
         }
 
+        [Authorize()]
         [HttpPost]
         [Route("/project/create", Name = "project-create_project")]
         public async Task<IActionResult> CreateProject(ProjectWithOthers client_data)
         {
+            //Active Page
+            ViewBag.ProjectsPage = true;
+
             var projectManagers = await GetProjectManagers();
 
             var model = new ProjectWithOthers
@@ -120,10 +133,14 @@ namespace pragmatechUpWork.Controllers
             }
         }
 
+        [Authorize()]
         [HttpGet]
         [Route("/project/{id}/edit", Name = "project-edit_project")]
         public async Task<IActionResult> EditProject(int id)
         {
+            //Active Page
+            ViewBag.ProjectsPage = true;
+
             var projectManagers = await GetProjectManagers();
             var project = await unitofWork.Projects.GetProjectByID(id);
             var model = new ProjectWithOthers()
@@ -135,10 +152,14 @@ namespace pragmatechUpWork.Controllers
             return View("edit_project", model);
         }
 
+        [Authorize()]
         [HttpPost]
         [Route("/project/{id}/edit", Name = "project-edit_project")]
         public async Task<IActionResult> EditProject(ProjectWithOthers client_data)
         {
+            //Active Page
+            ViewBag.ProjectsPage = true;
+
             var projectManagers = await GetProjectManagers();
             var model = new ProjectWithOthers()
             {
@@ -157,6 +178,7 @@ namespace pragmatechUpWork.Controllers
             }
         }
 
+        [Authorize()]
         [HttpDelete]
         [Route("/project/{id}/remove", Name = "project-remove_project")]
         public async Task<IActionResult> RemoveProject(int id)

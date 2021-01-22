@@ -16,6 +16,7 @@ using pragmatechUpWork_Entities;
 
 namespace pragmatechUpWork.Controllers
 {
+    [Authorize()]
     public class ProfileController : Controller
     {
         private readonly IUnitOfWork unitofWork = null;
@@ -32,6 +33,9 @@ namespace pragmatechUpWork.Controllers
         [Route("/profile", Name = "profile-account-page")]
         public async Task<IActionResult> Profile()
         {
+            // Active Page
+            ViewBag.ProfilePage = true;
+
             return View("~/Views/Profile/account_page.cshtml");
         }
 
@@ -39,6 +43,9 @@ namespace pragmatechUpWork.Controllers
         [Route("/profile/settings", Name = "profile-settings-page")]
         public async Task<IActionResult> ProfileSettings()
         {
+            // Active Page
+            ViewBag.SettingsPage = true;
+
             var currentUser = await userManager.GetUserAsync(User);
             var roles = await userManager.GetRolesAsync(currentUser);
             var model = new ProfileSettingsViewModel
@@ -54,6 +61,9 @@ namespace pragmatechUpWork.Controllers
         [Route("/profile/settings", Name = "profile-settings-page")]
         public async Task<IActionResult> ProfileSettings(ProfileSettingsViewModel client_data)
         {
+            // Active Page
+            ViewBag.SettingsPage = true;
+
             var currentUser = await userManager.GetUserAsync(User);
             var roles = await userManager.GetRolesAsync(currentUser);
             var model = new ProfileSettingsViewModel

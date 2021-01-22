@@ -1,4 +1,5 @@
-﻿using pragmatechUpWork_Entities;
+﻿using pragmatechUpWork_BusinessLogicLayer.Concrete;
+using pragmatechUpWork_Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
