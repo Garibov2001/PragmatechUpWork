@@ -44,7 +44,7 @@ namespace pragmatechUpWork_BusinessLogicLayer.Concrete
 
         public async Task<Project> GetProjectByID(int id)
         {
-            return await projectDal.Get(x => x.ProjectId == id);
+            return await  projectDal.Get(x => x.ProjectId == id);
         }
 
         public async Task<List<Project>> GetProjectsByMinCostBetweenMaxCost(decimal minCost, decimal maxCost)
@@ -54,7 +54,7 @@ namespace pragmatechUpWork_BusinessLogicLayer.Concrete
 
         public async Task<Project> GetProjectByName(string name)
         {
-            return await projectDal.Get(x => x.Name == name);
+            return  await projectDal.Get(x => x.Name == name);
         }
 
         public async Task<List<Project>> GetProjectsByProjectManager(string projectManager)
@@ -84,7 +84,7 @@ namespace pragmatechUpWork_BusinessLogicLayer.Concrete
 
         public async Task<Project> GetProjectByTask(ProjectTask task)
         {
-            return await projectDal.Get(x => x.Tasks.Contains(task));
+            return await  projectDal.Get(x => x.Tasks.Contains(task));
         }
     }
 }

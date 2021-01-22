@@ -37,5 +37,11 @@ namespace pragmatechUpWork_Entities
         [Required(ErrorMessage = "Bu xana boş ola bilməz.")]
         public int ProjectId { get; set; }
         public Project Project { get; set; }
+
+        //Backref to Applied Tasks
+        public IList<UserApplyAndConfirmTask> AppliedTasks { get; set; }
+
+        //Backref to Project Task Milestone
+        public IList<ProjectTaskMilestone> Milestones { get; set; }
     }
 }

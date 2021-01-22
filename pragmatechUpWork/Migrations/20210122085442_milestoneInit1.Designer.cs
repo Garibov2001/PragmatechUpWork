@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using pragmatechUpWork_Entities;
 
 namespace pragmatechUpWork_CoreMVC.UI.Migrations
 {
     [DbContext(typeof(UpWorkContext))]
-    partial class UpWorkContextModelSnapshot : ModelSnapshot
+    [Migration("20210122085442_milestoneInit1")]
+    partial class milestoneInit1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -96,6 +98,9 @@ namespace pragmatechUpWork_CoreMVC.UI.Migrations
                     b.Property<int>("ProjectId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ProjectTaskTaskId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("PublishDate")
                         .HasColumnType("datetime2");
 
@@ -114,6 +119,8 @@ namespace pragmatechUpWork_CoreMVC.UI.Migrations
                     b.HasKey("TaskId");
 
                     b.HasIndex("ProjectId");
+
+                    b.HasIndex("ProjectTaskTaskId");
 
                     b.ToTable("Task");
                 });
@@ -140,10 +147,6 @@ namespace pragmatechUpWork_CoreMVC.UI.Migrations
 
                     b.Property<int>("ProjectTaskId")
                         .HasColumnType("int");
-
-                    b.Property<DateTime?>("PublishDate")
-                        .IsRequired()
-                        .HasColumnType("datetime2");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -195,13 +198,17 @@ namespace pragmatechUpWork_CoreMVC.UI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("pragmatechUpWork_Entities.ProjectTask", null)
+                        .WithMany("Milestones")
+                        .HasForeignKey("ProjectTaskTaskId");
+
                     b.Navigation("Project");
                 });
 
             modelBuilder.Entity("pragmatechUpWork_Entities.ProjectTaskMilestone", b =>
                 {
                     b.HasOne("pragmatechUpWork_Entities.ProjectTask", "ProjectTask")
-                        .WithMany("Milestones")
+                        .WithMany()
                         .HasForeignKey("ProjectTaskId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

@@ -32,6 +32,13 @@ namespace pragmatechUpWork_BusinessLogicLayer.UnitOfWork.Concrete
         { 
             get { return appliedTask ?? new UserApplyAndConfirmTaskManager(new EfUserApplyAndConfirmTaskDal(context)); } 
         }
+
+        public IProjectTaskMilestoneService taskMilestone { get; set; }
+        public IProjectTaskMilestoneService TaskMilestones
+        {
+            get { return taskMilestone ?? new ProjectTaskMilestoneManager(new EfProjectTaskMilestoneDal(context)); }
+        }
+
         public void Dispose()
         {
             context.DisposeAsync();

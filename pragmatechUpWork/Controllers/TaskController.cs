@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using pragmatechUpWork_BusinessLogicLayer.UnitOfWork.Abstract;
+using pragmatechUpWork_CoreMVC.UI;
 using pragmatechUpWork_CoreMVC.UI.IdentityClasses;
 using pragmatechUpWork_CoreMVC.UI.Models;
 using pragmatechUpWork_Entities;
@@ -101,6 +102,77 @@ namespace pragmatechUpWork.Controllers
             return View("whole_tasks", model);
         }
 
+
+        #region Task Milestones
+
+        [HttpGet]
+        [Route("/profile/task/{task_id}/milestones", Name = "task-profile_milestones")]
+        public async Task<IActionResult> TaskMilestones(int task_id)
+        {
+            var projectTask = await unitofWork.ProjectTasks.GetTasksByID(task_id);
+            //var model = new TaskMilestonesWithOthers
+            //{
+                
+            //}
+
+            return View("task_milestones", projectTask);
+        }
+
+
+        [HttpGet]
+        [Route("/profile/task/{task_id}/milestone/add", Name = "task-profile_milestone-add")]
+        public async Task<IActionResult> AddTaskMilestone(int task_id)
+        {
+            var projectTask = await unitofWork.ProjectTasks.GetTasksByID(task_id);
+
+            return View("task_milestone_add");
+        }
+
+
+        [HttpGet]
+        [Route("/profile/task/{task_id}/milestone/{milestone_id}/edit", Name = "task-profile_milestone-edit")]
+        public async Task<IActionResult> EditTaskMilestone(int task_id, int milestone_id)
+        {
+            return View("task_milestone_edit");
+        }
+
+        [HttpPost]
+        [Route("/profile/task/{task_id}/milestone/{milestone_id}/remove", Name = "task-profile_milestone-remove")]
+        public async Task<IActionResult> RemoveTaskMilestones(int task_id, int milestone_id)
+        {
+            return View("task_milestone");
+        }
+
+        [HttpGet]
+        [Route("/profile/task/{task_id}/milestone/{milestone_id}/proofs", Name = "task-profile_milestone-proofs")]
+        public async Task<IActionResult> TaskMilestoneProofs(int task_id, int milestone_id)
+        {
+            return View("task_milestone_proofs");
+        }
+
+        [HttpGet]
+        [Route("/profile/task/{task_id}/milestone/{milestone_id}/proof/add", Name = "task-profile_milestone-proof-add")]
+        public async Task<IActionResult> TaskMilestoneProofAdd(int task_id, int milestone_id)
+        {
+            return View("task_milestone_proof_add");
+        }
+
+        [HttpGet]
+        [Route("/profile/task/{task_id}/milestone/{milestone_id}/proof/{proof_id}/edit", Name = "task-profile_milestone-proof-edit")]
+        public async Task<IActionResult> TaskMilestoneProofEdit(int task_id, int milestone_id, int proof_id)
+        {
+            return View("task_milestone_proof_edit");
+        }
+
+        [HttpPost]
+        [Route("/profile/task/{task_id}/milestone/{milestone_id}/proof/{proof_id}/remove", Name = "task-profile_milestone-proof-remove")]
+        public async Task<IActionResult> TaskMilestoneProofRemove(int task_id, int milestone_id, int proof_id)
+        {
+            return View("task_milestone_proof");
+        }
+
+        #endregion 
+
         //Elave olunacaq
         [Authorize()]
         [HttpGet]
@@ -136,7 +208,7 @@ namespace pragmatechUpWork.Controllers
         {
             var appliedTask = await unitofWork.AplliedTasks.GetAppliedTasksByID(id);
 
-            if (appliedTask!=null)
+            if (appliedTask != null)
             {
                     appliedTask.Task = await unitofWork.ProjectTasks.GetTasksByID(appliedTask.TaskID);
             }
