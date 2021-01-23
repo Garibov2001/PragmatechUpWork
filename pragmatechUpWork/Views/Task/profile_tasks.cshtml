@@ -40,7 +40,6 @@
                                                 <th>Layihənin Adı</th>
                                                 <th>Dəyəri</th>
                                                 <th>İş müddəti</th>
-                                                <th>Götürən</th>
                                                 <th>Github</th>
                                                 <th>Status</th>
                                                 <th>Alətlər</th>
@@ -58,19 +57,6 @@
                                                         <td><a href="#">@taskRecord.Project.Name</a></td>
                                                         <td>@taskRecord.Cost</td>
                                                         <td>@taskRecord.RequiredDays</td>
-                                                        @foreach (var appliedTask in taskRecord.AppliedTasks)
-                                                        {
-                                                            if (appliedTask.Status == true)
-                                                            {
-                                                                <td><a href="#">@{var user = userManager.FindByIdAsync(appliedTask.UserID).Result; NoAppliedTask = false; } @user.Name @user.Surname</a></td>
-                                                                break;
-                                                            }
-                                                        }
-                                                        @if (NoAppliedTask)
-                                                        {
-                                                            <td>Yoxdur</td>
-                                                        }
-
                                                         <td>
                                                             <a href="@taskRecord.GithubUrl" data-tippy-placement="top" data-tippy="" data-original-title="Github branch" ><i class="icon-feather-github" style="font-size:24px !important;"></i></a>
                                                         </td>
