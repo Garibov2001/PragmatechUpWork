@@ -45,6 +45,11 @@ namespace pragmatechUpWork_BusinessLogicLayer.Concrete
             return await taskMilestoneDal.Get(x => x.ID == id);
         }
 
+        public async Task<ProjectTaskMilestone> GetTaskMilestoneByFilter(Expression<Func<ProjectTaskMilestone, bool>> expression)
+        {
+            return await taskMilestoneDal.Get(expression);
+        }
+
         public async Task<bool> Update(ProjectTaskMilestone taskMilestone)
         {
             bool result = await taskMilestoneDal.Update(taskMilestone);

@@ -1,4 +1,5 @@
-﻿<!-- Transparent Header Spacer -->
+﻿@model AllProjectTaskMilestoneProofsWithOthers
+<!-- Transparent Header Spacer -->
 <div class="transparent-header-spacer"></div>
 
 <!-- Dashboard Container -->
@@ -6,20 +7,30 @@
 
     <partial name="_Profile_sidebar" />
 
+    @{
+        var proofsParams = new Dictionary<string, string>
+{
+            { "task_id", Model.task.TaskId.ToString() },
+            { "milestone_id", Model.taskMilestone.ID.ToString() }
+        };
+
+    }
+
+
     <!-- Dashboard Content
     ================================================== -->
     <div class="dashboard-content-container" data-simplebar>
         <div class="dashboard-content-inner">
             <!-- Headline -->
             <div class="dashboard-headline">
-                <h3>Task milestonu editlə</h3>
-                <span class="margin-top-7">Layihə :  <a href="#">Pragmatech CRM</a></span>
-                <span class="margin-top-7">Task :  <a href="#">Database qurulmasi</a></span>
-                <span class="margin-top-7">Milestone :  <a href="#">Entity CRUD</a></span>
+                <h3>Task milestonun sübutları</h3>
+                <span class="margin-top-7">Layihə :  <a asp-route="project-single_project" asp-route-id="@Model.project.ProjectId">@Model.project.Name</a></span>
+                <span class="margin-top-7">Task :  <a asp-route="task-single_task" asp-route-id="@Model.task.TaskId">@Model.task.Name</a></span>
+                <span class="margin-top-7">Milestone :  <a asp-route="task-profile_milestones" asp-route-task_id="@Model.task.TaskId">@Model.taskMilestone.Name</a></span>
                 <nav id="breadcrumbs" class="dark">
                     <ul>
                         <li><a asp-route="profile-whole_tasks">Tasklar</a></li>
-                        <li><a href="#">Task milestonları</a></li>
+                        <li><a asp-route="task-profile_milestones" asp-route-task_id="@Model.task.TaskId">Task milestonları</a></li>
                         <li>Sübutlar </li>
                     </ul>
                 </nav>
@@ -30,9 +41,9 @@
                 <!-- Dashboard Box -->
                 <div class="col-xl-12">
                     <div class="dashboard-box margin-top-0">
-                        
+
                         <div class="content">
-                            <ul class="dashboard-box-list">                        
+                            <ul class="dashboard-box-list">
                                 <li>
                                     <!-- Overview -->
                                     <div class="freelancer-overview manage-candidates">
@@ -44,10 +55,9 @@
 
                                             <!-- Name -->
                                             <div class="freelancer-name">
-                                                <h4><a href="#">Mahmud Qəribov</a></h4>
+                                                <h4><a href="#">@Model.user.Name @Model.user.Surname</a></h4>
                                                 <!-- Details -->
-                                                <span class="freelancer-detail-item"><a href="#"><i class="icon-feather-mail"></i> mahmood.garibov@gmail.com</a></span>
-                                                <span class="freelancer-detail-item"><i class="icon-feather-phone"></i> 050-314-48-47</span>
+                                                <span class="freelancer-detail-item"><a href="#"><i class="icon-feather-mail"></i> @Model.user.Email</a></span>
                                                 <!-- Bid Details -->
                                                 <br>
 
@@ -58,73 +68,53 @@
                                                     <a href="#" class="button gray ripple-effect ico" title="Təlifi qəbul etmə" data-tippy-placement="top"><i class="icon-feather-trash-2"></i></a>
                                                 </div>
                                             </div>
-                                            
+
                                         </div>
                                     </div>
                                 </li>
-                                
+
                                 <li>
                                     <div class="col-xl-12">
                                         <div class="dashboard-box">
                                             <div class="headline d-flex justify-content-between">
                                                 <h3><i class="icon-material-outline-supervisor-account"></i> Sübutlar</h3>
-                                                <a asp-route="task-profile_milestone-add" class="button ripple-effect">
+                                                <a asp-route="task-profile_milestone-proof-add" asp-all-route-data="proofsParams" class="button ripple-effect">
                                                     <i class="icon-feather-plus"></i>
                                                     Sübut əlavə et
                                                 </a>
                                             </div>
                                             <div class="content">
                                                 <ul class="dashboard-box-list">
-                                                    <li>
-                                                        <a href="#"><span class="notification-icon"><i class="icon-line-awesome-image"></i></span></a>
-                                                        <span class="notification-text">
-                                                            EF Core CRUD base classi tamamlandi!
-                                                        </span>
-                                                        <!-- Buttons -->
+                                                    @foreach (var proof in Model.milestoneProofs)
+                                                    {
+                                                        <li>
+                                                            @{ var imagePath = "/images/proof-images/" + proof.ProofImagePath; }
+                                                            <a href="@imagePath" target="_blank"><span class="notification-icon"><i class="icon-line-awesome-image"></i></span></a>
+                                                            <span class="notification-text">
+                                                                @proof.ProofContent
+                                                            </span>
+                                                            <!-- Buttons -->
+                                                            @{
+                                                                var deleteProofParams = new Dictionary<string, string>
+                                                                                                                {
+                                                                    { "task_id", Model.task.TaskId.ToString() },
+                                                                    { "milestone_id", Model.taskMilestone.ID.ToString() },
+                                                                    { "proof_id", proof.ID.ToString() }
+                                                                };
+                                                            }
+
                                                         <div class="buttons-to-right single-right-button">
-                                                            <a href="#small-dialog" class="popup-with-zoom-anim button dark ripple-effect ico" data-tippy-placement="top" data-tippy="" data-original-title="Edit Bid"><i class="icon-feather-edit"></i></a>
-                                                            <a href="#" class="button red ripple-effect ico" data-tippy-placement="top" data-tippy="" data-original-title="Cancel Bid"><i class="icon-feather-trash-2"></i></a>
+                                                            <a href="#small-dialog" class="popup-with-zoom-anim button dark ripple-effect ico" data-tippy-placement="top" data-tippy="" data-original-title="Edit Bid"><i class="icon-feather-edit"></i></a>                                                           
+                                                            <a href="#" onclick="RemoveMilestoneProof('@Url.RouteUrl("task-profile_milestone-proof-remove", deleteProofParams)');" class="button red ripple-effect ico" data-tippy-placement="top" data-tippy="" data-original-title="Cancel Bid"><i class="icon-feather-trash-2"></i></a>
                                                         </div>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#"><span class="notification-icon"><i class="icon-line-awesome-image"></i></span></a>
-                                                        <span class="notification-text">
-                                                            EF Core CRUD base classi tamamlandi!
-                                                        </span>
-                                                        <!-- Buttons -->
-                                                        <div class="buttons-to-right single-right-button">
-                                                            <a href="#small-dialog" class="popup-with-zoom-anim button dark ripple-effect ico" data-tippy-placement="top" data-tippy="" data-original-title="Edit Bid"><i class="icon-feather-edit"></i></a>
-                                                            <a href="#" class="button red ripple-effect ico" data-tippy-placement="top" data-tippy="" data-original-title="Cancel Bid"><i class="icon-feather-trash-2"></i></a>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#"><span class="notification-icon"><i class="icon-line-awesome-image"></i></span></a>
-                                                        <span class="notification-text">
-                                                            EF Core CRUD base classi tamamlandi!
-                                                        </span>
-                                                        <!-- Buttons -->
-                                                        <div class="buttons-to-right single-right-button">
-                                                            <a href="#small-dialog" class="popup-with-zoom-anim button dark ripple-effect ico" data-tippy-placement="top" data-tippy="" data-original-title="Edit Bid"><i class="icon-feather-edit"></i></a>
-                                                            <a href="#" class="button red ripple-effect ico" data-tippy-placement="top" data-tippy="" data-original-title="Cancel Bid"><i class="icon-feather-trash-2"></i></a>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#"><span class="notification-icon"><i class="icon-line-awesome-image"></i></span></a>
-                                                        <span class="notification-text">
-                                                            EF Core CRUD base classi tamamlandi!
-                                                        </span>
-                                                        <!-- Buttons -->
-                                                        <div class="buttons-to-right single-right-button">
-                                                            <a href="#small-dialog" class="popup-with-zoom-anim button dark ripple-effect ico" data-tippy-placement="top" data-tippy="" data-original-title="Edit Bid"><i class="icon-feather-edit"></i></a>
-                                                            <a href="#" class="button red ripple-effect ico" data-tippy-placement="top" data-tippy="" data-original-title="Cancel Bid"><i class="icon-feather-trash-2"></i></a>
-                                                        </div>
-                                                    </li>
+                                                        </li>
+                                                    }
                                                 </ul>
                                             </div>
                                         </div>
                                     </div>
                                 </li>
-                            
+
                             </ul>
                         </div>
                     </div>
@@ -169,3 +159,8 @@
 
 </div>
 <!-- Dashboard Container / End -->
+
+
+@section scripts{
+    <script src="~/js/milestoneProofs.js" asp-append-version="true"></script>
+}

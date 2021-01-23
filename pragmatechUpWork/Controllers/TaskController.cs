@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -26,12 +28,18 @@ namespace pragmatechUpWork.Controllers
         private readonly IUnitOfWork unitofWork = null;
         private UserManager<ApplicationUser> userManager { get; set; }
         private IEmailService emailService;
+        private IHostingEnvironment hostingEnvironment { get; set; }
 
-        public TaskController(IUnitOfWork _unitofWork, UserManager<ApplicationUser> _userManager,IEmailService _emailService)
+        public TaskController(
+            IUnitOfWork _unitofWork, 
+            UserManager<ApplicationUser> _userManager,
+            IEmailService _emailService,
+            IHostingEnvironment  _hostingEnvironment)
         {
             unitofWork = _unitofWork;
             userManager = _userManager;
             emailService = _emailService;
+            hostingEnvironment = _hostingEnvironment;
         }
 
         [Authorize()]
@@ -145,33 +153,244 @@ namespace pragmatechUpWork.Controllers
 
         [HttpGet]
         [Route("/profile/task/{task_id}/milestone/{milestone_id}/proofs", Name = "task-profile_milestone-proofs")]
-        public async Task<IActionResult> TaskMilestoneProofs(int task_id, int milestone_id)
+        public async Task<IActionResult> TaskMilestoneProofs(int? task_id, int? milestone_id)
         {
-            return View("task_milestone_proofs");
+            //Query string is empty or not
+            if (task_id == null || milestone_id == null) return NotFound();
+
+            var project_task = await unitofWork.ProjectTasks.GetTasksByID(task_id.GetValueOrDefault());
+            //Task exists or not
+            if (project_task == null) return NotFound();
+
+            var task_milestone = await unitofWork.TaskMilestones.GetTaskMilestoneByID(milestone_id.GetValueOrDefault());
+            //Milestone exist or not
+            if (task_milestone == null) return NotFound();
+
+            //Milestone belongs to Task or not
+            if (task_milestone.ProjectTaskId != task_id) return NotFound();
+
+            var confirmedTask = await unitofWork.AplliedTasks.GetConfirmedByTaskID(project_task.TaskId);
+            // If task doesn't have confirmed
+            if (confirmedTask == null) return NotFound();
+
+
+            var model = new AllProjectTaskMilestoneProofsWithOthers
+            {
+                user = await userManager.FindByIdAsync(confirmedTask.UserID),
+                task = project_task,
+                project = await unitofWork.Projects.GetProjectByID(project_task.ProjectId),
+                taskMilestone = task_milestone,
+                milestoneProofs = await unitofWork.TaskMilestoneProofs.GetProofsByMilestoneID(task_milestone.ID)
+            };
+
+            return View("task_milestone_proofs", model);
+
         }
 
         [HttpGet]
         [Route("/profile/task/{task_id}/milestone/{milestone_id}/proof/add", Name = "task-profile_milestone-proof-add")]
-        public async Task<IActionResult> TaskMilestoneProofAdd(int task_id, int milestone_id)
+        public async Task<IActionResult> TaskMilestoneProofAdd(int? task_id, int? milestone_id)
         {
-            return View("task_milestone_proof_add");
+            //Query string is empty or not
+            if (task_id == null || milestone_id == null) return NotFound();
+
+            var project_task = await unitofWork.ProjectTasks.GetTasksByID(task_id.GetValueOrDefault());
+            //Task exists or not
+            if (project_task == null) return NotFound();
+
+            var task_milestone = await unitofWork.TaskMilestones.GetTaskMilestoneByID(milestone_id.GetValueOrDefault());
+            //Milestone exist or not
+            if (task_milestone == null) return NotFound();
+           
+            //Milestone belongs to Task or not
+            if (task_milestone.ProjectTaskId != task_id) return NotFound();
+
+            var confirmedTask = await unitofWork.AplliedTasks.GetConfirmedByTaskID(project_task.TaskId);
+            // If task doesn't have confirmed
+            if (confirmedTask == null) return NotFound();
+
+
+            var model = new ProjectTaskMilestoneProofWithOthers
+            {
+                user = await userManager.FindByIdAsync(confirmedTask.UserID),
+                task = project_task,
+                project = await unitofWork.Projects.GetProjectByID(project_task.ProjectId),
+                taskMilestone = task_milestone,   
+                milestoneProof = new ProjectTaskMilestoneProof()
+            };
+
+
+            return View("task_milestone_proof_add", model);
         }
 
+        [HttpPost]
+        [Route("/profile/task/{task_id}/milestone/{milestone_id}/proof/add", Name = "task-profile_milestone-proof-add")]
+        public async Task<IActionResult> TaskMilestoneProofAdd(int? task_id, int? milestone_id, 
+            ProjectTaskMilestoneProofWithOthers client_data)
+        {
+            //Query string is empty or not
+            if (task_id == null || milestone_id == null) return NotFound();
+
+            var project_task = await unitofWork.ProjectTasks.GetTasksByID(task_id.GetValueOrDefault());
+            //Task exists or not
+            if (project_task == null) return NotFound();
+
+            var task_milestone = await unitofWork.TaskMilestones.GetTaskMilestoneByID(milestone_id.GetValueOrDefault());
+            //Milestone exist or not
+            if (task_milestone == null) return NotFound();
+
+            //Milestone belongs to Task or not
+            if (task_milestone.ProjectTaskId != task_id) return NotFound();
+
+            var confirmedTask = await unitofWork.AplliedTasks.GetConfirmedByTaskID(project_task.TaskId);
+            // If task doesn't have confirmed
+            if (confirmedTask == null) return NotFound();
+
+            var model = new ProjectTaskMilestoneProofWithOthers
+            {
+                user = await userManager.FindByIdAsync(confirmedTask.UserID),
+                task = project_task,
+                project = await unitofWork.Projects.GetProjectByID(project_task.ProjectId),
+                taskMilestone = task_milestone,
+                milestoneProof = new ProjectTaskMilestoneProof()
+            };
+
+
+
+            if (!ModelState.IsValid)
+            {
+               
+                return View("task_milestone_proof_add", model);
+            }
+
+
+
+            // get current root folder and combine it with needed folder
+            string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "images", "proof-images");
+            // get unique name for our image
+            string uniqueFileName = Guid.NewGuid().ToString() + "_" + client_data.Image.FileName;
+            // combine folder with image name
+            string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+            // upload image to server
+            await client_data.Image.CopyToAsync(new FileStream(filePath, FileMode.Create));
+
+            var proof = new ProjectTaskMilestoneProof
+            {
+                ProofContent = client_data.milestoneProof.ProofContent,
+                ProofImagePath = uniqueFileName,
+                MilestoneId = task_milestone.ID
+            };
+
+            await unitofWork.TaskMilestoneProofs.Add(proof);
+
+            return RedirectToRoute("task-profile_milestone-proofs", new { task_id = task_id.GetValueOrDefault(), milestone_id = milestone_id.GetValueOrDefault() });
+        }
+
+
         [HttpGet]
+        [Route("/profile/task/{task_id}/milestone/{milestone_id}/proof/{proof_id}/edit", Name = "task-profile_milestone-proof-edit")]
+        public async Task<IActionResult> TaskMilestoneProofEdit(int? task_id, int? milestone_id, int? proof_id)
+        {
+            //Query string is empty or not
+            if (task_id == null || milestone_id == null || proof_id == null) return NotFound();
+
+            var project_task = await unitofWork.ProjectTasks.GetTasksByID(task_id.GetValueOrDefault());
+            //Task exists or not
+            if (project_task == null) return NotFound();
+
+            var task_milestone = await unitofWork.TaskMilestones.GetTaskMilestoneByID(milestone_id.GetValueOrDefault());
+            //Milestone exist or not
+            if (task_milestone == null) return NotFound();
+
+            var milestone_proof = await unitofWork.TaskMilestoneProofs.GetTaskMilestoneProofByID(proof_id.GetValueOrDefault());
+            //Proof exist or not
+            if (milestone_proof == null) return NotFound();
+
+            //Milestone belongs to Task or not
+            if (task_milestone.ProjectTaskId != task_id) return NotFound();
+
+            //Proof belongs to Milestone or not
+            if (milestone_proof.MilestoneId != task_milestone.ID) return NotFound();
+
+            var confirmedTask = await unitofWork.AplliedTasks.GetConfirmedByTaskID(project_task.TaskId);
+
+            // If task doesn't have confirmed
+            if (confirmedTask == null) return NotFound();
+
+            var user = userManager.GetUserAsync(User);
+
+            // Current user is proof's owner or not
+            if (confirmedTask.UserID != user.Result.Id) return NotFound();
+
+            var model = new ProjectTaskMilestoneProofWithOthers
+            {
+                task = project_task,
+                project = await unitofWork.Projects.GetProjectByID(project_task.ProjectId),
+                taskMilestone = task_milestone,
+                milestoneProof = new ProjectTaskMilestoneProof()
+            };
+
+            return View("task_milestone_proof_edit", model);
+        }
+
+        [HttpPost]
         [Route("/profile/task/{task_id}/milestone/{milestone_id}/proof/{proof_id}/edit", Name = "task-profile_milestone-proof-edit")]
         public async Task<IActionResult> TaskMilestoneProofEdit(int task_id, int milestone_id, int proof_id)
         {
             return View("task_milestone_proof_edit");
         }
 
-        [HttpPost]
+
+        [HttpDelete]
         [Route("/profile/task/{task_id}/milestone/{milestone_id}/proof/{proof_id}/remove", Name = "task-profile_milestone-proof-remove")]
-        public async Task<IActionResult> TaskMilestoneProofRemove(int task_id, int milestone_id, int proof_id)
+        public async Task<IActionResult> TaskMilestoneProofRemove(int? task_id, int? milestone_id, int? proof_id)
         {
-            return View("task_milestone_proof");
+            //Query string is empty or not
+            if (task_id == null || milestone_id == null || proof_id == null) return NotFound();
+
+            var project_task = await unitofWork.ProjectTasks.GetTasksByID(task_id.GetValueOrDefault());
+            //Task exists or not
+            if (project_task == null) return NotFound();
+
+            var task_milestone = await unitofWork.TaskMilestones.GetTaskMilestoneByID(milestone_id.GetValueOrDefault());
+            //Milestone exist or not
+            if (task_milestone == null) return NotFound();
+
+            var milestone_proof = await unitofWork.TaskMilestoneProofs.GetTaskMilestoneProofByID(proof_id.GetValueOrDefault());
+            //Proof exist or not
+            if (milestone_proof == null) return NotFound();
+
+            //Milestone belongs to Task or not
+            if (task_milestone.ProjectTaskId != task_id) return NotFound();
+
+            //Proof belongs to Milestone or not
+            if (milestone_proof.MilestoneId != task_milestone.ID) return NotFound();
+
+            var confirmedTask = await unitofWork.AplliedTasks.GetConfirmedByTaskID(project_task.TaskId);
+
+            // If task doesn't have confirmed
+            if (confirmedTask == null) return NotFound();
+
+            var user = userManager.GetUserAsync(User);
+
+            // Current user is proof's owner or not
+            if (confirmedTask.UserID != user.Result.Id) return NotFound();
+
+            var resut = await unitofWork.TaskMilestoneProofs.Delete(proof_id.GetValueOrDefault());
+
+            if (resut)
+            {
+                return Json(new { error = "none" });
+            }
+
+            return Json(new { error = "exist" });
         }
 
         #endregion 
+
+
+
+
 
         //Elave olunacaq
         [Authorize()]
@@ -422,7 +641,7 @@ namespace pragmatechUpWork.Controllers
         [Authorize()]
         [HttpDelete]
         [Route("/task/{id}/remove", Name = "task-remove_task")]
-        public async Task<IActionResult> RemoveProject(int id)
+        public async Task<IActionResult> RemoveTask(int id)
         {
             var projecttask = await unitofWork.ProjectTasks.GetTasksByID(id);
             if (projecttask == null)
@@ -440,6 +659,8 @@ namespace pragmatechUpWork.Controllers
 
             return Json(responseData);
         }
+
+      
 
        
     }

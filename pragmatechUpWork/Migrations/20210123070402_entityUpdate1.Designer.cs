@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using pragmatechUpWork_Entities;
 
 namespace pragmatechUpWork_CoreMVC.UI.Migrations
 {
     [DbContext(typeof(UpWorkContext))]
-    partial class UpWorkContextModelSnapshot : ModelSnapshot
+    [Migration("20210123070402_entityUpdate1")]
+    partial class entityUpdate1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -1,10 +1,19 @@
-﻿<!-- Transparent Header Spacer -->
+﻿@model ProjectTaskMilestoneProofWithOthers
+<!-- Transparent Header Spacer -->
 <div class="transparent-header-spacer"></div>
 
 <!-- Dashboard Container -->
 <div class="dashboard-container">
 
     <partial name="_Profile_sidebar" />
+
+    @{
+        var proofsParams = new Dictionary<string, string>
+        {
+            { "task_id", Model.task.TaskId.ToString() },
+            { "milestone_id", Model.taskMilestone.ID.ToString() }
+        };
+    }
 
     <!-- Dashboard Content
     ================================================== -->
@@ -14,50 +23,61 @@
             <!-- Headline -->
             <div class="dashboard-headline">
                 <h3>Milestona sübut əlavə et</h3>
-                <span class="margin-top-7">Layihə :  <a href="#">Pragmatech CRM</a></span>
-                <span class="margin-top-7">Task :  <a href="#">Database qurulmasi</a></span>
-                <span class="margin-top-7">Milestone :  <a href="#">Entity CRUD</a></span>
+                <span class="margin-top-7">Layihə :  <a asp-route="project-single_project" asp-route-id="@Model.project.ProjectId">@Model.project.Name</a></span>
+                <span class="margin-top-7">Task :  <a asp-route="task-single_task" asp-route-id="@Model.task.TaskId">@Model.task.Name</a></span>
+                <span class="margin-top-7">Milestone :  <a asp-route="task-profile_milestones" asp-route-task_id="@Model.task.TaskId">@Model.taskMilestone.Name</a></span>
                 <nav id="breadcrumbs" class="dark">
                     <ul>
                         <li><a asp-route="profile-whole_tasks">Tasklar</a></li>
-                        <li><a href="#">Task milestonları</a></li>
-                        <li><a href="#">Sübutlar</a></li>
-                        <li><a href="#">Sübut əlavə et</a></li>
+                        <li><a asp-route="task-profile_milestones" asp-route-task_id="@Model.task.TaskId">Task milestonları</a></li>
+                        <li><a asp-route="task-profile_milestone-proofs" asp-all-route-data="proofsParams">Sübutlar</a></li>
+                        <li>Sübut əlavə et</li>
                     </ul>
                 </nav>
             </div>
 
             <!-- Row -->
             <div class="row">
-                <!-- Dashboard Box -->
-                <div class="col-xl-12">
-                    <div class="dashboard-box margin-top-0">
-                        <!-- Headline -->
-                        <div class="headline">
-                            <h3><i class="icon-feather-folder-plus"></i> Milestona sübut əlavə et</h3>
-                        </div>
+                <form enctype="multipart/form-data" class="col-xl-12" method="post">
 
-                        <div class="content with-padding padding-bottom-10">
-                            <div class="row">
-                                <div class="col-xl-12">
-                                    <div class="submit-field">
-                                        <h5>Sübutun mətni</h5>
-                                        <textarea cols="30" rows="5" class="with-border"></textarea>
-                                        <div class="uploadButton margin-top-30">
-                                            <input class="uploadButton-input" type="file" accept="image/*, application/pdf" id="upload" multiple="">
-                                            <label class="uploadButton-button ripple-effect" for="upload">Şəkil yüklə</label>
-                                            <span class="uploadButton-file-name">İşinizi düzgün gördüyünüzlə əlaqədar şəkill</span>
+                    <!-- Dashboard Box -->
+                    <div class="col-xl-12">
+                        <div class="dashboard-box margin-top-0">
+                            <!-- Headline -->
+                            <div class="headline">
+                                <h3><i class="icon-feather-folder-plus"></i> Milestona sübut əlavə et</h3>
+                            </div>
+
+                            <div asp-validation-summary="ModelOnly">
+
+                            </div>
+
+                            <div class="content with-padding padding-bottom-10">
+                                <div class="row">
+                                    <div class="col-xl-12">
+                                        <div class="submit-field">
+                                            <h5>Sübutun mətni</h5>
+                                            <textarea asp-for="milestoneProof.ProofContent" cols="30" rows="5" class="with-border"></textarea>
+                                            <span asp-validation-for="milestoneProof.ProofContent"></span>
+                                            <div class="uploadButton margin-top-30">
+                                                <input class="uploadButton-input" asp-for="Image" accept="image/*" id="upload">
+                                                <label class="uploadButton-button ripple-effect" for="upload">Şəkil yüklə</label>
+                                                <span class="uploadButton-file-name">İşinizi düzgün gördüyünüzlə əlaqədar şəkill</span>
+                                                <span asp-validation-for="Image"></span>
+                                            </div>
+
+                                            <input type="hidden" asp-for="milestoneProof.MilestoneId" value="@Model.taskMilestone.ID" />
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="col-xl-12">
-                    <a href="#" class="button ripple-effect big margin-top-30"><i class="icon-feather-plus"></i> Əlavə et</a>
-                </div>
+                    <div class="col-xl-12">
+                        <button type="submit" class="button ripple-effect big margin-top-30"><i class="icon-feather-plus"></i> Əlavə et</button>
+                    </div>
+                </form>
             </div>
             <!-- Row / End -->
             <!-- Footer -->

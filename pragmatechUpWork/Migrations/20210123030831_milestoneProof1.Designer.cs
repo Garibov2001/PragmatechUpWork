@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using pragmatechUpWork_Entities;
 
 namespace pragmatechUpWork_CoreMVC.UI.Migrations
 {
     [DbContext(typeof(UpWorkContext))]
-    partial class UpWorkContextModelSnapshot : ModelSnapshot
+    [Migration("20210123030831_milestoneProof1")]
+    partial class milestoneProof1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -166,6 +168,7 @@ namespace pragmatechUpWork_CoreMVC.UI.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProofImagePath")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");

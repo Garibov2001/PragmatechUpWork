@@ -39,11 +39,12 @@ namespace pragmatechUpWork_BusinessLogicLayer.UnitOfWork.Concrete
             get { return taskMilestone ?? new ProjectTaskMilestoneManager(new EfProjectTaskMilestoneDal(context)); }
         }
 
-        public IUserApplyAndConfirmTaskService appliedTask { get; set; }
-        public IUserApplyAndConfirmTaskService AplliedTasks 
-        { 
-            get { return appliedTask ?? new UserApplyAndConfirmTaskManager(new EfUserApplyAndConfirmTaskDal(context)); } 
+        public IProjectTaskMilestoneProofService taskMilestoneProof { get; set; }
+        public IProjectTaskMilestoneProofService TaskMilestoneProofs
+        {
+            get { return taskMilestoneProof ?? new ProjectTaskMilestoneProofManager(new EfProjectTaskMilestoneProofDal(context)); }
         }
+
         public void Dispose()
         {
             context.DisposeAsync();
