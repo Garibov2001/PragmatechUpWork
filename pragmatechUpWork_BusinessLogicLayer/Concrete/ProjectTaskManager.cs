@@ -66,7 +66,7 @@ namespace pragmatechUpWork_BusinessLogicLayer.Concrete
 
         public async Task<ProjectTask> GetTasksByID(int id)
         {
-            return await projectTaskDal.Get(x => x.TaskId == id);
+            return await  projectTaskDal.Get(x => x.TaskId == id);
         }
 
         public async Task<List<ProjectTask>> GetTasksByProjet(int id)

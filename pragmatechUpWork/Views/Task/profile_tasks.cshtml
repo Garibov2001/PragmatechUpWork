@@ -1,4 +1,5 @@
 ﻿@model AllProjectTasksWithOthers;
+@inject UserManager<ApplicationUser> userManager
 <!-- Transparent Header Spacer -->
 <div class="transparent-header-spacer"></div>
 
@@ -39,7 +40,6 @@
                                                 <th>Layihənin Adı</th>
                                                 <th>Dəyəri</th>
                                                 <th>İş müddəti</th>
-                                                <th>Publish.T</th>
                                                 <th>Github</th>
                                                 <th>Status</th>
                                                 <th>Alətlər</th>
@@ -50,30 +50,25 @@
                                             {
                                                 @foreach (var taskRecord in Model.projecttasks)
                                                 {
+
                                                     <tr>
+                                                        @{var NoAppliedTask = true; }
                                                         <td><a href="#">@taskRecord.Name</a></td>
                                                         <td><a href="#">@taskRecord.Project.Name</a></td>
                                                         <td>@taskRecord.Cost</td>
                                                         <td>@taskRecord.RequiredDays</td>
                                                         <td>
-                                                            @{
-                                                                if (taskRecord.PublishDate != null)
-                                                                { taskRecord.PublishDate.Value.ToString("dd.MM.yyyy"); }
-                                                                else
-                                                                {<p>Publish Olunmayib</p>}
-                                                            }
-                                                        </td>
-                                                        <td>
-                                                            <a href="@taskRecord.GithubUrl"><i class="icon-feather-github" style="font-size:24px !important;"></i></a>
+                                                            <a href="@taskRecord.GithubUrl" data-tippy-placement="top" data-tippy="" data-original-title="Github branch" ><i class="icon-feather-github" style="font-size:24px !important;"></i></a>
                                                         </td>
                                                         @{
                                                             var taskStatus = (TaskStatus)taskRecord.Status;
                                                         }
                                                         <td>@taskStatus</td>
-                                                        <td>
+                                                        <td>                                                           
                                                             <a asp-route="task-edit_task" asp-route-id="@taskRecord.TaskId"><i class="icon-line-awesome-edit" style="font-size:24px !important;"></i></a>
                                                             <a style="cursor: pointer;" onclick="event.preventDefault(); RemoveTask('@Url.RouteUrl("task-remove_task", new { id = taskRecord.TaskId })');"><i class="icon-material-outline-delete" style="font-size:24px !important; color: red !important;"></i></a>
                                                             <a asp-route="task-single_task" asp-route-id="@taskRecord.TaskId"><i class="icon-material-outline-my-location" style="font-size:24px !important; "></i></a>
+                                                            <a asp-route="task-profile_milestones"  asp-route-task_id="@taskRecord.TaskId"><i class="icon-material-outline-assessment" style="font-size:24px !important; "></i></a>
                                                         </td>
                                                     </tr>
                                                 }

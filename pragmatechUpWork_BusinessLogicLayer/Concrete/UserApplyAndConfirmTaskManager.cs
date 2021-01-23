@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace pragmatechUpWork_BusinessLogicLayer.Concrete
 {
-    class UserApplyAndConfirmTaskManager : IUserApplyAndConfirmTaskService
+    public class UserApplyAndConfirmTaskManager : IUserApplyAndConfirmTaskService
     {
         private readonly IUserApplyAndConfirmTaskDal applyTaskDal;
         public UserApplyAndConfirmTaskManager(IUserApplyAndConfirmTaskDal _applyTaskDal)

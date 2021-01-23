@@ -15,6 +15,7 @@ namespace pragmatechUpWork_DataAccessLayer.Concrete.EntityFramework
         where T : class, IEntity, new()
     {
         private UpWorkContext context;
+
         public EntityRepositoryBase(UpWorkContext upWorkContext)
         {
             context = upWorkContext;
