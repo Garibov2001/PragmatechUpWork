@@ -1,4 +1,10 @@
 ﻿@model AllProjectTaskMilestoneProofsWithOthers
+
+
+@section styles{
+    <link rel="stylesheet" href="~/lib/lightbox2/css/lightbox.min.css" asp-append-version="true">
+}
+
 <!-- Transparent Header Spacer -->
 <div class="transparent-header-spacer"></div>
 
@@ -8,7 +14,7 @@
     <partial name="_Profile_sidebar" />
 
     @{
-        var proofsParams = new Dictionary<string, string>
+        var milestoneParams = new Dictionary<string, string>
 {
             { "task_id", Model.task.TaskId.ToString() },
             { "milestone_id", Model.taskMilestone.ID.ToString() }
@@ -62,15 +68,65 @@
                                                 <br>
 
                                                 <!-- Buttons -->
-                                                <div class="buttons-to-right always-visible margin-top-25 margin-bottom-0">
-                                                    <a href="#small-dialog-1" class="popup-with-zoom-anim button ripple-effect"><i class="icon-material-outline-check"></i> Təklifi qəbul et</a>
-                                                    <a href="#small-dialog-2" class="popup-with-zoom-anim button dark ripple-effect"><i class="icon-feather-mail"></i> Mesaj göndər</a>
-                                                    <a href="#" class="button gray ripple-effect ico" title="Təlifi qəbul etmə" data-tippy-placement="top"><i class="icon-feather-trash-2"></i></a>
-                                                </div>
-                                            </div>
+                                                @if (ViewBag.ProjectManager == true)
+                                                {
+                                                    @if (Model.taskMilestone.Status == (int)MilestoneStatus.TesdiqlenmeyiGozleyir)
+                                                    {
+                                                        <div class="buttons-to-right always-visible margin-top-25 margin-bottom-0">
+                                                            <a href=".accept-dialog" class="popup-with-zoom-anim button ripple-effect"><i class="icon-material-outline-check"></i>Qəbul et</a>
+                                                            <a href=".reject-dialog" class="popup-with-zoom-anim button ripple-effect red"><i class="icon-feather-trash-2"></i>Qəbul etmə</a>
+                                                        </div>
+                                                    }
+                                                    else if (Model.taskMilestone.Status == (int)MilestoneStatus.LegvEdilib)
+                                                    {
+                                                        <span class="dashboard-status-button red">Ləğv edildi</span>
+                                                    }
+                                                    else if (Model.taskMilestone.Status == (int)MilestoneStatus.VaxtiKecib)
+                                                    {
+                                                        <span class="dashboard-status-button red">Vaxtı keçib</span>
+                                                    }
+                                                    else if (Model.taskMilestone.Status == (int)MilestoneStatus.Tamamlanib)
+                                                    {
+                                                        <span class="dashboard-status-button green">Təsdiqləndi</span>
+                                                    }
+                                                    else if (Model.taskMilestone.Status == (int)MilestoneStatus.VaxtaVar)
+                                                    {
+                                                        <div class="buttons-to-right always-visible margin-top-25 margin-bottom-0">
+                                                            <a href=".reject-dialog" class="popup-with-zoom-anim button ripple-effect red"><i class="icon-feather-trash-2"></i>Qəbul etmə</a>
+                                                        </div>
+                                                    }
 
+                                                }
+                                                else
+                                                {
+                                                    @if (Model.taskMilestone.Status == (int)MilestoneStatus.TesdiqlenmeyiGozleyir)
+                                                    {
+                                                        <span class="dashboard-status-button yellow">Təsdiqlənməyi gözləyir</span>
+                                                    }
+                                                    else if (Model.taskMilestone.Status == (int)MilestoneStatus.LegvEdilib)
+                                                    {
+                                                        <span class="dashboard-status-button red">Ləğv edilib</span>
+                                                    }
+                                                    else if (Model.taskMilestone.Status == (int)MilestoneStatus.VaxtiKecib)
+                                                    {
+                                                        <span class="dashboard-status-button red">Vaxtı keçib</span>
+                                                    }
+                                                    else if (Model.taskMilestone.Status == (int)MilestoneStatus.Tamamlanib)
+                                                    {
+                                                        <span class="dashboard-status-button green">Təsdiqlənib</span>
+                                                    }
+                                                    else // Vaxta var
+                                                    {
+                                                        <form action="@Url.RouteUrl("task-profile_milestone-proof-apply", milestoneParams)" id="applyForm" method="POST">
+                                                        </form>
+                                                        <div class="buttons-to-right always-visible margin-top-25 margin-bottom-0">
+                                                            <button type="submit" form="applyForm" class="button ripple-effect gray"><i class="icon-material-outline-check"></i>Tapşırıq bitdi</button>
+                                                        </div>
+                                                    }
+                                                }
+
+                                            </div>
                                         </div>
-                                    </div>
                                 </li>
 
                                 <li>
@@ -78,10 +134,13 @@
                                         <div class="dashboard-box">
                                             <div class="headline d-flex justify-content-between">
                                                 <h3><i class="icon-material-outline-supervisor-account"></i> Sübutlar</h3>
-                                                <a asp-route="task-profile_milestone-proof-add" asp-all-route-data="proofsParams" class="button ripple-effect">
-                                                    <i class="icon-feather-plus"></i>
-                                                    Sübut əlavə et
-                                                </a>
+                                                @if (ViewBag.ProjectManager == false && Model.taskMilestone.Status == (int)MilestoneStatus.VaxtaVar)
+                                                {
+                                                    <a asp-route="task-profile_milestone-proof-add" asp-all-route-data="milestoneParams" class="button ripple-effect">
+                                                        <i class="icon-feather-plus"></i>
+                                                        Sübut əlavə et
+                                                    </a>
+                                                }
                                             </div>
                                             <div class="content">
                                                 <ul class="dashboard-box-list">
@@ -89,24 +148,26 @@
                                                     {
                                                         <li>
                                                             @{ var imagePath = "/images/proof-images/" + proof.ProofImagePath; }
-                                                            <a href="@imagePath" target="_blank"><span class="notification-icon"><i class="icon-line-awesome-image"></i></span></a>
+                                                            <a href="@imagePath" data-lightbox="proof-images"><span class="notification-icon"><i class="icon-line-awesome-image"></i></span></a>
                                                             <span class="notification-text">
                                                                 @proof.ProofContent
                                                             </span>
                                                             <!-- Buttons -->
-                                                            @{
-                                                                var deleteProofParams = new Dictionary<string, string>
-                                                                                                                {
+                                                            @if (ViewBag.ProjectManager == false && Model.taskMilestone.Status == (int)MilestoneStatus.VaxtaVar)
+                                                            {
+
+                                                                var proofParams = new Dictionary<string, string>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        {
                                                                     { "task_id", Model.task.TaskId.ToString() },
                                                                     { "milestone_id", Model.taskMilestone.ID.ToString() },
                                                                     { "proof_id", proof.ID.ToString() }
                                                                 };
-                                                            }
 
-                                                        <div class="buttons-to-right single-right-button">
-                                                            <a href="#small-dialog" class="popup-with-zoom-anim button dark ripple-effect ico" data-tippy-placement="top" data-tippy="" data-original-title="Edit Bid"><i class="icon-feather-edit"></i></a>                                                           
-                                                            <a href="#" onclick="RemoveMilestoneProof('@Url.RouteUrl("task-profile_milestone-proof-remove", deleteProofParams)');" class="button red ripple-effect ico" data-tippy-placement="top" data-tippy="" data-original-title="Cancel Bid"><i class="icon-feather-trash-2"></i></a>
-                                                        </div>
+                                                                <div class="buttons-to-right single-right-button">
+                                                                    <a asp-route="task-profile_milestone-proof-edit" asp-all-route-data="proofParams" class="button dark ripple-effect ico"><i class="icon-feather-edit"></i></a>
+                                                                    <a href="#" onclick="RemoveMilestoneProof('@Url.RouteUrl("task-profile_milestone-proof-remove", proofParams)');" class="button red ripple-effect ico" data-tippy-placement="top" data-tippy="" data-original-title="Cancel Bid"><i class="icon-feather-trash-2"></i></a>
+                                                                </div>
+                                                            }
                                                         </li>
                                                     }
                                                 </ul>
@@ -152,6 +213,60 @@
                 <div class="clearfix"></div>
             </div>
             <!-- Footer / End -->
+            <!-- Accept Message dialog
+            ================================================== -->
+            <div id="small-dialog" class="accept-dialog zoom-anim-dialog mfp-hide dialog-with-tabs">
+                <!--Tabs -->
+                <div class="sign-in-form">
+                    <ul class="popup-tabs-nav">
+                        <li><a href="#tab">Mesaj göndər</a></li>
+                    </ul>
+                    <div class="popup-tabs-container">
+                        <!-- Tab -->
+                        <div class="popup-tab-content" id="tab">
+                            <!-- Welcome Text -->
+                            <div class="welcome-text">
+                                <h3>Sübutun qəbul olunması ilə əlaqədar mesaj</h3>
+                            </div>
+                            <!-- Form -->
+                            <form action="@Url.RouteUrl("task-profile_milestone-proof-accept", milestoneParams)" method="POST" id="accept-form">
+                                <textarea asp-for="Message" cols="10" placeholder="Mesaj.." class="with-border" required></textarea>
+                                <span asp-validation-for="Message"></span>
+                            </form>
+                            <!-- Button -->
+                            <button class="button full-width button-sliding-icon ripple-effect" type="submit" form="accept-form">Göndər <i class="icon-material-outline-arrow-right-alt"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Accept Message dialog/ End -->
+            <!-- Reject Message dialog
+                    ================================================== -->
+            <div id="small-dialog" class="reject-dialog zoom-anim-dialog mfp-hide dialog-with-tabs">
+                <!--Tabs -->
+                <div class="sign-in-form">
+                    <ul class="popup-tabs-nav">
+                        <li><a href="#tab">Mesaj göndər</a></li>
+                    </ul>
+                    <div class="popup-tabs-container">
+                        <!-- Tab -->
+                        <div class="popup-tab-content" id="tab">
+                            <!-- Welcome Text -->
+                            <div class="welcome-text">
+                                <h3>Sübutun qəbul olunmaması ilə əlaqədar mesaj</h3>
+                            </div>
+                            <!-- Form -->
+                            <form action="@Url.RouteUrl("task-profile_milestone-proof-reject", milestoneParams)" method="POST" id="reject-form">
+                                <textarea asp-for="Message" cols="10" placeholder="Mesaj.." class="with-border" required></textarea>
+                                <span asp-validation-for="Message"></span>
+                            </form>
+                            <!-- Button -->
+                            <button class="button full-width button-sliding-icon ripple-effect " type="submit" form="reject-form">Göndər <i class="icon-material-outline-arrow-right-alt"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Reject Message dialog / End -->
 
         </div>
     </div>
@@ -163,4 +278,5 @@
 
 @section scripts{
     <script src="~/js/milestoneProofs.js" asp-append-version="true"></script>
+    <script src="~/lib/lightbox2/js/lightbox.min.js" asp-append-version="true"></script>
 }

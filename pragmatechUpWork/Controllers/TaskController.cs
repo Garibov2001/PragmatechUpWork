@@ -31,10 +31,10 @@ namespace pragmatechUpWork.Controllers
         private IHostingEnvironment hostingEnvironment { get; set; }
 
         public TaskController(
-            IUnitOfWork _unitofWork, 
+            IUnitOfWork _unitofWork,
             UserManager<ApplicationUser> _userManager,
             IEmailService _emailService,
-            IHostingEnvironment  _hostingEnvironment)
+            IHostingEnvironment _hostingEnvironment)
         {
             unitofWork = _unitofWork;
             userManager = _userManager;
@@ -82,7 +82,7 @@ namespace pragmatechUpWork.Controllers
                 }
 
                 model.appliedTasks = appliedTasks;
-            }            
+            }
 
             return View("profile_tasks", model);
         }
@@ -120,7 +120,7 @@ namespace pragmatechUpWork.Controllers
             var projectTask = await unitofWork.ProjectTasks.GetTasksByID(task_id);
             //var model = new TaskMilestonesWithOthers
             //{
-                
+
             //}
 
             return View("task_milestones", projectTask);
@@ -173,6 +173,27 @@ namespace pragmatechUpWork.Controllers
             // If task doesn't have confirmed
             if (confirmedTask == null) return NotFound();
 
+            // Get the info of requested user:
+            var currentUser = await userManager.GetUserAsync(User);
+            var roles = await userManager.GetRolesAsync(currentUser);
+
+
+            if (roles.Contains(UserRolesEnum.Müəllim.ToString()))
+            {
+                ViewBag.ProjectManager = true;
+            }
+            else
+            {
+                // Only owner can see its proofs
+                if (confirmedTask.UserID != currentUser.Id)
+                {
+                    return NotFound();
+                }
+
+                ViewBag.ProjectManager = false;
+            }
+
+
 
             var model = new AllProjectTaskMilestoneProofsWithOthers
             {
@@ -186,6 +207,7 @@ namespace pragmatechUpWork.Controllers
             return View("task_milestone_proofs", model);
 
         }
+
 
         [HttpGet]
         [Route("/profile/task/{task_id}/milestone/{milestone_id}/proof/add", Name = "task-profile_milestone-proof-add")]
@@ -201,7 +223,7 @@ namespace pragmatechUpWork.Controllers
             var task_milestone = await unitofWork.TaskMilestones.GetTaskMilestoneByID(milestone_id.GetValueOrDefault());
             //Milestone exist or not
             if (task_milestone == null) return NotFound();
-           
+
             //Milestone belongs to Task or not
             if (task_milestone.ProjectTaskId != task_id) return NotFound();
 
@@ -215,7 +237,7 @@ namespace pragmatechUpWork.Controllers
                 user = await userManager.FindByIdAsync(confirmedTask.UserID),
                 task = project_task,
                 project = await unitofWork.Projects.GetProjectByID(project_task.ProjectId),
-                taskMilestone = task_milestone,   
+                taskMilestone = task_milestone,
                 milestoneProof = new ProjectTaskMilestoneProof()
             };
 
@@ -225,7 +247,7 @@ namespace pragmatechUpWork.Controllers
 
         [HttpPost]
         [Route("/profile/task/{task_id}/milestone/{milestone_id}/proof/add", Name = "task-profile_milestone-proof-add")]
-        public async Task<IActionResult> TaskMilestoneProofAdd(int? task_id, int? milestone_id, 
+        public async Task<IActionResult> TaskMilestoneProofAdd(int? task_id, int? milestone_id,
             ProjectTaskMilestoneProofWithOthers client_data)
         {
             //Query string is empty or not
@@ -259,7 +281,7 @@ namespace pragmatechUpWork.Controllers
 
             if (!ModelState.IsValid)
             {
-               
+
                 return View("task_milestone_proof_add", model);
             }
 
@@ -322,12 +344,12 @@ namespace pragmatechUpWork.Controllers
             // Current user is proof's owner or not
             if (confirmedTask.UserID != user.Result.Id) return NotFound();
 
-            var model = new ProjectTaskMilestoneProofWithOthers
+            var model = new MilestoneProofEditViewModel
             {
                 task = project_task,
                 project = await unitofWork.Projects.GetProjectByID(project_task.ProjectId),
                 taskMilestone = task_milestone,
-                milestoneProof = new ProjectTaskMilestoneProof()
+                milestoneProof = milestone_proof,
             };
 
             return View("task_milestone_proof_edit", model);
@@ -335,9 +357,83 @@ namespace pragmatechUpWork.Controllers
 
         [HttpPost]
         [Route("/profile/task/{task_id}/milestone/{milestone_id}/proof/{proof_id}/edit", Name = "task-profile_milestone-proof-edit")]
-        public async Task<IActionResult> TaskMilestoneProofEdit(int task_id, int milestone_id, int proof_id)
+        public async Task<IActionResult> TaskMilestoneProofEdit(int? task_id, int? milestone_id, int? proof_id,
+            MilestoneProofEditViewModel client_data)
         {
-            return View("task_milestone_proof_edit");
+            //Query string is empty or not
+            if (task_id == null || milestone_id == null || proof_id == null) return NotFound();
+
+            var project_task = await unitofWork.ProjectTasks.GetTasksByID(task_id.GetValueOrDefault());
+            //Task exists or not
+            if (project_task == null) return NotFound();
+
+            var task_milestone = await unitofWork.TaskMilestones.GetTaskMilestoneByID(milestone_id.GetValueOrDefault());
+            //Milestone exist or not
+            if (task_milestone == null) return NotFound();
+
+
+            var milestone_proof = await unitofWork.TaskMilestoneProofs.GetTaskMilestoneProofByID(proof_id.GetValueOrDefault());
+            //Proof exist or not
+            if (milestone_proof == null) return NotFound();
+
+            //Milestone belongs to Task or not
+            if (task_milestone.ProjectTaskId != task_id) return NotFound();
+
+            //Proof belongs to Milestone or not
+            if (milestone_proof.MilestoneId != task_milestone.ID) return NotFound();
+
+            var confirmedTask = await unitofWork.AplliedTasks.GetConfirmedByTaskID(project_task.TaskId);
+            // If task doesn't have confirmed
+            if (confirmedTask == null) return NotFound();
+
+            var user = userManager.GetUserAsync(User);
+
+            // Current user is proof's owner or not
+            if (confirmedTask.UserID != user.Result.Id) return NotFound();
+
+
+            var model = new MilestoneProofEditViewModel
+            {
+                task = project_task,
+                project = await unitofWork.Projects.GetProjectByID(project_task.ProjectId),
+                taskMilestone = task_milestone,
+                milestoneProof = milestone_proof,
+            };
+
+            if (!ModelState.IsValid)
+            {
+                return View("task_milestone_proof_edit", model);
+            }
+
+            // Image is not edited
+            if (client_data.Image == null)
+            {
+                client_data.milestoneProof.ProofImagePath = milestone_proof.ProofImagePath;
+                client_data.milestoneProof.Milestone = task_milestone;
+
+                await unitofWork.TaskMilestoneProofs.Update(client_data.milestoneProof);
+            }
+            //Image edited
+            else
+            {
+                // get current root folder and combine it with needed folder
+                string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "images", "proof-images");
+                // get unique name for our image
+                string uniqueFileName = Guid.NewGuid().ToString() + "_" + client_data.Image.FileName;
+                // combine folder with image name
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                // upload image to server
+                await client_data.Image.CopyToAsync(new FileStream(filePath, FileMode.Create));
+
+                client_data.milestoneProof.ProofImagePath = uniqueFileName;
+                client_data.milestoneProof.Milestone = task_milestone;
+
+
+                await unitofWork.TaskMilestoneProofs.Update(client_data.milestoneProof);
+
+            }
+
+            return RedirectToRoute("task-profile_milestone-proofs", new { task_id = task_id.GetValueOrDefault(), milestone_id = milestone_id.GetValueOrDefault() });
         }
 
 
@@ -386,8 +482,153 @@ namespace pragmatechUpWork.Controllers
             return Json(new { error = "exist" });
         }
 
-        #endregion 
 
+        // Task owner sends proof for confirmation
+        [HttpPost]
+        [Route("/profile/task/{task_id}/milestone/{milestone_id}/apply", Name = "task-profile_milestone-proof-apply")]
+        public async Task<IActionResult> TaskMilestoneApply(int? task_id, int? milestone_id)
+        {
+            //Query string is empty or not
+            if (task_id == null || milestone_id == null) return NotFound();
+
+            var project_task = await unitofWork.ProjectTasks.GetTasksByID(task_id.GetValueOrDefault());
+            //Task exists or not
+            if (project_task == null) return NotFound();
+
+            var task_milestone = await unitofWork.TaskMilestones.GetTaskMilestoneByID(milestone_id.GetValueOrDefault());
+            //Milestone exist or not
+            if (task_milestone == null) return NotFound();
+
+            //Milestone belongs to Task or not
+            if (task_milestone.ProjectTaskId != task_id) return NotFound();
+            
+            var confirmedTask = await unitofWork.AplliedTasks.GetConfirmedByTaskID(project_task.TaskId);
+            // If task doesn't have confirmed
+            if (confirmedTask == null) return NotFound();
+
+
+            // Get the info of requested user:
+            var currentUser = await userManager.GetUserAsync(User);
+  
+            // Only owner can send for apply
+            if (confirmedTask.UserID != currentUser.Id)
+            {
+                return NotFound();
+            }
+
+
+            task_milestone.Status = (int)MilestoneStatus.TesdiqlenmeyiGozleyir;
+            await unitofWork.TaskMilestones.Update(task_milestone);
+
+            return RedirectToRoute("task-profile_milestone-proofs", new { task_id = task_id.GetValueOrDefault(), milestone_id = milestone_id.GetValueOrDefault() });
+        }
+
+
+        // Project Manger accepts proof for milestone
+        [HttpPost]
+        [Route("/profile/task/{task_id}/milestone/{milestone_id}/accept", Name = "task-profile_milestone-proof-accept")]
+        public async Task<IActionResult> TaskMilestoneAcceptApply(int? task_id, int? milestone_id,
+            AllProjectTaskMilestoneProofsWithOthers client_data)
+        {
+            //Query string is empty or not
+            if (task_id == null || milestone_id == null) return NotFound();
+
+            var project_task = await unitofWork.ProjectTasks.GetTasksByID(task_id.GetValueOrDefault());
+            //Task exists or not
+            if (project_task == null) return NotFound();
+
+            var task_milestone = await unitofWork.TaskMilestones.GetTaskMilestoneByID(milestone_id.GetValueOrDefault());
+            //Milestone exist or not
+            if (task_milestone == null) return NotFound();
+
+            //Milestone belongs to Task or not
+            if (task_milestone.ProjectTaskId != task_id) return NotFound();
+
+            var confirmedTask = await unitofWork.AplliedTasks.GetConfirmedByTaskID(project_task.TaskId);
+            // If task doesn't have confirmed
+            if (confirmedTask == null) return NotFound();
+
+
+            // Get the info of requested user:
+            var currentUser = await userManager.GetUserAsync(User);
+            var roles = await userManager.GetRolesAsync(currentUser);
+
+            // Only project manager can send accept apply
+            if (!roles.Contains(UserRolesEnum.Müəllim.ToString()))
+            {
+                return NotFound();            
+            }
+
+
+            string subject = "Pragmatech sübut Qəbulu";
+            string body = $"Task: {project_task.Name}\nMilestone: {task_milestone.Name}\nProject Managerin sözü: {client_data.Message}";
+            string targetEmail = userManager.FindByIdAsync(confirmedTask.UserID).Result.Email;
+            var message = new Message(
+                new string[] { $"{targetEmail}" }, subject, body);
+            emailService.SendEmail(message);
+
+            
+            task_milestone.Status = (int)MilestoneStatus.Tamamlanib;
+            await unitofWork.TaskMilestones.Update(task_milestone);
+
+            return RedirectToRoute("task-profile_milestone-proofs", new { task_id = task_id.GetValueOrDefault(), milestone_id = milestone_id.GetValueOrDefault() });
+        }
+
+
+        // Project Manger rejects proof for milestone
+        [HttpPost]
+        [Route("/profile/task/{task_id}/milestone/{milestone_id}/reject", Name = "task-profile_milestone-proof-reject")]
+        public async Task<IActionResult> TaskMilestoneRejectApply(int? task_id, int? milestone_id,
+            AllProjectTaskMilestoneProofsWithOthers client_data)
+        {
+            //Query string is empty or not
+            if (task_id == null || milestone_id == null) return NotFound();
+
+            var project_task = await unitofWork.ProjectTasks.GetTasksByID(task_id.GetValueOrDefault());
+            //Task exists or not
+            if (project_task == null) return NotFound();
+
+            var task_milestone = await unitofWork.TaskMilestones.GetTaskMilestoneByID(milestone_id.GetValueOrDefault());
+            //Milestone exist or not
+            if (task_milestone == null) return NotFound();
+
+            //Milestone belongs to Task or not
+            if (task_milestone.ProjectTaskId != task_id) return NotFound();
+
+            var confirmedTask = await unitofWork.AplliedTasks.GetConfirmedByTaskID(project_task.TaskId);
+            // If task doesn't have confirmed
+            if (confirmedTask == null) return NotFound();
+
+
+            // Get the info of requested user:
+            var currentUser = await userManager.GetUserAsync(User);
+            var roles = await userManager.GetRolesAsync(currentUser);
+
+            // Only project manager can reject apply
+            if (!roles.Contains(UserRolesEnum.Müəllim.ToString()))
+            {
+                return NotFound();
+            }
+
+
+            string subject = "Pragmatech sübut Qəbul olunmaması";
+            string body = $"Task: {project_task.Name}\nMilestone: {task_milestone.Name}\nProject Managerin sözü: {client_data.Message}";
+            string targetEmail = userManager.FindByIdAsync(confirmedTask.UserID).Result.Email;
+            var message = new Message(
+                new string[] { $"{targetEmail}" }, subject, body);
+            emailService.SendEmail(message);
+
+
+            task_milestone.Status = (int)MilestoneStatus.LegvEdilib;
+            await unitofWork.TaskMilestones.Update(task_milestone);
+
+            return RedirectToRoute("task-profile_milestone-proofs", new { task_id = task_id.GetValueOrDefault(), milestone_id = milestone_id.GetValueOrDefault() });
+        }
+
+
+
+
+        #endregion 
 
 
 
@@ -414,7 +655,7 @@ namespace pragmatechUpWork.Controllers
             var model = new AllApliedTasksWithOthers()
             {
                 appliedTasks = appliedTasks,
-                appliedTask=new UserApplyAndConfirmTask()
+                appliedTask = new UserApplyAndConfirmTask()
             };
             return View("applied_tasks", model);
         }
@@ -429,7 +670,7 @@ namespace pragmatechUpWork.Controllers
 
             if (appliedTask != null)
             {
-                    appliedTask.Task = await unitofWork.ProjectTasks.GetTasksByID(appliedTask.TaskID);
+                appliedTask.Task = await unitofWork.ProjectTasks.GetTasksByID(appliedTask.TaskID);
             }
 
             var model = new AppliedTaskWithOthers()
@@ -447,15 +688,15 @@ namespace pragmatechUpWork.Controllers
         public async Task<IActionResult> ConfirmTask(AppliedTaskWithOthers appliedTask)
         {
 
-            ProjectTask task= await unitofWork.ProjectTasks.GetTasksByID(appliedTask.applyTask.TaskID);
+            ProjectTask task = await unitofWork.ProjectTasks.GetTasksByID(appliedTask.applyTask.TaskID);
 
             appliedTask.applyTask.Task = task;
             appliedTask.applyTask.Status = true;
 
             var user = userManager.FindByIdAsync(appliedTask.applyTask.UserID).Result;
 
-            bool result=await unitofWork.AplliedTasks.Update(appliedTask.applyTask);
-            if (result==true)
+            bool result = await unitofWork.AplliedTasks.Update(appliedTask.applyTask);
+            if (result == true)
             {
                 EmailGonder(user.Email, user.Name, task.Name);
             }
@@ -464,10 +705,10 @@ namespace pragmatechUpWork.Controllers
         }
 
         //Elave olunacaq
-        private void EmailGonder(string targetEmail,string user,string taskName)
+        private void EmailGonder(string targetEmail, string user, string taskName)
         {
             string subject = "Pragmatech Task Teklifi Qebulu";
-            string body = string.Format("{0} bəy {1} taskı hakkındakı teklifiniz müdüriyyət tərəfindən qebul olundu.Taskı qeyd etdiyiniz vaxtda tehvil vermeyiniz xahis olunur.",user,taskName);
+            string body = string.Format("{0} bəy {1} taskı hakkındakı teklifiniz müdüriyyət tərəfindən qebul olundu.Taskı qeyd etdiyiniz vaxtda tehvil vermeyiniz xahis olunur.", user, taskName);
             var message = new Message(
                 new string[] { $"{targetEmail}" }, subject, body);
             emailService.SendEmail(message);
@@ -481,7 +722,7 @@ namespace pragmatechUpWork.Controllers
             ProjectTask task = await unitofWork.ProjectTasks.GetTasksByID(id);
             var model = new ProjectTaskWithOther()
             {
-                projectTask=task,
+                projectTask = task,
                 project = await unitofWork.Projects.GetProjectByTask(task),
                 appliedTask = new UserApplyAndConfirmTask()
             };
@@ -512,7 +753,7 @@ namespace pragmatechUpWork.Controllers
                 appliedTask.Task = task;
                 appliedTask.ApplyDate = DateTime.Now;
 
-                bool result=await unitofWork.AplliedTasks.Add(appliedTask);
+                bool result = await unitofWork.AplliedTasks.Add(appliedTask);
                 model.appliedTask = appliedTask;
 
                 ViewBag.Success = true;
@@ -520,8 +761,8 @@ namespace pragmatechUpWork.Controllers
             }
             else
             {
-                return View("single_task", model);                
-            }            
+                return View("single_task", model);
+            }
         }
 
         [Authorize()]
@@ -537,7 +778,7 @@ namespace pragmatechUpWork.Controllers
             var model = new ProjectTaskWithOther()
             {
                 projects = new SelectList(Projects, nameof(Project.ProjectId), nameof(Project.Name)),
-                projectTask=new ProjectTask(),
+                projectTask = new ProjectTask(),
             };
             ViewBag.ProjectTask = model.projects;
 
@@ -558,7 +799,7 @@ namespace pragmatechUpWork.Controllers
                 client_post.projectTask.Project = project;
                 client_post.projectTask.Status = 0;
 
-                await unitofWork.ProjectTasks.Add(client_post.projectTask);              
+                await unitofWork.ProjectTasks.Add(client_post.projectTask);
 
                 return RedirectToRoute("profile-whole_tasks");
             }
@@ -660,8 +901,8 @@ namespace pragmatechUpWork.Controllers
             return Json(responseData);
         }
 
-      
 
-       
+
+
     }
 }

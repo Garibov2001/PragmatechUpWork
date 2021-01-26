@@ -50,9 +50,11 @@ namespace pragmatechUpWork_BusinessLogicLayer.Concrete
             return await taskMilestoneProofDal.Get(x => x.ID == id);
         }
 
-        public Task<bool> Update(ProjectTaskMilestoneProof taskMilestoneProof)
+        public async Task<bool> Update(ProjectTaskMilestoneProof taskMilestoneProof)
         {
-            throw new NotImplementedException();
+            bool result = await taskMilestoneProofDal.Update(taskMilestoneProof);
+
+            return result == true ? true : false;
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿@model ProjectTaskMilestoneProofWithOthers
+﻿@model MilestoneProofEditViewModel
 <!-- Transparent Header Spacer -->
 <div class="transparent-header-spacer"></div>
 
@@ -58,17 +58,21 @@
                                         <div class="submit-field">
                                             <h5>Sübutun mətni</h5>
                                             <textarea asp-for="milestoneProof.ProofContent" cols="30" rows="5" class="with-border">
-                                                
+                                                @Model.milestoneProof.ProofContent
                                             </textarea>
                                             <span asp-validation-for="milestoneProof.ProofContent"></span>
                                             <div class="uploadButton margin-top-30">
+                                                @{ var imagePath = "/images/proof-images/" + Model.milestoneProof.ProofImagePath; }
+                                                <a href="@imagePath" class="button ripple-effect margin-right-15">Hazırda olan şəklə bax</a>
                                                 <input class="uploadButton-input" asp-for="Image" accept="image/*" id="upload">
-                                                <label class="uploadButton-button ripple-effect" for="upload">Şəkil yüklə</label>
-                                                <span class="uploadButton-file-name">İşinizi düzgün gördüyünüzlə əlaqədar şəkill</span>
+                                                <label class="uploadButton-button ripple-effect" for="upload">Yeni şəkil yüklə</label>                                                
+                                                <span class="uploadButton-file-name"></span>
                                                 <span asp-validation-for="Image"></span>
                                             </div>
 
                                             <input type="hidden" asp-for="milestoneProof.MilestoneId" value="@Model.taskMilestone.ID" />
+                                            @* Entitylerin updatede duzgun islemesi ucun bu vacibdir *@
+                                            <input type="hidden" asp-for="milestoneProof.ID" value="@Model.milestoneProof.ID" />
                                         </div>
                                     </div>
                                 </div>
@@ -77,7 +81,7 @@
                     </div>
 
                     <div class="col-xl-12">
-                        <button type="submit" class="button ripple-effect big margin-top-30"><i class="icon-feather-plus"></i> Əlavə et</button>
+                        <button type="submit" class="button ripple-effect big margin-top-30"><i class="icon-feather-plus"></i> Yadda saxla</button>
                     </div>
                 </form>
             </div>

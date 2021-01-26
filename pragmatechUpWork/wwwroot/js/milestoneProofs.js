@@ -33,16 +33,3 @@ function RemoveMilestoneProof(argUrl)
         }); // End of then
 }; // End of Event listener
 
-/* ---------------- Remove Proof Js -------------------- */
-function EditMilestoneProof(argUrl) {
-    $.ajax({
-        url: argUrl,
-        method: "DELETE",
-        success: function (response)
-        {
-            if (response.error == "none") {
-                location.reload();
-            }
-        },
-    });
-}; // End of Event listener
