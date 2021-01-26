@@ -177,14 +177,14 @@ namespace pragmatechUpWork.Controllers
             var currentUser = await userManager.GetUserAsync(User);
             var roles = await userManager.GetRolesAsync(currentUser);
 
-
+            // If users role are "Muellim"
             if (roles.Contains(UserRolesEnum.Müəllim.ToString()))
             {
                 ViewBag.ProjectManager = true;
             }
             else
             {
-                // Only owner can see its proofs
+                // Only task owner can see its proofs
                 if (confirmedTask.UserID != currentUser.Id)
                 {
                     return NotFound();
@@ -231,6 +231,20 @@ namespace pragmatechUpWork.Controllers
             // If task doesn't have confirmed
             if (confirmedTask == null) return NotFound();
 
+            // Get the info of requested user:
+            var currentUser = await userManager.GetUserAsync(User);
+
+            // Only task owner can edit its proofs
+            if (confirmedTask.UserID != currentUser.Id)
+            {
+                return NotFound();
+            }
+
+            //Task owner can add proof only in milestone's "VaxtaVar" status.
+            if (task_milestone.Status != (int)MilestoneStatus.VaxtaVar)
+            {
+                return NotFound();
+            }
 
             var model = new ProjectTaskMilestoneProofWithOthers
             {
@@ -267,6 +281,22 @@ namespace pragmatechUpWork.Controllers
             var confirmedTask = await unitofWork.AplliedTasks.GetConfirmedByTaskID(project_task.TaskId);
             // If task doesn't have confirmed
             if (confirmedTask == null) return NotFound();
+
+            // Get the info of requested user:
+            var currentUser = await userManager.GetUserAsync(User);
+            // Only task owner can edit its proofs
+            if (confirmedTask.UserID != currentUser.Id)
+            {
+                return NotFound();
+            }
+
+            //Task owner can add proof only in milestone's "VaxtaVar" status.
+            if (task_milestone.Status != (int)MilestoneStatus.VaxtaVar)
+            {
+                return NotFound();
+            }
+
+
 
             var model = new ProjectTaskMilestoneProofWithOthers
             {
@@ -308,7 +338,6 @@ namespace pragmatechUpWork.Controllers
             return RedirectToRoute("task-profile_milestone-proofs", new { task_id = task_id.GetValueOrDefault(), milestone_id = milestone_id.GetValueOrDefault() });
         }
 
-
         [HttpGet]
         [Route("/profile/task/{task_id}/milestone/{milestone_id}/proof/{proof_id}/edit", Name = "task-profile_milestone-proof-edit")]
         public async Task<IActionResult> TaskMilestoneProofEdit(int? task_id, int? milestone_id, int? proof_id)
@@ -339,10 +368,23 @@ namespace pragmatechUpWork.Controllers
             // If task doesn't have confirmed
             if (confirmedTask == null) return NotFound();
 
-            var user = userManager.GetUserAsync(User);
+            
+            // Get the info of requested user:
+            var currentUser = await userManager.GetUserAsync(User);
 
-            // Current user is proof's owner or not
-            if (confirmedTask.UserID != user.Result.Id) return NotFound();
+            // Only task owner can edit its proofs
+            if (confirmedTask.UserID != currentUser.Id)
+            {
+                return NotFound();
+            }
+
+            //Task owner can edit proof only in milestone's "VaxtaVar" status.
+            if (task_milestone.Status != (int)MilestoneStatus.VaxtaVar)
+            {
+                return NotFound();
+            }
+
+
 
             var model = new MilestoneProofEditViewModel
             {
@@ -386,10 +428,20 @@ namespace pragmatechUpWork.Controllers
             // If task doesn't have confirmed
             if (confirmedTask == null) return NotFound();
 
-            var user = userManager.GetUserAsync(User);
+            // Get the info of requested user:
+            var currentUser = await userManager.GetUserAsync(User);
 
-            // Current user is proof's owner or not
-            if (confirmedTask.UserID != user.Result.Id) return NotFound();
+            // Only task owner can edit its proofs
+            if (confirmedTask.UserID != currentUser.Id)
+            {
+                return NotFound();
+            }
+
+            //Task owner can edit proof only in milestone's "VaxtaVar" status.
+            if (task_milestone.Status != (int)MilestoneStatus.VaxtaVar)
+            {
+                return NotFound();
+            }
 
 
             var model = new MilestoneProofEditViewModel
@@ -436,7 +488,6 @@ namespace pragmatechUpWork.Controllers
             return RedirectToRoute("task-profile_milestone-proofs", new { task_id = task_id.GetValueOrDefault(), milestone_id = milestone_id.GetValueOrDefault() });
         }
 
-
         [HttpDelete]
         [Route("/profile/task/{task_id}/milestone/{milestone_id}/proof/{proof_id}/remove", Name = "task-profile_milestone-proof-remove")]
         public async Task<IActionResult> TaskMilestoneProofRemove(int? task_id, int? milestone_id, int? proof_id)
@@ -467,10 +518,20 @@ namespace pragmatechUpWork.Controllers
             // If task doesn't have confirmed
             if (confirmedTask == null) return NotFound();
 
-            var user = userManager.GetUserAsync(User);
+            // Get the info of requested user:
+            var currentUser = await userManager.GetUserAsync(User);
 
-            // Current user is proof's owner or not
-            if (confirmedTask.UserID != user.Result.Id) return NotFound();
+            // Only task owner can edit its proofs
+            if (confirmedTask.UserID != currentUser.Id)
+            {
+                return NotFound();
+            }
+
+            //Task owner can edit proof only in milestone's "VaxtaVar" status.
+            if (task_milestone.Status != (int)MilestoneStatus.VaxtaVar)
+            {
+                return NotFound();
+            }
 
             var resut = await unitofWork.TaskMilestoneProofs.Delete(proof_id.GetValueOrDefault());
 
@@ -481,7 +542,6 @@ namespace pragmatechUpWork.Controllers
 
             return Json(new { error = "exist" });
         }
-
 
         // Task owner sends proof for confirmation
         [HttpPost]
@@ -509,9 +569,15 @@ namespace pragmatechUpWork.Controllers
 
             // Get the info of requested user:
             var currentUser = await userManager.GetUserAsync(User);
-  
-            // Only owner can send for apply
+
+            // Only task owner can apply 
             if (confirmedTask.UserID != currentUser.Id)
+            {
+                return NotFound();
+            }
+
+            //Task owner can apply for proof only in milestone's "VaxtaVar" status.
+            if (task_milestone.Status != (int)MilestoneStatus.VaxtaVar)
             {
                 return NotFound();
             }
@@ -523,8 +589,7 @@ namespace pragmatechUpWork.Controllers
             return RedirectToRoute("task-profile_milestone-proofs", new { task_id = task_id.GetValueOrDefault(), milestone_id = milestone_id.GetValueOrDefault() });
         }
 
-
-        // Project Manger accepts proof for milestone
+        // Project Manger accepts proof for specific milestone
         [HttpPost]
         [Route("/profile/task/{task_id}/milestone/{milestone_id}/accept", Name = "task-profile_milestone-proof-accept")]
         public async Task<IActionResult> TaskMilestoneAcceptApply(int? task_id, int? milestone_id,
@@ -553,10 +618,16 @@ namespace pragmatechUpWork.Controllers
             var currentUser = await userManager.GetUserAsync(User);
             var roles = await userManager.GetRolesAsync(currentUser);
 
-            // Only project manager can send accept apply
+            // Only project manager("Muellim" role) can accept apply
             if (!roles.Contains(UserRolesEnum.Müəllim.ToString()))
             {
                 return NotFound();            
+            }
+
+            //Pproject manager can accept apply only in milestone's "TesdiqlenmeyiGozleyir" status.
+            if (task_milestone.Status != (int)MilestoneStatus.TesdiqlenmeyiGozleyir)
+            {
+                return NotFound();
             }
 
 
@@ -604,8 +675,20 @@ namespace pragmatechUpWork.Controllers
             var currentUser = await userManager.GetUserAsync(User);
             var roles = await userManager.GetRolesAsync(currentUser);
 
-            // Only project manager can reject apply
+            // Only project manager("Muellim" role) can accept apply
             if (!roles.Contains(UserRolesEnum.Müəllim.ToString()))
+            {
+                return NotFound();
+            }
+
+
+            //Pproject manager can accept apply only in milestone's "VaxtaVar" status.
+            if (task_milestone.Status == (int)MilestoneStatus.VaxtaVar ||
+                task_milestone.Status == (int)MilestoneStatus.TesdiqlenmeyiGozleyir)
+            {
+                
+            }
+            else
             {
                 return NotFound();
             }

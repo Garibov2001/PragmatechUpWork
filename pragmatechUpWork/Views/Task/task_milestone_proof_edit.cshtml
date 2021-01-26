@@ -1,4 +1,10 @@
 ﻿@model MilestoneProofEditViewModel
+
+
+@section styles{
+    <link rel="stylesheet" href="~/lib/lightbox2/css/lightbox.min.css" asp-append-version="true">
+}
+
 <!-- Transparent Header Spacer -->
 <div class="transparent-header-spacer"></div>
 
@@ -9,7 +15,7 @@
 
     @{
         var proofsParams = new Dictionary<string, string>
-    {
+{
             { "task_id", Model.task.TaskId.ToString() },
             { "milestone_id", Model.taskMilestone.ID.ToString() }
         };
@@ -63,9 +69,9 @@
                                             <span asp-validation-for="milestoneProof.ProofContent"></span>
                                             <div class="uploadButton margin-top-30">
                                                 @{ var imagePath = "/images/proof-images/" + Model.milestoneProof.ProofImagePath; }
-                                                <a href="@imagePath" class="button ripple-effect margin-right-15">Hazırda olan şəklə bax</a>
+                                                <a href="@imagePath" data-lightbox="current-image" class="button ripple-effect margin-right-15">Hazırda olan şəklə bax</a>
                                                 <input class="uploadButton-input" asp-for="Image" accept="image/*" id="upload">
-                                                <label class="uploadButton-button ripple-effect" for="upload">Yeni şəkil yüklə</label>                                                
+                                                <label class="uploadButton-button ripple-effect" for="upload">Yeni şəkil yüklə</label>
                                                 <span class="uploadButton-file-name"></span>
                                                 <span asp-validation-for="Image"></span>
                                             </div>
@@ -124,3 +130,8 @@
 
 </div>
 <!-- Dashboard Container / End -->
+
+
+@section scripts{
+    <script src="~/lib/lightbox2/js/lightbox.min.js" asp-append-version="true"></script>
+}
