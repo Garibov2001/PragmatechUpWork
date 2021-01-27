@@ -11,6 +11,7 @@ namespace pragmatechUpWork_BusinessLogicLayer.Abstract
     {
         Task<List<ProjectTaskMilestone>> GetAll();
         Task<ProjectTaskMilestone> GetTaskMilestoneByID(int id);
+        Task<List<ProjectTaskMilestone>> GetTaskMileStonesByTaskID(int TaskID);
         Task<bool> Add(ProjectTaskMilestone taskMilestone);
         Task<bool> Update(ProjectTaskMilestone taskMilestone);
         Task<bool> Delete(int id);

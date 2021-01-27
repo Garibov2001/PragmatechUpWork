@@ -1,4 +1,6 @@
-﻿<!-- Transparent Header Spacer -->
+﻿@model ProjectTaskWithOther
+
+<!-- Transparent Header Spacer -->
 <div class="transparent-header-spacer"></div>
 
 <!-- Dashboard Container -->
@@ -14,8 +16,8 @@
             <!-- Headline -->
             <div class="dashboard-headline">
                 <h3>Task milestonu əlavə et</h3>
-                <span class="margin-top-7">Layihe :  <a href="#">Pragmatech CRM</a></span>
-                <span class="margin-top-7">Task :  <a href="#">Database qurulmasi</a></span>
+                <span class="margin-top-7">Layihe :  <a href="#">@Model.project.Name</a></span>
+                <span class="margin-top-7">Task :  <a href="#">@Model.projectTask.Name</a></span>
                 <nav id="breadcrumbs" class="dark">
                     <ul>
                         <li><a asp-route="profile-whole_tasks">Tasklar</a></li>
@@ -26,80 +28,82 @@
             </div>
 
             <!-- Row -->
-            <div class="row">
-                <!-- Dashboard Box -->
-                <div class="col-xl-12">
-                    <div class="dashboard-box margin-top-0">
-                        <!-- Headline -->
-                        <div class="headline">
-                            <h3><i class="icon-feather-folder-plus"></i> Task Milestionu Əlavə et</h3>
-                        </div>
+            <form asp-route="task-profile_milestone-add" method="post" role="form">
+                <div class="row">
+                    <!-- Dashboard Box -->
+                    <div class="col-xl-12">
+                        <div class="dashboard-box margin-top-0">
+                            <!-- Headline -->
+                            <div class="headline">
+                                <h3><i class="icon-feather-folder-plus"></i> Task Milestionu Əlavə et</h3>
+                            </div>
 
-                        <div class="content with-padding padding-bottom-10">
-                            <div class="row">
-                                <div class="col-xl-6">
-                                    <div class="submit-field">
-                                        <h5>Milestonun adı </h5>
-                                        <input type="text" class="with-border" placeholder="p.s crud əməliyyatları">
+
+                            <div class="content with-padding padding-bottom-10">
+                                <div class="row">
+                                    <div class="col-xl-6">
+                                        <div class="submit-field">
+                                            <h5>Milestonun adı </h5>
+                                            <input type="text" class="with-border" asp-for="@Model.milestone.Name" placeholder="p.s crud əməliyyatları">
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="col-xl-6">
-                                    <div class="submit-field">
-                                        <h5>Milestona verilən müddət  <i class="help-icon" data-tippy-placement="right" title="Daxil edilən gün gələcəkdən olmalıdır"></i></h5>
-                                        <input type="date" class="with-border" placeholder="p.s crud əməliyyatları">
+                                    <div class="col-xl-6">
+                                        <div class="submit-field">
+                                            <h5>Milestona verilən müddət  <i class="help-icon" data-tippy-placement="right" title="Daxil edilən gün gələcəkdən olmalıdır"></i></h5>
+                                            <input type="date" class="with-border" asp-for="@Model.milestone.FinishDate" placeholder="p.s crud əməliyyatları">
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="col-xl-12">
-                                    <div class="submit-field">
-                                        <h5>Tələblər</h5>
-                                        <textarea cols="30" rows="5" class="with-border"></textarea>
+                                    <div class="col-xl-12">
+                                        <div class="submit-field">
+                                            <h5>Tələblər</h5>
+                                            <textarea cols="30" rows="5" asp-for="@Model.milestone.MilestoneText" class="with-border"></textarea>
+                                        </div>
                                     </div>
+                                    <input type="hidden" value="@Model.projectTask.TaskId" asp-for="@Model.milestone.ProjectTaskId"/>
                                 </div>
-
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="col-xl-12">
-                    <a href="#" class="button ripple-effect big margin-top-30"><i class="icon-feather-plus"></i> Əlavə et</a>
+                    <div class="col-xl-12">
+                        <button class="button ripple-effect big margin-top-30" type="submit"><i class="icon-feather-plus"></i> Əlavə et</button>
+                    </div>
                 </div>
-            </div>
-            <!-- Row / End -->
-
-            <!-- Footer -->
-            <div class="dashboard-footer-spacer"></div>
-            <div class="small-footer margin-top-15">
-                <div class="small-footer-copyrights">
-                    © 2018 <strong>Hireo</strong>. All Rights Reserved.
+            </form>
+                <!-- Row / End -->
+                <!-- Footer -->
+                <div class="dashboard-footer-spacer"></div>
+                <div class="small-footer margin-top-15">
+                    <div class="small-footer-copyrights">
+                        © 2018 <strong>Hireo</strong>. All Rights Reserved.
+                    </div>
+                    <ul class="footer-social-links">
+                        <li>
+                            <a href="#" title="Facebook" data-tippy-placement="top">
+                                <i class="icon-brand-facebook-f"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" title="Twitter" data-tippy-placement="top">
+                                <i class="icon-brand-twitter"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" title="Google Plus" data-tippy-placement="top">
+                                <i class="icon-brand-google-plus-g"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" title="LinkedIn" data-tippy-placement="top">
+                                <i class="icon-brand-linkedin-in"></i>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
                 </div>
-                <ul class="footer-social-links">
-                    <li>
-                        <a href="#" title="Facebook" data-tippy-placement="top">
-                            <i class="icon-brand-facebook-f"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" title="Twitter" data-tippy-placement="top">
-                            <i class="icon-brand-twitter"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" title="Google Plus" data-tippy-placement="top">
-                            <i class="icon-brand-google-plus-g"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" title="LinkedIn" data-tippy-placement="top">
-                            <i class="icon-brand-linkedin-in"></i>
-                        </a>
-                    </li>
-                </ul>
-                <div class="clearfix"></div>
-            </div>
-            <!-- Footer / End -->
+                <!-- Footer / End -->
 
         </div>
     </div>

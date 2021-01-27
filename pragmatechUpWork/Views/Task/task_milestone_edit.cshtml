@@ -1,4 +1,6 @@
-﻿<!-- Transparent Header Spacer -->
+﻿@model TaskMilestonesWithOthers
+
+<!-- Transparent Header Spacer -->
 <div class="transparent-header-spacer"></div>
 
 <!-- Dashboard Container -->
@@ -14,8 +16,8 @@
             <!-- Headline -->
             <div class="dashboard-headline">
                 <h3>Task milestonu editlə</h3>
-                <span class="margin-top-7">Layihə :  <a href="#">Pragmatech CRM</a></span>
-                <span class="margin-top-7">Task :  <a href="#">Database qurulmasi</a></span>
+                <span class="margin-top-7">Layihə :  <a href="#">@Model.project.Name</a></span>
+                <span class="margin-top-7">Task :  <a href="#">@Model.projectTask.Name</a></span>
                 <nav id="breadcrumbs" class="dark">
                     <ul>
                         <li><a asp-route="profile-whole_tasks">Tasklar</a></li>
@@ -26,47 +28,52 @@
             </div>
 
             <!-- Row -->
-            <div class="row">
-                <!-- Dashboard Box -->
-                <div class="col-xl-12">
-                    <div class="dashboard-box margin-top-0">
-                        <!-- Headline -->
-                        <div class="headline">
-                            <h3><i class="icon-feather-folder-plus"></i> Task Milestionu editlə</h3>
-                        </div>
+            <form asp-route="task-profile_milestone-edited" method="post" role="form">
+                <div class="row">
+                    <!-- Dashboard Box -->
+                    <div class="col-xl-12">
+                        <div class="dashboard-box margin-top-0">
+                            <!-- Headline -->
+                            <div class="headline">
+                                <h3><i class="icon-feather-folder-plus"></i> Task Milestionu editlə</h3>
+                            </div>
 
-                        <div class="content with-padding padding-bottom-10">
-                            <div class="row">
-                                <div class="col-xl-6">
-                                    <div class="submit-field">
-                                        <h5>Milestonun adı </h5>
-                                        <input type="text" class="with-border" placeholder="p.s crud əməliyyatları">
+                            <div class="content with-padding padding-bottom-10">
+                                <div class="row">
+                                    <div class="col-xl-6">
+                                        <div class="submit-field">
+                                            <h5>Milestonun adı </h5>
+                                            <input type="text" class="with-border" asp-for="@Model.milestone.Name" placeholder="@Model.milestone.Name">
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="col-xl-6">
-                                    <div class="submit-field">
-                                        <h5>Milestona verilən müddət  <i class="help-icon" data-tippy-placement="right" title="Daxil edilən gün gələcəkdən olmalıdır"></i></h5>
-                                        <input type="date" class="with-border" placeholder="p.s crud əməliyyatları">
+                                    <div class="col-xl-6">
+                                        <div class="submit-field">
+                                            <h5>Milestona verilən müddət  <i class="help-icon" data-tippy-placement="right" title="Daxil edilən gün gələcəkdən olmalıdır"></i></h5>
+                                            <input type="date" asp-for="@Model.milestone.FinishDate" class="with-border" placeholder="@Model.milestone.FinishDate">
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="col-xl-12">
-                                    <div class="submit-field">
-                                        <h5>Tələblər</h5>
-                                        <textarea cols="30" rows="5" class="with-border"></textarea>
+                                    <div class="col-xl-12">
+                                        <div class="submit-field">
+                                            <h5>Tələblər</h5>
+                                            <textarea cols="30" asp-for="@Model.milestone.MilestoneText" rows="5" placeholder="@Model.milestone.MilestoneText" class="with-border"></textarea>
+                                        </div>
                                     </div>
+                                    <input type="hidden" value="@Model.milestone.ID" asp-for="@Model.milestone.ID"/>
+                                    <input type="hidden" value="@Model.projectTask.TaskId" asp-for="@Model.milestone.ProjectTaskId"/>
+                                    <input type="hidden" value="@Model.milestone.Status" asp-for="@Model.milestone.Status"/>
                                 </div>
-
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="col-xl-12">
-                    <a href="#" class="button ripple-effect big margin-top-30"> Yadda saxla</a>
+                    <div class="col-xl-12">
+                        <input type="submit" class="button ripple-effect big margin-top-30" value="Yadda Saxla"/>
+                        <a asp-route="" class="button ripple-effect big margin-top-30"> Yadda saxla</a>
+                    </div>
                 </div>
-            </div>
+            </form>
             <!-- Row / End -->
             <!-- Footer -->
             <div class="dashboard-footer-spacer"></div>

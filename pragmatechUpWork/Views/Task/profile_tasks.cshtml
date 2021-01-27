@@ -68,7 +68,6 @@
                                                             <a asp-route="task-edit_task" asp-route-id="@taskRecord.TaskId"><i class="icon-line-awesome-edit" style="font-size:24px !important;"></i></a>
                                                             <a style="cursor: pointer;" onclick="event.preventDefault(); RemoveTask('@Url.RouteUrl("task-remove_task", new { id = taskRecord.TaskId })');"><i class="icon-material-outline-delete" style="font-size:24px !important; color: red !important;"></i></a>
                                                             <a asp-route="task-single_task" asp-route-id="@taskRecord.TaskId"><i class="icon-material-outline-my-location" style="font-size:24px !important; "></i></a>
-                                                            <a asp-route="task-profile_milestones"  asp-route-task_id="@taskRecord.TaskId"><i class="icon-material-outline-assessment" style="font-size:24px !important; "></i></a>
                                                         </td>
                                                     </tr>
                                                 }
@@ -129,6 +128,7 @@
                                                         <td>@taskRecord.Status</td>
                                                         <td>
                                                             <a asp-route="task-single_task" asp-route-id="@taskRecord.Task.TaskId"><i class="icon-material-outline-my-location" style="font-size:24px !important; "></i></a>
+                                                            <a asp-route="task-profile_milestones" asp-route-task_id="@taskRecord.Task.TaskId"><i class="icon-material-outline-assessment" style="font-size:24px !important; "></i></a>
                                                         </td>
                                                     </tr>
                                                 }

@@ -1,4 +1,5 @@
-﻿<!-- Transparent Header Spacer -->
+﻿@model TaskMilestonesWithOthers
+<!-- Transparent Header Spacer -->
 <div class="transparent-header-spacer"></div>
 
 <!-- Dashboard Container -->
@@ -14,8 +15,8 @@
             <!-- Headline -->
             <div class="dashboard-headline">
                 <h3>Task milestonları</h3>
-                <span class="margin-top-7">Layihe :  <a href="#">Pragmatech CRM</a></span>
-                <span class="margin-top-7">Task :  <a href="#">Database qurulmasi</a></span>
+                <span class="margin-top-7">Layihe :  <a href="#">@Model.project.Name</a></span>
+                <span class="margin-top-7">Task :  <a href="#">@Model.projectTask.Name</a></span>
                 <nav id="breadcrumbs" class="dark">
                     <ul>
                         <li><a asp-route="profile-whole_tasks">Tasklar</a></li>
@@ -33,11 +34,12 @@
                         <!-- Headline -->
                         <div class="headline d-flex justify-content-between">
                             <h3><i class="icon-material-outline-assessment" style="font-size:24px !important; "></i> Milestonlar</h3>
-                            <a asp-route="task-profile_milestone-add" class="button ripple-effect"><i class="icon-feather-plus"></i>Əlavə et</a>
                         </div>
 
                         <div class="content">
                             <ul class="dashboard-box-list">
+                                @foreach (var milestone in Model.TaskMilestones)
+                                {
                                 <li>
                                     <!-- Job Listing -->
                                     <div class="job-listing width-adjustment">
@@ -45,11 +47,29 @@
                                         <div class="job-listing-details">
                                             <!-- Details -->
                                             <div class="job-listing-description d-flex justify-content-between">
-                                                <h3 class="job-listing-title"><a href="#">Base CRUD Entity</a> <span class="dashboard-status-button green">Tamamlanıb</span></h3> <!-- red ~ Vaxti kecib, yellow ~ islenilir, green ~ task hazirdi  -->
+                                                <h3 class="job-listing-title">
+                                                    <a href="#">@milestone.Name</a>@{var status = (MileStoneEnum)milestone.Status;
+                                                        if (status == MileStoneEnum.Vaxti_bitib)
+                                                        {<span class="dashboard-status-button red">@status.ToString()</span> }
+                                                    else if (status == MileStoneEnum.Vaxta_var)
+                                                    {
+                                                        <span class="dashboard-status-button yellow">@status.ToString()</span>
+                                                    }
+                                                    else if (status == MileStoneEnum.Tesdiqlenmeyi_gozleyir)
+                                                    {
+                                                        <span class="dashboard-status-button green">@status.ToString()</span>
+                                                    }
+                                                    else if (status == MileStoneEnum.Tamamlanib)
+                                                    {
+                                                        <span class="dashboard-status-button green">@status.ToString()</span>
+                                                    }
+                                                    }
+                                                </h3> <!-- red ~ Vaxti kecib, yellow ~ islenilir, green ~ task hazirdi  -->
                                                 <!-- Job Listing Footer -->
+
                                                 <div class="job-listing-footer">
                                                     <ul>
-                                                        <li><i class="icon-material-outline-access-time"></i> 1 gün, 12 saat qaldı</li>
+                                                        <li><i class="icon-material-outline-access-time"></i>@DateTime.Now.ToString("dd.MM.yyyy") - @milestone.FinishDate.Value.ToString("dd.MM.yyyy")</li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -58,113 +78,43 @@
 
                                     <!-- Task Details -->
                                     <ul class="dashboard-task-info">
-                                        <li><strong>5</strong><span>gün</span></li>
-                                        <li><span>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</span></li>
+                                        <li>
+                                            <strong>
+                                                @{
+                                                    var result = 0;
+                                                    for (var date = DateTime.Now; date <= milestone.FinishDate.Value; date = date.AddDays(1))
+                                                    {
+                                                        result++;
+                                                    }}
+                                            </strong><span>@result gün qalib</span>
+                                        </li>
+                                        <li><span>@milestone.MilestoneText</span></li>
                                     </ul>
 
                                     <!-- Buttons -->
-                                    <div class="buttons-to-right always-visible">
-                                        <a href="dashboard-manage-bidders.html" class="button ripple-effect"><i class="icon-material-outline-supervisor-account"></i> Sübutlara bax</a>
-                                        <a href="#" class="button gray ripple-effect ico" title="Editlə" data-tippy-placement="top"><i class="icon-feather-edit"></i></a>
-                                        <a href="#" class="button gray ripple-effect ico" title="Sil" data-tippy-placement="top"><i class="icon-feather-trash-2"></i></a>
-                                    </div>
-                                </li>
+                                    @{
+                                        var roles = ViewBag.Roles;
 
-                                <li>
-                                    <!-- Job Listing -->
-                                    <div class="job-listing width-adjustment">
-                                        <!-- Job Listing Details -->
-                                        <div class="job-listing-details">
-                                            <!-- Details -->
-                                            <div class="job-listing-description d-flex justify-content-between">
-                                                <h3 class="job-listing-title"><a href="#">Remove Controller</a> <span class="dashboard-status-button yellow">Təsdiqinizi gözləyir</span></h3> <!-- red ~ Vaxti kecib, yellow ~ islenilir, green ~ task hazirdi  -->
-                                                <!-- Job Listing Footer -->
-                                                <div class="job-listing-footer">
-                                                    <ul>
-                                                        <li><i class="icon-material-outline-access-time"></i> 1 gün, 12 saat qaldı</li>
-                                                    </ul>
-                                                </div>
+                                        if (roles.Contains(UserRolesEnum.Müəllim.ToString()))
+                                        {
+                                            <div class="buttons-to-right always-visible">
+                                                <a asp-route="task-profile_milestone-proofs" asp-route-milestone_id="@milestone.ID" asp-route-task_id="@milestone.ProjectTaskId" class="button ripple-effect"><i class="icon-material-outline-supervisor-account"></i> Sübutlara bax</a>
+                                                <a asp-route="task-profile_milestone-edit" asp-route-milestone_id="@milestone.ID"><i class="icon-line-awesome-edit" style="font-size:24px !important;"></i></a>
+                                                <a asp-route="task-profile_milestone-remove" asp-route-milestone_id="@milestone.ID"><i class="icon-line-awesome-close" style="font-size:24px !important;"></i></a>
                                             </div>
-                                        </div>
-                                    </div>
+                                        }
+                                        else
+                                        {
+                                <div class="buttons-to-right always-visible">
+                                    <a asp-route="task-profile_milestone-proof-add" asp-route-milestone_id="@milestone.ID" asp-route-task_id="@milestone.ProjectTaskId" class="button ripple-effect"><i class="icon-material-outline-supervisor-account"></i> Sübutlar Elave Et</a>
+                                    <a asp-route="task-profile_milestone-proofs" asp-route-milestone_id="@milestone.ID" asp-route-task_id="@milestone.ProjectTaskId" class="button ripple-effect"><i class="icon-material-outline-supervisor-account"></i> Sübutlara bax</a>
+                                </div>
+                                        }
+                                    }
 
-                                    <!-- Task Details -->
-                                    <ul class="dashboard-task-info">
-                                        <li><strong>5</strong><span>gün</span></li>
-                                        <li><span>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</span></li>
-                                    </ul>
-
-                                    <!-- Buttons -->
-                                    <div class="buttons-to-right always-visible">
-                                        <a href="dashboard-manage-bidders.html" class="button ripple-effect"><i class="icon-material-outline-supervisor-account"></i> Sübutlara bax</a>
-                                        <a href="#" class="button gray ripple-effect ico" title="Editlə" data-tippy-placement="top"><i class="icon-feather-edit"></i></a>
-                                        <a href="#" class="button gray ripple-effect ico" title="Sil" data-tippy-placement="top"><i class="icon-feather-trash-2"></i></a>
-                                    </div>
                                 </li>
+                                }
 
-                                <li>
-                                    <!-- Job Listing -->
-                                    <div class="job-listing width-adjustment">
-                                        <!-- Job Listing Details -->
-                                        <div class="job-listing-details">
-                                            <!-- Details -->
-                                            <div class="job-listing-description d-flex justify-content-between">
-                                                <h3 class="job-listing-title"><a href="#">Data Access Layerlərin yazılması</a> <span class="dashboard-status-button yellow">Vaxta var</span></h3> <!-- red ~ Vaxti kecib, yellow ~ islenilir, green ~ task hazirdi  -->
-                                                <!-- Job Listing Footer -->
-                                                <div class="job-listing-footer">
-                                                    <ul>
-                                                        <li><i class="icon-material-outline-access-time"></i> 1 gün, 12 saat qaldı</li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Task Details -->
-                                    <ul class="dashboard-task-info">
-                                        <li><strong>5</strong><span>gün</span></li>
-                                        <li><span>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</span></li>
-                                    </ul>
-
-                                    <!-- Buttons -->
-                                    <div class="buttons-to-right always-visible">
-                                        <a href="dashboard-manage-bidders.html" class="button ripple-effect"><i class="icon-material-outline-supervisor-account"></i> Sübutlara bax</a>
-                                        <a href="#" class="button gray ripple-effect ico" title="Editlə" data-tippy-placement="top"><i class="icon-feather-edit"></i></a>
-                                        <a href="#" class="button gray ripple-effect ico" title="Sil" data-tippy-placement="top"><i class="icon-feather-trash-2"></i></a>
-                                    </div>
-                                </li>
-
-                                <li>
-                                    <!-- Job Listing -->
-                                    <div class="job-listing width-adjustment">
-                                        <!-- Job Listing Details -->
-                                        <div class="job-listing-details">
-                                            <!-- Details -->
-                                            <div class="job-listing-description d-flex justify-content-between">
-                                                <h3 class="job-listing-title"><a href="#">Business Logicin qurulması</a> <span class="dashboard-status-button red">Vaxti bitib</span></h3> <!-- red ~ Vaxti kecib, yellow ~ islenilir, green ~ task hazirdi  -->
-                                                <!-- Job Listing Footer -->
-                                                <div class="job-listing-footer">
-                                                    <ul>
-                                                        <li><i class="icon-material-outline-access-time"></i> 0 gün, 0 saat qaldı</li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Task Details -->
-                                    <ul class="dashboard-task-info">
-                                        <li><strong>5</strong><span>gün</span></li>
-                                        <li><span>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</span></li>
-                                    </ul>
-
-                                    <!-- Buttons -->
-                                    <div class="buttons-to-right always-visible">
-                                        <a href="dashboard-manage-bidders.html" class="button ripple-effect"><i class="icon-material-outline-supervisor-account"></i> Sübutlara bax</a>
-                                        <a href="#" class="button gray ripple-effect ico" title="Editlə" data-tippy-placement="top"><i class="icon-feather-edit"></i></a>
-                                        <a href="#" class="button gray ripple-effect ico" title="Sil" data-tippy-placement="top"><i class="icon-feather-trash-2"></i></a>
-                                    </div>
-                                </li>
                             </ul>
                         </div>
                     </div>

@@ -106,16 +106,22 @@ namespace pragmatechUpWork.Controllers
         #region Task Milestones
 
         [HttpGet]
-        [Route("/profile/task/{task_id}/milestones", Name = "task-profile_milestones")]
+        [Route("/profile/task/milestones/{task_id}", Name = "task-profile_milestones")]
         public async Task<IActionResult> TaskMilestones(int task_id)
         {
             var projectTask = await unitofWork.ProjectTasks.GetTasksByID(task_id);
-            //var model = new TaskMilestonesWithOthers
-            //{
-                
-            //}
 
-            return View("task_milestones", projectTask);
+            var model = new TaskMilestonesWithOthers
+            {
+                projectTask = projectTask,
+                TaskMilestones = await unitofWork.TaskMilestones.GetTaskMileStonesByTaskID(task_id),
+                project=await unitofWork.Projects.GetProjectByTask(projectTask)
+            };
+
+            var currentUser = await userManager.GetUserAsync(User);
+            var roles = await userManager.GetRolesAsync(currentUser);
+            ViewBag.Roles = roles;
+            return View("task_milestones", model);
         }
 
 
@@ -124,23 +130,82 @@ namespace pragmatechUpWork.Controllers
         public async Task<IActionResult> AddTaskMilestone(int task_id)
         {
             var projectTask = await unitofWork.ProjectTasks.GetTasksByID(task_id);
+            var project = await unitofWork.Projects.GetProjectByTask(projectTask);
 
-            return View("task_milestone_add");
+            var model = new ProjectTaskWithOther()
+            {
+                projectTask = projectTask,
+                project = project
+            };
+            return View("task_milestone_add",model);
         }
 
 
-        [HttpGet]
-        [Route("/profile/task/{task_id}/milestone/{milestone_id}/edit", Name = "task-profile_milestone-edit")]
-        public async Task<IActionResult> EditTaskMilestone(int task_id, int milestone_id)
+        [HttpPost]
+        [Route("/profile/task/{task_id}/milestone/add", Name = "task-profile_milestone-add")]
+        public async Task<IActionResult> AddTaskMilestone(ProjectTaskMilestone milestone)
         {
-            return View("task_milestone_edit");
+            milestone.ProjectTask = await unitofWork.ProjectTasks.GetTasksByID(milestone.ProjectTaskId);
+            milestone.Status = (int)MileStoneEnum.Vaxta_var;
+            bool sonuc=await unitofWork.TaskMilestones.Add(milestone);
+
+            return RedirectToRoute("task-profile_milestone-add");
+        }
+
+        [HttpGet]
+        [Route("/profile/task/milestone/{milestone_id}/edit", Name = "task-profile_milestone-edit")]
+        public async Task<IActionResult> EditTaskMilestone(int milestone_id)
+        {
+            var milestone = await unitofWork.TaskMilestones.GetTaskMilestoneByID(milestone_id);
+            var projectTask = await unitofWork.ProjectTasks.GetTasksByID(milestone.ProjectTaskId);
+
+            var model = new TaskMilestonesWithOthers()
+            {
+                projectTask = projectTask,
+                project = await unitofWork.Projects.GetProjectByTask(projectTask),
+                milestone = milestone
+            };
+            return View("task_milestone_edit",model);
         }
 
         [HttpPost]
-        [Route("/profile/task/{task_id}/milestone/{milestone_id}/remove", Name = "task-profile_milestone-remove")]
-        public async Task<IActionResult> RemoveTaskMilestones(int task_id, int milestone_id)
+        [Route("/profile/task/milestone/{milestone_id}/edit", Name = "task-profile_milestone-edit")]
+        public async Task<IActionResult> EditTaskMilestone(ProjectTaskMilestone milestone)
         {
-            return View("task_milestone");
+            await unitofWork.TaskMilestones.Update(milestone);
+
+            var projectTask = await unitofWork.ProjectTasks.GetTasksByID(milestone.ProjectTaskId);
+
+            var model = new TaskMilestonesWithOthers
+            {
+                projectTask = projectTask,
+                TaskMilestones = await unitofWork.TaskMilestones.GetTaskMileStonesByTaskID(milestone.ProjectTaskId),
+                project = await unitofWork.Projects.GetProjectByTask(projectTask)
+            };
+
+            return View("task_milestones", model);
+        }
+
+        [HttpGet]
+        [Route("/profile/task/milestone/{milestone_id}/remove", Name = "task-profile_milestone-remove")]
+        public async Task<IActionResult> RemoveTaskMilestones(int milestone_id)
+        {
+            var milestone=await unitofWork.TaskMilestones.GetTaskMilestoneByID(milestone_id);
+
+            var projectTask = await unitofWork.ProjectTasks.GetTasksByID(milestone.ProjectTaskId);
+
+            await unitofWork.TaskMilestones.Delete(milestone_id);
+
+            var model = new TaskMilestonesWithOthers
+            {
+                projectTask = projectTask,
+                TaskMilestones = await unitofWork.TaskMilestones.GetTaskMileStonesByTaskID(projectTask.TaskId),
+                project = await unitofWork.Projects.GetProjectByTask(projectTask)
+            };
+
+            
+
+            return View("task_milestones", model);
         }
 
         [HttpGet]
@@ -198,6 +263,29 @@ namespace pragmatechUpWork.Controllers
                 appliedTask=new UserApplyAndConfirmTask()
             };
             return View("applied_tasks", model);
+        }
+
+        [Route("/confirm/tasks", Name = "project-confirm_task")]
+        public async Task<IActionResult> Confirmed_Tasks()
+        {
+            //Active Page
+            ViewBag.ProjectsPage = true;
+
+            var appliedTasks = await unitofWork.AplliedTasks.GetAppliedTasksByStatus(true);
+
+            if (appliedTasks.Any())
+            {
+                foreach (var appliedTask in appliedTasks)
+                {
+                    appliedTask.Task = await unitofWork.ProjectTasks.GetTasksByID(appliedTask.TaskID);
+                }
+            }
+            var model = new AllApliedTasksWithOthers()
+            {
+                appliedTasks = appliedTasks,
+                appliedTask = new UserApplyAndConfirmTask()
+            };
+            return View("confirmed_tasks", model);
         }
 
         //Elave olunacaq

@@ -45,6 +45,11 @@ namespace pragmatechUpWork_BusinessLogicLayer.Concrete
             return await taskMilestoneDal.Get(x => x.ID == id);
         }
 
+        public async Task<List<ProjectTaskMilestone>> GetTaskMileStonesByTaskID(int TaskID)
+        {
+            return await taskMilestoneDal.GetAll(x => x.ProjectTaskId == TaskID);
+        }
+
         public async Task<bool> Update(ProjectTaskMilestone taskMilestone)
         {
             bool result = await taskMilestoneDal.Update(taskMilestone);

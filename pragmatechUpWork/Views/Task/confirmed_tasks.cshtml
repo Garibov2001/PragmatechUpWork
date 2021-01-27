@@ -1,4 +1,9 @@
-﻿@model AllApliedTasksWithOthers;
+﻿
+@{
+    ViewData["Title"] = "confirmed_tasks";
+}
+
+@model AllApliedTasksWithOthers;
 @inject UserManager<ApplicationUser> userManager
 <!-- Transparent Header Spacer -->
 <div class="transparent-header-spacer"></div>
@@ -19,7 +24,7 @@
             {
                 <!-- Dashboard Headline -->
                 <div class="dashboard-headline">
-                    <h3>Muraciet Olunan Tasklar</h3>
+                    <h3>Tehvil Verilen Tasklar</h3>
                 </div>
 
                 <!-- Row -->
@@ -28,7 +33,7 @@
                         <div class="dashboard-box margin-top-0">
                             <!-- Headline -->
                             <div class="headline">
-                                <h3><i class="icon-feather-bar-chart-2"></i> Tasklar</h3>
+                                <h3><i class="icon-feather-bar-chart-2"></i>Tasklar</h3>
                             </div>
 
                             <div class="content with-padding padding-bottom-10">
@@ -37,12 +42,12 @@
                                         <thead>
                                             <tr>
                                                 <th>Ad</th>
-                                                <th>Muraciet Eden</th>
                                                 <th>Dəyəri</th>
                                                 <th>İş müddəti</th>
-                                                <th>Status</th>
-                                                <th>Muraciet Tarixi</th>
-                                                <th>Qebul Et</th>
+                                                <th>Github</th>
+                                                <th>Is Tehvil Verilen</th>
+                                                <th>Alətlər</th>
+                                                <th>Mileston</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -50,17 +55,29 @@
                                             {
                                                 @foreach (var applyTask in Model.appliedTasks)
                                                 {
-                                                <tr>
-                                                <td><a href="#">@applyTask.Task.Name</a></td>
-                                                <td><a href="#">@{var user = userManager.FindByIdAsync(applyTask.UserID).Result;} @user.Name @user.Surname</a></td>
-                                                <td>@applyTask.Price</td>
-                                                <td>@applyTask.Day</td>
-                                                <td><div class="countdown green margin-bottom-35">Gozlemede</div></td>
-                                                <td>@applyTask.ApplyDate</td>
-                                                <td>
-                                                    <a class="btn btn-primary" asp-route="single-applied_task" asp-route-id="@applyTask.Id" role="button">Təklifə Ətrafli Bax</a>
-                                                </td>
-                                                </tr>
+
+                                                    <tr>
+                                                        @{var NoAppliedTask = true; }
+                                                        <td><a href="#">@applyTask.Task.Name</a></td>
+                                                        <td>@applyTask.Price</td>
+                                                        <td>@applyTask.Day</td>
+                                                        <td>
+                                                            <a href="@applyTask.Task.GithubUrl" data-tippy-placement="top" data-tippy="" data-original-title="Github branch"><i class="icon-feather-github" style="font-size:24px !important;"></i></a>
+                                                        </td>
+                                                        @{
+                                                            var user = userManager.FindByIdAsync(applyTask.UserID).Result;
+                                                        }
+                                                        <td>@user.Name @user.Surname </td>
+                                                        <td>
+                                                            <a asp-route="task-edit_task" asp-route-id="@applyTask.TaskID"><i class="icon-line-awesome-edit" style="font-size:24px !important;"></i></a>
+                                                            <a style="cursor: pointer;" onclick="event.preventDefault(); RemoveTask('@Url.RouteUrl("task-remove_task", new { id = applyTask.TaskID })');"><i class="icon-material-outline-delete" style="font-size:24px !important; color: red !important;"></i></a>
+                                                            <a asp-route="task-single_task" asp-route-id="@applyTask.TaskID"><i class="icon-material-outline-my-location" style="font-size:24px !important; "></i></a>
+                                                        </td>
+                                                        <td>
+                                                            <a asp-route="task-profile_milestone-add" asp-route-task_id="@applyTask.TaskID"><i class="icon-material-outline-add" style="font-size:24px !important; "></i></a>
+                                                            <a asp-route="task-profile_milestones" asp-route-task_id="@applyTask.TaskID"><i class="icon-material-outline-assessment" style="font-size:24px !important; "></i></a>
+                                                        </td>
+                                                    </tr>
                                                 }
                                             }
                                         </tbody>
@@ -73,8 +90,6 @@
                 </div>
                 <!-- Row / End -->
             }
-
-
 
 
 
@@ -124,3 +139,5 @@
     <script src="~/js/tasks.js" asp-append-version="true"></script>
 
 }
+
+
