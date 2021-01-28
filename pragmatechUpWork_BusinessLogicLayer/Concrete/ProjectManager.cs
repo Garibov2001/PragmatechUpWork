@@ -72,8 +72,13 @@ namespace pragmatechUpWork_BusinessLogicLayer.Concrete
         
         public async Task<List<Project>> GetLastProjectsForCounter(int counter)
         {
-            List<Project> projects = await projectDal.GetAll();
+            List<Project> projects = await GetAllForAdvertisementDate();
             return projects.OrderByDescending(x => x.ProjectId).Take(counter).ToList();
+        }
+
+        public async Task<List<Project>> GetAllForAdvertisementDate()
+        {
+            return await projectDal.GetAll(x=>x.Advertisement_EndDate>DateTime.Now);
         }
 
         public async Task<List<Project>> GetAllDescending()

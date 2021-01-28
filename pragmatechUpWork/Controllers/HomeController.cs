@@ -30,6 +30,7 @@ namespace pragmatechUpWork.Controllers
             var model = new AllProjectsWithOthers()
             {
                 projects = await unitofWork.Projects.GetLastProjectsForCounter(5),
+                projectsAll=await unitofWork.Projects.GetAll(),
                 projectTasks=await unitofWork.ProjectTasks.GetLastProjectTaskForCounter(5)
             };
             return View("home",model);

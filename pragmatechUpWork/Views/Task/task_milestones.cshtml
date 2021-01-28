@@ -48,18 +48,18 @@
                                             <!-- Details -->
                                             <div class="job-listing-description d-flex justify-content-between">
                                                 <h3 class="job-listing-title">
-                                                    <a href="#">@milestone.Name</a>@{var status = (MileStoneEnum)milestone.Status;
-                                                        if (status == MileStoneEnum.Vaxti_bitib)
+                                                    <a href="#">@milestone.Name</a>@{var status = (MilestoneStatus)milestone.Status;
+                                                        if (status == MilestoneStatus.VaxtiKecib)
                                                         {<span class="dashboard-status-button red">@status.ToString()</span> }
-                                                    else if (status == MileStoneEnum.Vaxta_var)
+                                                    else if (status == MilestoneStatus.VaxtaVar)
                                                     {
                                                         <span class="dashboard-status-button yellow">@status.ToString()</span>
                                                     }
-                                                    else if (status == MileStoneEnum.Tesdiqlenmeyi_gozleyir)
+                                                    else if (status == MilestoneStatus.TesdiqlenmeyiGozleyir)
                                                     {
                                                         <span class="dashboard-status-button green">@status.ToString()</span>
                                                     }
-                                                    else if (status == MileStoneEnum.Tamamlanib)
+                                                    else if (status == MilestoneStatus.Tamamlanib)
                                                     {
                                                         <span class="dashboard-status-button green">@status.ToString()</span>
                                                     }
@@ -69,7 +69,7 @@
 
                                                 <div class="job-listing-footer">
                                                     <ul>
-                                                        <li><i class="icon-material-outline-access-time"></i>@DateTime.Now.ToString("dd.MM.yyyy") - @milestone.FinishDate.Value.ToString("dd.MM.yyyy")</li>
+                                                        <li><i class="icon-material-outline-access-time"></i>@milestone.StartDate.Value.ToString("dd.MM.yyyy") - @milestone.FinishDate.Value.ToString("dd.MM.yyyy")</li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -82,7 +82,7 @@
                                             <strong>
                                                 @{
                                                     var result = 0;
-                                                    for (var date = DateTime.Now; date <= milestone.FinishDate.Value; date = date.AddDays(1))
+                                                    for (var date = milestone.StartDate.Value; date <= milestone.FinishDate.Value; date = date.AddDays(1))
                                                     {
                                                         result++;
                                                     }}

@@ -16,6 +16,8 @@ namespace pragmatechUpWork_Entities
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Bu xana boş ola bilməz.")]
+        public DateTime? StartDate { get; set; }
+        [Required(ErrorMessage = "Bu xana boş ola bilməz.")]
         public DateTime? FinishDate { get; set; }
 
         [Required(ErrorMessage = "Bu xana boş ola bilməz.")]

@@ -31,7 +31,7 @@ namespace pragmatechUpWork.Controllers
         //[Authorize(Roles ="Admin")]
         [HttpGet]
         [Route("/profile", Name = "profile-account-page")]
-        public async Task<IActionResult> Profile()
+        public IActionResult Profile()
         {
             // Active Page
             ViewBag.ProfilePage = true;

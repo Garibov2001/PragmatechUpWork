@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -145,7 +146,8 @@ namespace pragmatechUpWork.Controllers
                 projectTask = projectTask,
                 project = project
             };
-            return View("task_milestone_add",model);
+            ViewBag.ProjectTask = model;
+            return View("task_milestone_add");
         }
 
 
@@ -154,10 +156,47 @@ namespace pragmatechUpWork.Controllers
         public async Task<IActionResult> AddTaskMilestone(ProjectTaskMilestone milestone)
         {
             milestone.ProjectTask = await unitofWork.ProjectTasks.GetTasksByID(milestone.ProjectTaskId);
-            milestone.Status = (int)MileStoneEnum.Vaxta_var;
-            bool sonuc=await unitofWork.TaskMilestones.Add(milestone);
+            Project _project = await unitofWork.Projects.GetProjectByTask(milestone.ProjectTask);
+            if (milestone.FinishDate>_project.EndDate)
+            {
+                ModelState.AddModelError("FinishDate", "Milestone'un bitme tarixi Projectin bitme tarixinden boyuk ola bilmez");
+            }
+            if (ModelState.IsValid)
+            {
+                milestone.ProjectTask = await unitofWork.ProjectTasks.GetTasksByID(milestone.ProjectTaskId);
+                milestone.Status = (int)MilestoneStatus.VaxtaVar;
+                bool sonuc = await unitofWork.TaskMilestones.Add(milestone);
+                UserApplyAndConfirmTask applyAndConfirmTask = await unitofWork.AplliedTasks.GetConfirmedByTaskID(milestone.ProjectTaskId);
+                var user = await userManager.FindByIdAsync(applyAndConfirmTask.UserID);
+                if (sonuc==true)
+                {
+                    MileStone_EmailGonder(user.Email, user.Name, milestone.ProjectTask.Name, milestone.Name,milestone.FinishDate.ToString());
+                }
+                return RedirectToRoute("task-profile_milestone-add");
+            }
+            else
+            {
+                var projectTask = await unitofWork.ProjectTasks.GetTasksByID(milestone.ProjectTaskId);
+                var project = await unitofWork.Projects.GetProjectByTask(projectTask);
 
-            return RedirectToRoute("task-profile_milestone-add");
+                var model = new ProjectTaskWithOther()
+                {
+                    projectTask = projectTask,
+                    project = project
+                };
+                ViewBag.ProjectTask = model;
+
+                return View("task_milestone_add",milestone);
+            }
+        }
+
+        private void MileStone_EmailGonder(string targetEmail, string user, string taskName,string mileston,string milestoneTarix)
+        {
+            string subject = "Pragmatech Milestone Elave Olunmasi";
+            string body = string.Format("{0} bəy {1} taskı ucun {2} Milestone'u elave olunmustur.Xahis olunur Milestone'u {3} tarixine qeder tehvil veresiniz.", user, taskName,mileston, milestoneTarix);
+            var message = new Message(
+                new string[] { $"{targetEmail}" }, subject, body);
+            emailService.SendEmail(message);
         }
 
         [HttpGet]
@@ -180,18 +219,36 @@ namespace pragmatechUpWork.Controllers
         [Route("/profile/task/milestone/{milestone_id}/edit", Name = "task-profile_milestone-edit")]
         public async Task<IActionResult> EditTaskMilestone(ProjectTaskMilestone milestone)
         {
-            await unitofWork.TaskMilestones.Update(milestone);
-
-            var projectTask = await unitofWork.ProjectTasks.GetTasksByID(milestone.ProjectTaskId);
-
-            var model = new TaskMilestonesWithOthers
+            if (ModelState.IsValid)
             {
-                projectTask = projectTask,
-                TaskMilestones = await unitofWork.TaskMilestones.GetTaskMileStonesByTaskID(milestone.ProjectTaskId),
-                project = await unitofWork.Projects.GetProjectByTask(projectTask)
-            };
+                await unitofWork.TaskMilestones.Update(milestone);
 
-            return View("task_milestones", model);
+                var projectTask = await unitofWork.ProjectTasks.GetTasksByID(milestone.ProjectTaskId);
+
+                var model = new TaskMilestonesWithOthers
+                {
+                    projectTask = projectTask,
+                    TaskMilestones = await unitofWork.TaskMilestones.GetTaskMileStonesByTaskID(milestone.ProjectTaskId),
+                    project = await unitofWork.Projects.GetProjectByTask(projectTask)
+                };
+
+                var currentUser = await userManager.GetUserAsync(User);
+                var roles = await userManager.GetRolesAsync(currentUser);
+                ViewBag.Roles = roles;
+                return View("task_milestones", model);
+            }
+            else
+            {
+                var projectTask = await unitofWork.ProjectTasks.GetTasksByID(milestone.ProjectTaskId);
+
+                var model = new TaskMilestonesWithOthers()
+                {
+                    projectTask = projectTask,
+                    project = await unitofWork.Projects.GetProjectByTask(projectTask),
+                    milestone = milestone
+                };
+                return View("task_milestone_edit", model);
+            }
         }
 
         [HttpGet]
@@ -211,8 +268,9 @@ namespace pragmatechUpWork.Controllers
                 project = await unitofWork.Projects.GetProjectByTask(projectTask)
             };
 
-            
-
+            var currentUser = await userManager.GetUserAsync(User);
+            var roles = await userManager.GetRolesAsync(currentUser);
+            ViewBag.Roles = roles;
             return View("task_milestones", model);
         }
 
@@ -546,7 +604,7 @@ namespace pragmatechUpWork.Controllers
                 client_data.milestoneProof.Milestone = task_milestone;
 
 
-                await unitofWork.TaskMilestoneProofs.Update(client_data.milestoneProof);
+                await unitofWork.TaskMilestoneProofs.UpdateForProof(client_data.milestoneProof);
 
             }
 
@@ -869,6 +927,13 @@ namespace pragmatechUpWork.Controllers
                 EmailGonder(user.Email, user.Name, task.Name);
             }
 
+            List<UserApplyAndConfirmTask> applyAndConfirmTasks = await unitofWork.AplliedTasks.GetRejectedByTaskID(appliedTask.applyTask.TaskID);
+
+            foreach (var applyAndConfirmTask in applyAndConfirmTasks)
+            {
+                var applicationUser = userManager.FindByIdAsync(applyAndConfirmTask.UserID).Result;
+                Reject_EmailGonder(applicationUser.Email, applicationUser.Name, task.Name);
+            }
             return RedirectToRoute("project-applied_task");
         }
 
@@ -877,6 +942,15 @@ namespace pragmatechUpWork.Controllers
         {
             string subject = "Pragmatech Task Teklifi Qebulu";
             string body = string.Format("{0} bəy {1} taskı hakkındakı teklifiniz müdüriyyət tərəfindən qebul olundu.Taskı qeyd etdiyiniz vaxtda tehvil vermeyiniz xahis olunur.", user, taskName);
+            var message = new Message(
+                new string[] { $"{targetEmail}" }, subject, body);
+            emailService.SendEmail(message);
+        }
+
+        private void Reject_EmailGonder(string targetEmail, string user, string taskName)
+        {
+            string subject = "Pragmatech Task Teklifi Qebulu";
+            string body = string.Format("{0} bəy {1} taskı hakkındakı teklifiniz müdüriyyət tərəfindən qebul olunmadi.", user, taskName);
             var message = new Message(
                 new string[] { $"{targetEmail}" }, subject, body);
             emailService.SendEmail(message);

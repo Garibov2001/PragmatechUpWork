@@ -96,7 +96,7 @@
 
                                 <!-- Details -->
                                 <div class="job-listing-description">
-                                    <a asp-route="project-single_project" asp-route-id="@task.ProjectId"><h4 class="job-listing-company">@task.Project.Name</h4></a>
+                                    <a asp-route="project-single_project" asp-route-id="@task.ProjectId"><h4 class="job-listing-company">@{var project = Model.projectsAll.SingleOrDefault(x => x.ProjectId == task.ProjectId);} @project.Name</h4></a>
                                     <h3 class="job-listing-title">@task.Name</h3>
                                     <p class="job-listing-text">@(task.TaskInfo.Substring(0, Math.Min(task.TaskInfo.Length, 300))+"....")</p>
                                     <div class="task-tags">

@@ -14,6 +14,7 @@ namespace pragmatechUpWork_BusinessLogicLayer.Abstract
         Task<ProjectTaskMilestoneProof> GetTaskMilestoneProofByID(int id);
         Task<bool> Add(ProjectTaskMilestoneProof taskMilestoneProof);
         Task<bool> Update(ProjectTaskMilestoneProof taskMilestoneProof);
+        Task<bool> UpdateForProof(ProjectTaskMilestoneProof taskMilestoneProof);
         Task<bool> Delete(int id);
     }
 }

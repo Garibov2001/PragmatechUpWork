@@ -101,7 +101,21 @@
                                         </div>
                                     </div>
                                     <!-- End of Finish Date ================= -->
+                                    <div class="col-xl-4">
+                                        <div class="submit-field">
+                                            <h5>Layihənin elaninin başlanğıc tarixi</h5>
+                                            <input type="date" asp-for="project.Advertisement_StartDate" class="with-border">
+                                            <span asp-validation-for="project.Advertisement_StartDate"></span>
+                                        </div>
+                                    </div>
 
+                                    <div class="col-xl-4">
+                                        <div class="submit-field">
+                                            <h5>Layihənin elaninin bitme tarixi</h5>
+                                            <input type="date" asp-for="project.Advertisement_EndDate" class="with-border">
+                                            <span asp-validation-for="project.Advertisement_EndDate"></span>
+                                        </div>
+                                    </div>
 
                                     <div class="col-xl-4">
                                         <div class="submit-field">
@@ -121,10 +135,10 @@
                                             <span asp-validation-for="project.ProjectInfo"></span>
 
                                             @*<div class="uploadButton margin-top-30">
-                                                    <input class="uploadButton-input" type="file" accept="image/*, application/pdf" id="upload" multiple />
-                                                    <label class="uploadButton-button ripple-effect" for="upload">PDF Yerləşdir</label>
-                                                    <span class="uploadButton-file-name">Layihənin texniki tapşırığı və digər detalları</span>
-                                                </div>*@
+                    <input class="uploadButton-input" type="file" accept="image/*, application/pdf" id="upload" multiple />
+                    <label class="uploadButton-button ripple-effect" for="upload">PDF Yerləşdir</label>
+                    <span class="uploadButton-file-name">Layihənin texniki tapşırığı və digər detalları</span>
+                </div>*@
                                         </div>
                                     </div>
 

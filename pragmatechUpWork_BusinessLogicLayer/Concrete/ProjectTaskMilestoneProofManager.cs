@@ -56,5 +56,11 @@ namespace pragmatechUpWork_BusinessLogicLayer.Concrete
 
             return result == true ? true : false;
         }
+
+        public async Task<bool> UpdateForProof(ProjectTaskMilestoneProof taskMilestoneProof)
+        {
+            bool result = await taskMilestoneProofDal.UpdateForProof(taskMilestoneProof);
+            return result == true ? true : false;
+        }
     }
 }

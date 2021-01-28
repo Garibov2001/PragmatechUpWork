@@ -44,13 +44,23 @@
                                         <div class="submit-field">
                                             <h5>Milestonun adı </h5>
                                             <input type="text" class="with-border" asp-for="@Model.milestone.Name" placeholder="@Model.milestone.Name">
+                                            <span asp-validation-for="@Model.milestone.Name"></span>
                                         </div>
                                     </div>
 
                                     <div class="col-xl-6">
                                         <div class="submit-field">
-                                            <h5>Milestona verilən müddət  <i class="help-icon" data-tippy-placement="right" title="Daxil edilən gün gələcəkdən olmalıdır"></i></h5>
+                                            <h5>Milestonun baslanma müddəti  <i class="help-icon" data-tippy-placement="right" title="Daxil edilən gün gələcəkdən olmalıdır"></i></h5>
+                                            <input type="date" asp-for="@Model.milestone.StartDate" class="with-border" placeholder="@Model.milestone.StartDate">
+                                            <span asp-validation-for="@Model.milestone.StartDate"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-6">
+                                        <div class="submit-field">
+                                            <h5>Milestonun bitme müddəti  <i class="help-icon" data-tippy-placement="right" title="Daxil edilən gün gələcəkdən olmalıdır"></i></h5>
                                             <input type="date" asp-for="@Model.milestone.FinishDate" class="with-border" placeholder="@Model.milestone.FinishDate">
+                                            <span asp-validation-for="@Model.milestone.FinishDate"></span>
                                         </div>
                                     </div>
 
@@ -58,11 +68,12 @@
                                         <div class="submit-field">
                                             <h5>Tələblər</h5>
                                             <textarea cols="30" asp-for="@Model.milestone.MilestoneText" rows="5" placeholder="@Model.milestone.MilestoneText" class="with-border"></textarea>
+                                            <span asp-validation-for="@Model.milestone.MilestoneText"></span>
                                         </div>
                                     </div>
-                                    <input type="hidden" value="@Model.milestone.ID" asp-for="@Model.milestone.ID"/>
-                                    <input type="hidden" value="@Model.projectTask.TaskId" asp-for="@Model.milestone.ProjectTaskId"/>
-                                    <input type="hidden" value="@Model.milestone.Status" asp-for="@Model.milestone.Status"/>
+                                    <input type="hidden" value="@Model.milestone.ID" asp-for="@Model.milestone.ID" />
+                                    <input type="hidden" value="@Model.projectTask.TaskId" asp-for="@Model.milestone.ProjectTaskId" />
+                                    <input type="hidden" value="@Model.milestone.Status" asp-for="@Model.milestone.Status" />
                                 </div>
                             </div>
                         </div>
@@ -70,7 +81,6 @@
 
                     <div class="col-xl-12">
                         <input type="submit" class="button ripple-effect big margin-top-30" value="Yadda Saxla"/>
-                        <a asp-route="" class="button ripple-effect big margin-top-30"> Yadda saxla</a>
                     </div>
                 </div>
             </form>

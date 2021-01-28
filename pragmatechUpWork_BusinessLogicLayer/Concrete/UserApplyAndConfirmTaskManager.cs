@@ -69,5 +69,10 @@ namespace pragmatechUpWork_BusinessLogicLayer.Concrete
 
             return result == true ? true : false;
         }
+
+        public async Task<List<UserApplyAndConfirmTask>> GetRejectedByTaskID(int id)
+        {
+            return await applyTaskDal.GetAll(x => x.Status == false && x.TaskID == id);
+        }
     }
 }

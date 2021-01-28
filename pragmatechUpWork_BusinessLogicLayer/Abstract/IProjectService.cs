@@ -9,6 +9,7 @@ namespace pragmatechUpWork_BusinessLogicLayer.Abstract
     public interface IProjectService
     {
         Task<List<Project>> GetAll();
+        Task<List<Project>> GetAllForAdvertisementDate();
         Task<Project> GetProjectByID(int id);
         Task<Project> GetProjectByName(string name);
         Task<Project> GetProjectByTask(ProjectTask task);

@@ -33,6 +33,11 @@ namespace pragmatechUpWork_Entities
         [Required(ErrorMessage = "Bu xana boş ola bilməz.")]
         public DateTime? EndDate { get; set; }
 
+        [Required(ErrorMessage = "Bu xana boş ola bilməz.")]
+        public DateTime? Advertisement_StartDate { get; set; }
+
+        [Required(ErrorMessage = "Bu xana boş ola bilməz.")]
+        public DateTime? Advertisement_EndDate { get; set; }
         [Url(ErrorMessage = "Daxil etdiyiniz URL standartlara uyğun deyil.")]
         [Required(ErrorMessage = "Bu xana boş ola bilməz.")]
         public string GithubUrl { get; set; }
