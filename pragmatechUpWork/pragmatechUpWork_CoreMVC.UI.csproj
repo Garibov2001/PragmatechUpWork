@@ -36,4 +36,8 @@
     <ProjectReference Include="..\pragmatechUpWork_NotificationServices\pragmatechUpWork_NotificationServices.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\images\proof-images\" />
+  </ItemGroup>
+
 </Project>

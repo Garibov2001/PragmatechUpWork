@@ -21,6 +21,7 @@ using pragmatechUpWork_CoreMVC.UI.IdentityClasses;
 using pragmatechUpWork_NotificationServices.General;
 using pragmatechUpWork_NotificationServices.Abstract;
 using pragmatechUpWork_NotificationServices.Concrete;
+using pragmatechUpWork_BusinessLogicLayer.Abstract;
 
 namespace pragmatechUpWork
 {
@@ -67,6 +68,9 @@ namespace pragmatechUpWork
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IProjectDal, EfProjectDal>();
             services.AddTransient<IProjectTaskDal, EfProjectTaskDal>();
+            services.AddTransient<IUserApplyAndConfirmTaskDal, EfUserApplyAndConfirmTaskDal>();
+            services.AddTransient<IProjectTaskMilestoneDal, EfProjectTaskMilestoneDal>();
+            services.AddTransient<IProjectTaskMilestoneProofDal, EfProjectTaskMilestoneProofDal>();
             services.AddControllers();
             services.AddRouting();
             services.ConfigureApplicationCookie(options =>

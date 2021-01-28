@@ -19,6 +19,7 @@ namespace pragmatechUpWork_Entities
         public DbSet<ProjectTask> Task { get; set; }
         public DbSet<UserApplyAndConfirmTask> ApplyTask { get; set; }
         public DbSet<ProjectTaskMilestone> TaskMilestone { get; set; }
+        public DbSet<ProjectTaskMilestoneProof> TaskMilestoneProof { get; set; }
 
         // Bu Context'tir.
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -27,6 +28,7 @@ namespace pragmatechUpWork_Entities
             modelBuilder.Entity<ProjectTask>().HasKey(x => x.TaskId);
             modelBuilder.Entity<UserApplyAndConfirmTask>().HasKey(x => x.Id);
             modelBuilder.Entity<ProjectTaskMilestone>().HasKey(x => x.ID);
+            modelBuilder.Entity<ProjectTaskMilestoneProof>().HasKey(x => x.ID);
         }
     }
 }
